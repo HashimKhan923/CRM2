@@ -27,8 +27,8 @@ class RunMigrationsForAllTenants extends Command
 
             // Configure tenant database connection
             Config::set('database.connections.tenant.database', $tenant->database_name);
-            Config::set('database.connections.tenant.username', $tenant->database_username);
-            Config::set('database.connections.tenant.password', $tenant->database_password);
+            Config::set('database.connections.tenant.username', env('DB_USERNAME'));
+            Config::set('database.connections.tenant.password', env('DB_PASSWORD'));
 
             DB::purge('tenant');
             DB::reconnect('tenant');
