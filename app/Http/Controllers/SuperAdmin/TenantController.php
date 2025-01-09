@@ -29,8 +29,8 @@ class TenantController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'database_name' => $database_name,
-            'database_username' => $database_username,
-            'database_password' => $database_password,
+            // 'database_username' => $database_username,
+            // 'database_password' => $database_password,
             'tenant_id' => $tenantId
         ]);
     
@@ -38,8 +38,8 @@ class TenantController extends Controller
             // Create database
             DB::statement("CREATE DATABASE `$database_name`");    
             // Create user and grant privileges
-            DB::statement("CREATE USER '$database_username'@'%' IDENTIFIED BY '$database_password'");
-            DB::statement("GRANT ALL PRIVILEGES ON $database_name.* TO '$database_username'@'%'");
+            // DB::statement("CREATE USER '$database_username'@'%' IDENTIFIED BY '$database_password'");
+            // DB::statement("GRANT ALL PRIVILEGES ON $database_name.* TO '$database_username'@'%'");
 
         // } catch (\Exception $e) {
         //     // Log the error
@@ -49,8 +49,11 @@ class TenantController extends Controller
     
         // Update the tenant connection configuration
         config(['database.connections.tenant.database' => $database_name]);
-        config(['database.connections.tenant.username' => $database_username]);
-        config(['database.connections.tenant.password' => $database_password]);
+        // config(['database.connections.tenant.username' => $database_username]);
+        // config(['database.connections.tenant.password' => $database_password]);
+        
+        // DB::statement("GRANT ALL PRIVILEGES ON `$database_name`.* TO 'srv6_crm2user'@'localhost' WITH GRANT OPTION");
+        // DB::statement("FLUSH PRIVILEGES");
     
         DB::purge('tenant');
         DB::reconnect('tenant');

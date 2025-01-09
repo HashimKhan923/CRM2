@@ -33,12 +33,12 @@ class TenantMiddleware
         if($Tenant)
         {
             $databaseName = 'database_' . $tenantId;
-            $username = 'user_' . $tenantId;
-            $password = 'password_' . $tenantId;
+            // $username = 'user_' . $tenantId;
+            // $password = 'password_' . $tenantId;
     
             config(['database.connections.tenant.database' => $databaseName]);
-            config(['database.connections.tenant.username' => $username]);
-            config(['database.connections.tenant.password' => $password]);
+            // config(['database.connections.tenant.username' => $username]);
+            // config(['database.connections.tenant.password' => $password]);
     
             DB::purge('tenant');
             DB::reconnect('tenant');
