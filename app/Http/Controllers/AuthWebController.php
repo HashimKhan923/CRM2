@@ -45,7 +45,7 @@ class AuthWebController extends Controller
         Auth::login($user);
 
         if ($user->role_id == 1) {
-            
+             
             return redirect()->route('admin.dashboard');
         } else {
             

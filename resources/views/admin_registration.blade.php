@@ -98,7 +98,11 @@
                         <div class="form-group">
                             <label for="email">Email address</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                            @error('email')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
+                        
                         <!-- <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" class="form-control" id="password" placeholder="Enter your password">

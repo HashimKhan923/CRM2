@@ -18,12 +18,16 @@ class TenantController extends Controller
 
     public function registerAdmin(Request $request)
     {
-        $tenantId = Str::uuid()->toString();
-        $tenantId = str_replace('-', '', $tenantId);
+
+        $request->validate([
+            'email' => 'required|email:rfc,dns|unique:tenants,email',
+        ]);
+        
+        $tenantId = explode('@', $request->email)[0];
     
         $database_name = 'database_' . $tenantId;
-        $database_username = 'user_' . $tenantId;
-        $database_password = 'password_' . $tenantId;
+        // $database_username = 'user_' . $tenantId;
+        // $database_password = 'password_' . $tenantId;
     
         Tenant::create([
             'name' => $request->name,
@@ -63,6 +67,11 @@ class TenantController extends Controller
         Artisan::call('migrate', [
             '--database' => 'tenant',
             '--path' => 'database/migrations/tenant',
+        ]);
+
+        Artisan::call('db:seed', [
+            '--class' => 'DesignationsTableSeeder',
+            '--database' => 'tenant',
         ]);
     
         $admin = Role::create([

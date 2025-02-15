@@ -1,262 +1,265 @@
 @extends('layouts.master')
 
 @section('content')
-    <style>
-        .remove-btn {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
+<div class="card my-3">
+    <div class="card-header white">
+        <h6>New User</h6>
+    </div>
+    <div class="card-body b-b bg-light">
+        <div class="stepper sw-main" data-options='{
+                                     "transitionEffect":"fade"
 
-        .add-btn {
-            background-color: teal;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
+                                     }'>
+            <ul class="nav step-anchor">
+                <li><a href="#step-11">Step 1<br><small>Personal Info</small></a></li>
+                <li><a href="#step-22">Step 2<br><small>Contact Info</small></a></li>
+                <li><a href="#step-33">Step 3<br><small>Professional Details</small></a></li>
+                <li><a href="#step-44">Step 4<br><small>Job Info</small></a></li>
+                <li><a href="#step-55">Step 5<br><small>Compensation Info</small></a></li>
+                <li><a href="#step-66">Step 6<br><small>Additional Info</small></a></li>
+                <li><a href="#step-77">Step 7<br><small>Login Credentionals</small></a></li>
 
-        hr {
-            height: 1px;
-            background-color: black;
-            border: none;
-
-        }
-    </style>
-
-    <div class="container-fluid px-4">
-        <h1 class="mt-4">Add New User</h1>
-        <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-            <li class="breadcrumb-item active">Add New User</li>
-        </ol>
-
-        <div class="card mb-4">
-            <div class="card-body">
-                <form method="post" action="{{ route('admin.users.create') }}" enctype="multipart/form-data">
-                    @csrf
-                    <h3>Basic Info</h3>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-                            @error('email')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="password">Password</label>
-                            <input type="text" class="form-control" name="password" id="password">
-                            @error('password')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                    <hr>
+            </ul>
+            <div class="card no-b  shadow">
+                <div id="step-11" class="card-body p-5">
                     <h3>Personal Info</h3>
+                    <form method="post" action="{{ route('admin.users.create') }}" enctype="multipart/form-data">
+                    @csrf
+
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="first_name">First Name</label>
-                            <input type="text" class="form-control" name="first_name" id="first_name"
-                                placeholder="First Name">
-                            @error('first_name')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <input type="text" class="form-control" required value="{{ old('first_name') }}"
+                                name="first_name" id="first_name" placeholder="First Name">
+                            <!-- @error('first_name')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="last_name">Last Name</label>
-                            <input type="text" class="form-control" name="last_name" id="last_name"
-                                placeholder="Last Name">
-                            @error('last_name')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <input type="text" class="form-control" required value="{{ old('last_name') }}" name="last_name"
+                                id="last_name" placeholder="Last Name">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="date_of_birth">Date of Birth</label>
-                            <input type="date" class="form-control" name="date_of_birth" id="date_of_birth">
-                            @error('date_of_birth')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <input type="date" required class="form-control" value="{{ old('date_of_birth') }}"
+                                name="date_of_birth" id="date_of_birth">
+                            <!-- @error('date_of_birth')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="gender">Gender</label>
-                            <select class="form-control" name="gender" id="gender">
+                            <select required class="form-control" name="gender" id="gender">
                                 <option value="">-- Select Gender --</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="other">Other</option>
                             </select>
-                            @error('gender')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <!-- @error('gender')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="image">Profile Image</label>
                             <input type="file" class="form-control-file" name="image" id="image">
-                            @error('image')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <!-- @error('image')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                     </div>
-                    <hr>
-                    <h3>Contact Info</h3>
+                    <a href="#step-22" class="btn btn-primary mb-3 btn-lg">Go To Next Step</a>
+                </div>
+                <div id="step-22" class="card-body p-5">
+                    <h2 class="my-3">
+                        Contact Info
+                    </h2>
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="work_email">Work Email</label>
-                            <input type="email" class="form-control" name="work_email" id="work_email"
-                                placeholder="Work Email">
-                            @error('work_email')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <input type="email" class="form-control" value="{{ old('work_email') }}" name="work_email"
+                                id="work_email" placeholder="Work Email">
+                            <!-- @error('work_email')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="personal_email">Personal Email</label>
-                            <input type="email" class="form-control" name="personal_email" id="personal_email"
-                                placeholder="Personal Email">
-                            @error('personal_email')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <input type="email" required class="form-control" value="{{ old('personal_email') }}"
+                                name="personal_email" id="personal_email" placeholder="Personal Email">
+                            <!-- @error('personal_email')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="work_phone">Work Phone</label>
-                            <input type="number" class="form-control" name="work_phone" id="work_phone"
-                                placeholder="Work Phone">
-                            @error('work_phone')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <input type="number" class="form-control" value="{{ old('work_phone') }}" name="work_phone"
+                                id="work_phone" placeholder="Work Phone">
+                            <!-- @error('work_phone')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="personal_phone">Personal Phone</label>
-                            <input type="number" class="form-control" name="personal_phone" id="personal_phone"
-                                placeholder="Personal Phone">
-                            @error('personal_phone')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <input type="number" required class="form-control" value="{{ old('personal_phone') }}"
+                                name="personal_phone" id="personal_phone" placeholder="Personal Phone">
+                            <!-- @error('personal_phone')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="address">Address</label>
-                            <input type="text" class="form-control" name="address" id="address"
-                                placeholder="Address">
-                            @error('address')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <input type="text" required class="form-control" value="{{ old('address') }}" name="address"
+                                id="address" placeholder="Address">
+                            <!-- @error('address')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="city">City</label>
-                            <input type="text" class="form-control" name="city" id="city"
+                            <input type="text" required class="form-control" value="{{ old('city') }}" name="city" id="city"
                                 placeholder="City">
-                            @error('city')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <!-- @error('city')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="state">State</label>
-                            <input type="text" class="form-control" name="state" id="state"
+                            <input type="text" required class="form-control" value="{{ old('state') }}" name="state" id="state"
                                 placeholder="State">
-                            @error('state')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <!-- @error('state')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="zip_code">Zip Code</label>
-                            <input type="text" class="form-control" name="zip_code" id="zip_code"
-                                placeholder="Zip Code">
-                            @error('zip_code')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <input type="text" required class="form-control" value="{{ old('zip_code') }}" name="zip_code"
+                                id="zip_code" placeholder="Zip Code">
+                            <!-- @error('zip_code')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="country">Country</label>
-                            <input type="text" class="form-control" name="country" id="country"
-                                placeholder="Country">
-                            @error('country')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <input type="text" required class="form-control" value="{{ old('country') }}" name="country"
+                                id="country" placeholder="Country">
+                            <!-- @error('country')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                     </div>
-                    <hr>
-                    <h3>Professional Details</h3>
+                    <a href="#step-33" class="btn btn-primary mb-3 btn-lg">Go To Next Step</a>
+                </div>
+                <div id="step-33" class="card-body p-5">
+                    <h2>Professional Details</h2>
                     <div class="form-row">
+
                         <div class="form-group col-md-4">
-                            <label for="skills">Skills</label>
-                            <input type="text" class="form-control" name="skills_display" id="skills_display"
-                                placeholder="Type or paste skills separated by commas">
-                            <input type="hidden" name="skills" id="skills">
-                            @error('skills')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="qualifications">Qualifications</label>
-                            <input type="text" class="form-control" name="qualifications" id="qualifications"
-                                placeholder="Qualifications">
-                            @error('qualifications')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <label for="gender">Qualification</label>
+                            <select required class="form-control" name="qualifications" id="gender">
+                                <option value="">-- Select Qulification --</option>
+                                <option value="Masters">Masters</option>
+                                <option value="Gradutaion">Gradutaion</option>
+                                <option value="Matriculation">Matriculation</option>
+                                <option value="MS. Computer Science">MS. Computer Science</option>
+                                <option value="MSCS">MSCS</option>
+                                <option value="BS. Computer Science">BS. Computer Science</option>
+                                <option value="BBA Honors">BBA Honors</option>
+                            </select>
+                            <!-- @error('qulifications')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="experience">Experience Years</label>
-                            <input type="number" class="form-control" name="experience" id="experience"
-                                placeholder="Experience">
-                            @error('experience')
+                            <input type="number" required value="{{ old('experience') }}" class="form-control" name="experience"
+                                id="experience" placeholder="Experience">
+                            <!-- @error('experience')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="skills">Skills</label>
+                            <br>
+                            <input width="400px" type="text" class="tags-input" value="{{ old('skills') }}"
+                                name="skills" id="skills_display">
+                            <!-- <input type="hidden" name="skills" id="skills"> -->
+                            <!-- @error('skills')
                                 <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            @enderror -->
                         </div>
                     </div>
-                    <hr>
-                    <h3>Job Info</h3>
+                    <a href="#step-44" class="btn btn-primary mb-3 btn-lg">Go To Next Step</a>
+                </div>
+                <div id="step-44" class="card-body  p-5">
+                    <h2>Job Info</h2>
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <!-- <div class="form-group col-md-4">
                             <label for="uu_id">Employee #ID</label>
-                            <input type="number" class="form-control" name="uu_id" id="uu_id" placeholder="ID">
-                            @error('uu_id')
-                                <div class="text-danger">{{ $message }}</div>
+                            <input type="number" class="form-control" value="{{ old('employee_id') }}"
+                                name="employee_id" id="uu_id" placeholder="ID">
+                            @error('employee_id')
+                            <div class="text-danger">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> -->
                         <div class="form-group col-md-4">
                             <label for="role_id">Role</label>
-                            <select id="role_id" name="role_id" class="form-control">
-                                <option>-- Select Role --</option>
+                            <select required id="role_id" name="role_id" class="form-control">
+                                <option value="">-- Select Role --</option>
                                 @php
-                                    $Roles = App\Models\Role::all();
+                                $Roles = App\Models\Role::all();
                                 @endphp
                                 @if ($Roles)
-                                    @foreach ($Roles as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
+                                @foreach ($Roles as $item)
+                                <option value="{{ $item->id }} {{ old('role_id') == $item->id ? 'selected' : '' }}">
+                                    {{ $item->name }}</option>
+                                @endforeach
                                 @endif
                             </select>
-                            @error('role_id')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <!-- @error('role_id')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="department_id">Department</label>
+                            <label required for="department_id">Department</label>
                             <select id="department_id" name="department_id" class="form-control">
-                                <option>-- Select Department --</option>
+                                <option value="">-- Select Department --</option>
                                 @php
-                                    $departments = App\Models\Department::all();
+                                $departments = App\Models\Department::all();
                                 @endphp
-                                @if ($departments)
-                                    @foreach ($departments as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
+                                @if ($departments->count() > 0)
+                                @foreach ($departments as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                                @else
+                                <option value="" disabled>No departments available</option>
                                 @endif
                             </select>
-                            @error('department_id')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+
+                            @if ($departments->count() === 0)
+                            <a href="{{route('admin.department.create.form')}}">create</a>
+                            @endif
+                            <!-- @error('department_id')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="position">Position</label>
-                            <input type="text" class="form-control" name="position" id="position" placeholder="position">
-                            @error('position')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <label for="designation-select">Designation</label>
+                            <select required id="designation-select" name="designation" class="form-control">
+                                <option value="">-- Select Designation --</option>
+                                @php
+                                $designations = App\Models\Designation::all();
+                                @endphp
+                                @foreach ($designations as $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+
+                            <!-- @error('designation')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
-                        <div class="form-group col-md-4">
+                        <!-- <div class="form-group col-md-4">
                             <label for="manager_id">Manager</label>
                             <select id="manager_id" name="manager_id" class="form-control">
                                 <option value="">-- Select Manager --</option>
@@ -267,59 +270,62 @@
                             @error('manager_id')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> -->
                         <div class="form-group col-md-4">
                             <label for="shift_id">Shift</label>
-                            <select id="shift_id" name="shift_id" class="form-control">
-                                <option>-- Select Shift --</option>
+                            <select required id="shift_id" name="shift_id" class="form-control">
+                                <option value="">-- Select Shift --</option>
                                 @foreach ($shifts as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
-                            @error('shift_id')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <!-- @error('shift_id')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="date_of_hire">Date of Hire</label>
-                            <input type="date" class="form-control" name="date_of_hire" value=""
-                                id="date_of_hire">
-                            @error('date_of_hire')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <input required type="date" value="{{ old('date_of_hire') }}" class="form-control"
+                                name="date_of_hire" id="date_of_hire">
+                            <!-- @error('date_of_hire')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="employment_type">Employment Type</label>
-                            <select name="employment_type" class="form-control" id="">
-                                <option>-- Select Type --</option>
+                            <select required name="employment_type" class="form-control" id="">
+                                <option value="">-- Select Type --</option>
                                 <option value="Full-time">Full Time</option>
                                 <option value="Part-time">Part Time</option>
                                 <option value="Contract">Contract</option>
                                 <option value="Intern">Intern</option>
                             </select>
-                            @error('employment_type')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <!-- @error('employment_type')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                     </div>
-                    <hr>
-                    <h3>Compensation Info</h3>
+                    <a href="#step-55" class="btn btn-primary mb-3 btn-lg">Go To Next Step</a>
+                </div>
+
+                <div id="step-55" class="card-body  p-5">
+                    <h2>Compensation Info</h2>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="salary">Basic Salary</label>
-                            <input type="number" class="form-control" name="basic_salary" id="salary"
-                                placeholder="Salary">
-                            @error('basic_salary')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <input required type="number" class="form-control" value="{{ old('basic_salary') }}"
+                                name="basic_salary" id="salary" placeholder="Salary">
+                            <!-- @error('basic_salary')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                         <div class="form-group col-md-6">
                             <label for="bank_account">Bank Account</label>
-                            <input type="text" class="form-control" name="bank_account" id="bank_account"
-                                placeholder="Bank Account">
-                            @error('bank_account')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <input type="text" class="form-control" value="{{ old('bank_account') }}"
+                                name="bank_account" id="bank_account" placeholder="Bank Account">
+                            <!-- @error('bank_account')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                     </div>
 
@@ -337,14 +343,13 @@
                                             name="allowance_value[]" placeholder="Enter Allowance Value">
                                     </div>
                                     <div class="col-auto">
-                                        <i class="bi bi-trash remove-button" style="color:red"
+                                        <i class="icon-trash remove-button" style="color:red"
                                             onclick="removeField(this)"></i>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="d-flex justify-content-start">
-                                <span class="btn btn-success" onclick="addAllowanceField()"><i class="bi bi-plus"
+                                <span class="btn btn-success" onclick="addAllowanceField()"><i class="icon-plus"
                                         style="color:white; font-size:20px"></i></span>
                             </div>
                         </div>
@@ -361,14 +366,14 @@
                                             name="deduction_value[]" placeholder="Enter Deduction Value">
                                     </div>
                                     <div class="col-auto">
-                                        <i class="bi bi-trash remove-button" style="color:red"
+                                        <i class="icon-trash remove-button" style="color:red"
                                             onclick="removeField(this)"></i>
                                     </div>
                                 </div>
 
                             </div>
                             <div class="d-flex justify-content-start">
-                                <span class="btn btn-success" onclick="addDeductionField()"><i class="bi bi-plus"
+                                <span class="btn btn-success" onclick="addDeductionField()"><i class="icon-plus"
                                         style="color:white; font-size:20px"></i></span>
                             </div>
                         </div>
@@ -377,64 +382,104 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="salary">Total Salary</label>
-                            <input type="number" class="form-control" readonly name="total_salary" id="total_salary"
+                            <input required type="number" class="form-control" readonly name="total_salary" id="total_salary"
                                 placeholder="Salary">
-                            @error('total_salary')
+                            <!-- @error('total_salary')
                                 <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            @enderror -->
                         </div>
                     </div>
-                    <hr>
-                    <h3>Additional Info</h3>
+
+                    <a href="#step-66" class="btn btn-primary mb-3 btn-lg">Go To Next Step</a>
+                </div>
+
+
+                <div id="step-66" class="card-body  p-5">
+
+                    <h2>Additional Info</h2>
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="notes">Notes</label>
-                            <textarea class="form-control" name="notes" id="notes" rows="3"></textarea>
-                            @error('notes')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <textarea class="form-control" name="notes" value="{{ old('notes') }}" id="notes"
+                                rows="3"></textarea>
+
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                    <a href="#step-77" class="btn btn-primary mb-3 btn-lg">Go To Next Step</a>
+
+                </div>
+
+                <div id="step-77" class="card-body  p-5">
+                    <h2>Login Credentials</h2>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="email">Email</label>
+                            <input required type="email" class="form-control" value="{{ old('email') }}" name="email" id="email"
+                                placeholder="Email">
+                            <!-- @error('email')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password">Password</label>
+                            <input type="text" required class="form-control" value="{{ old('password') }}" name="password"
+                                id="password">
+                            <!-- @error('password')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror -->
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success mb-3 btn-lg">Create</button>
+                    </form>
+
+                </div>
+
             </div>
+
         </div>
     </div>
+</div>
+
+
+
+
 @endsection
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
     crossorigin="anonymous"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var input = document.querySelector('input[name="skills_display"]');
-        var hiddenInput = document.querySelector('input[name="skills"]');
-        var tagify = new Tagify(input, {
-            delimiters: ",", // Customize delimiters as needed
-            placeholder: "Type or paste skills separated by commas",
-            maxTags: undefined, // Allow unlimited tags
-            dropdown: {
-                enabled: 0
-            }
-        });
 
-        // Listen for changes in the tagify input
-        tagify.on('change', function() {
-            var tags = tagify.value.map(function(tag) {
-                return tag.value;
-            });
-            hiddenInput.value = JSON.stringify(tags); // This will create a JSON string
-        });
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var input = document.querySelector('input[name="skills_display"]');
+    var hiddenInput = document.querySelector('input[name="skills"]');
+    var tagify = new Tagify(input, {
+        delimiters: ",", // Customize delimiters as needed
+        placeholder: "Type or paste skills separated by commas",
+        maxTags: undefined, // Allow unlimited tags
+        dropdown: {
+            enabled: 0
+        }
     });
 
-    function removeField(element) {
-        element.closest('.form-row').remove();
-    }
+    // Listen for changes in the tagify input
+    tagify.on('change', function() {
+        var tags = tagify.value.map(function(tag) {
+            return tag.value;
+        });
+        hiddenInput.value = JSON.stringify(tags); // This will create a JSON string
+    });
+});
 
-    function addAllowanceField() {
-        var allowanceContainer = document.getElementById('allowances');
-        var newField = document.createElement('div');
-        newField.className = 'form-row mb-2 d-flex align-items-center';
-        newField.innerHTML = `
+function removeField(element) {
+    element.closest('.form-row').remove();
+}
+
+function addAllowanceField() {
+    var allowanceContainer = document.getElementById('allowances');
+    var newField = document.createElement('div');
+    newField.className = 'form-row mb-2 d-flex align-items-center';
+    newField.innerHTML = `
             <div class="col">
                 <input type="text" class="form-control" name="allowance_name[]" placeholder="Enter Allowance Label">
             </div>
@@ -442,17 +487,17 @@
                     <input type="number" class="form-control allowance-amount" name="allowance_value[]" placeholder="Enter Allowance Value">
                 </div>
             <div class="col-auto">
-                <i class="bi bi-trash remove-button" style="color:red" onclick="removeField(this)"></i>
+                <i class="icon-trash remove-button" style="color:red" onclick="removeField(this)"></i>
             </div>
         `;
-        allowanceContainer.appendChild(newField);
-    }
+    allowanceContainer.appendChild(newField);
+}
 
-    function addDeductionField() {
-        var deductionContainer = document.getElementById('deductions');
-        var newField = document.createElement('div');
-        newField.className = 'form-row mb-2 d-flex align-items-center';
-        newField.innerHTML = `
+function addDeductionField() {
+    var deductionContainer = document.getElementById('deductions');
+    var newField = document.createElement('div');
+    newField.className = 'form-row mb-2 d-flex align-items-center';
+    newField.innerHTML = `
         <div class="col">
             <input type="text" class="form-control" name="deduction_name[]" placeholder="Enter Deduction Label">
         </div>
@@ -460,37 +505,71 @@
             <input type="number" class="form-control deduction-amount" name="deduction_value[]" placeholder="Enter Deduction Value">
         </div>
         <div class="col-auto">
-            <i class="bi bi-trash remove-button" style="color:red" onclick="removeField(this)"></i>
+            <i class="icon-trash remove-button" style="color:red" onclick="removeField(this)"></i>
         </div>
         `;
-        deductionContainer.appendChild(newField);
+    deductionContainer.appendChild(newField);
+}
+
+
+//  var basic_salary = $("salary").val();
+
+$(document).ready(function() {
+    function calculateTotalSalary() {
+        var basicSalary = parseFloat($("#salary").val()) || 0;
+        var totalAllowances = 0;
+        $(".allowance-amount").each(function() {
+            totalAllowances += parseFloat($(this).val()) || 0;
+        });
+        var totalDeductions = 0;
+        $(".deduction-amount").each(function() {
+            totalDeductions += parseFloat($(this).val()) || 0;
+        });
+
+        var totalSalary = basicSalary + totalAllowances - totalDeductions;
+        $("#total_salary").val(totalSalary);
     }
 
+    $("#salary").keyup(calculateTotalSalary);
+    $(document).on("keyup", ".allowance-amount, .deduction-amount", calculateTotalSalary);
 
-    //  var basic_salary = $("salary").val();
+    $(document).on("click", ".remove-button", function() {
+        $(this).parent().remove();
+        calculateTotalSalary();
+    });
+});
 
-    $(document).ready(function() {
-        function calculateTotalSalary() {
-            var basicSalary = parseFloat($("#salary").val()) || 0;
-            var totalAllowances = 0;
-            $(".allowance-amount").each(function() {
-                totalAllowances += parseFloat($(this).val()) || 0;
+
+
+
+/// fields required validations
+
+
+$(document).ready(function () {
+        // Listen to the click event on the "Go To Next Step" buttons
+        $(".btn-primary").on("click", function (event) {
+            let isValid = true;
+
+            // Get all required fields in the current step
+            $(this).closest(".card-body").find("input, select").each(function () {
+                if ($(this).prop("required") && $(this).val().trim() === "") {
+                    isValid = false;
+                    $(this).addClass("is-invalid"); // Add a red border for invalid fields
+                    $(this).siblings(".text-danger").remove(); // Remove existing error
+                    $(this).after('<div class="text-danger">This field is required</div>'); // Add error message
+                } else {
+                    $(this).removeClass("is-invalid"); // Remove red border if valid
+                    $(this).siblings(".text-danger").remove(); // Remove error message
+                }
             });
-            var totalDeductions = 0;
-            $(".deduction-amount").each(function() {
-                totalDeductions += parseFloat($(this).val()) || 0;
-            });
 
-            var totalSalary = basicSalary + totalAllowances - totalDeductions;
-            $("#total_salary").val(totalSalary);
-        }
-
-        $("#salary").keyup(calculateTotalSalary);
-        $(document).on("keyup", ".allowance-amount, .deduction-amount", calculateTotalSalary);
-
-        $(document).on("click", ".remove-button", function() {
-            $(this).parent().remove();
-            calculateTotalSalary();
+            // Prevent navigation if form is invalid
+            if (!isValid) {
+                event.preventDefault(); // Stop the default click event
+            }
         });
-    })
+    });
+
+
+
 </script>

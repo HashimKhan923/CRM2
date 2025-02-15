@@ -15,6 +15,9 @@ use App\Models\Department;
 use App\Models\Shift;
 use App\Models\Role;
 use Hash;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+
 
 class UserController extends Controller
 {
@@ -43,34 +46,61 @@ class UserController extends Controller
     {
 
 
-        // $request->validate([
-        //     'email' => 'required|email|unique:users,email',
-        //     'phone_number' => 'required|unique:users,phone_number',
-        //     'address' => 'required',
-        //     'first_name' => 'required|string|max:255',
-        //     'date_of_birth' => 'required',
-        //     'gender' => 'required',
-        //     'city' => 'required',
-        //     'state' => 'required',
-        //     'zip_code' => 'required',
-        //     'country' => 'required',
-        //     'address' => 'required',
-        //     'designation' => 'required',
-        //     'department_id' => 'required',
-        //     'shift_id' => 'required',
-        //     'role_id' => 'required',
-        //     'password' => 'required',
-        // ]);
+
+        $request->validate([
+            // 'email' => 'required|email|unique:users,email',
+            // 'phone_number' => 'required|unique:users,phone_number',
+            // 'address' => 'required',
+            // 'first_name' => 'required|string|max:255',
+            // 'date_of_birth' => 'required',
+            // 'gender' => 'required',
+            // 'work_email' => 'required|email|unique:contact_infos,work_email',
+            // 'personal_email' => 'required|email|unique:contact_infos,personal_email',
+            // 'work_phone' => 'required',
+            // 'personal_phone' => 'required',
+            // 'experience' => 'required',
+            // 'city' => 'required',
+            // 'state' => 'required',
+            // 'zip_code' => 'required',
+            // 'country' => 'required',
+            // 'address' => 'required',
+            // 'designation' => 'required',
+            // 'department_id' => 'required',
+            // 'shift_id' => 'required',
+            // 'role_id' => 'required',
+            // 'date_of_hire' => 'required',
+            // // 'employee_id' => 'required',
+            // 'password' => 'required',
+            // 'employment_type' => 'required',
+            // 'basic_salary' => 'required'
+        ]);
+
+        if (!$request->hasFile('image')) {
+            return 'No file uploaded';
+        }
+        
+        $file = $request->file('image');
+        if (!$file->isValid()) {
+            return 'Invalid file';
+        }
+        
+    //    $path =Storage::disk('r2')->put('uploads', $file,'public');        
+    //     if (!$path) {
+    //         return 'File upload failed';
+    //     }
+
+    //  $url =  Storage::disk('r2')->url($path);
 
         $user = User::create([
             'email' => $request->email,
-            'uu_id' => $request->uu_id,
+            'uu_id' => $request->employee_id,
             'shift_id' => $request->shift_id,
             'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
             'status' => 1
         ]);
 
+        $file = $request->file('image');
         $imagePath = '';
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -81,13 +111,15 @@ class UserController extends Controller
             }
         }
 
+
+
         $personal_info = PersonalInfo::create([
             'user_id' => $user->id,
             'first_name'=> $request->first_name,
             'last_name'=> $request->last_name,
             'date_of_birth'=> $request->date_of_birth,
             'gender'=> $request->gender,
-            'photo' => $imagePath,
+            'photo' => $url,
         ]);
 
         $contact_info = ContactInfo::create([
@@ -113,7 +145,7 @@ class UserController extends Controller
         $job_info = JobInfo::create([
             'user_id' => $user->id,
             'department_id'=> $request->department_id,
-            'position'=> $request->position,
+            'designation'=> $request->designation,
             'manager_id'=> $request->manager_id,
             'date_of_hire'=> $request->date_of_hire,
             'employment_type'=> $request->employment_type,
@@ -124,14 +156,20 @@ class UserController extends Controller
         $deductionNames = $request->input('deduction_name');
         $deductionValues = $request->input('deduction_value');
     
-        $allowances = [];
-        for ($i = 0; $i < count($allowanceNames); $i++) {
-            $allowances[$allowanceNames[$i]] = $allowanceValues[$i];
+        if(count($allowanceNames) > 0)
+        {
+            $allowances = [];
+            for ($i = 0; $i < count($allowanceNames); $i++) {
+                $allowances[$allowanceNames[$i]] = $allowanceValues[$i];
+            }
         }
-    
+
+        if(count($deductionNames) > 0)
+        {
         $deductions = [];
         for ($i = 0; $i < count($deductionNames); $i++) {
             $deductions[$deductionNames[$i]] = $deductionValues[$i];
+        }
         }
 
         $compensation_info = CompensationInfo::create([
@@ -177,8 +215,25 @@ class UserController extends Controller
         return view('admin.users.update', compact('data', 'departments', 'shifts', 'roles','managers'));
     }
 
+    public function view($id)
+    {
+        $data = User::with(['shift', 'department', 'role', 'personalInfo', 'contactInfo', 'professionalDetails', 'jobInfo', 'compensationInfo', 'additionalInfo'])
+                    ->where('id', $id)
+                    ->firstOrFail();
+    
+        $departments = Department::all();
+        $shifts = Shift::all();
+        $roles = Role::all();
+        $managers = User::whereHas('role', function($query) {
+            $query->where('name','manager');
+        })->get();
+    
+        return view('admin.users.view', compact('data', 'departments', 'shifts', 'roles','managers'));
+    }
+
     public function update(Request $request)
     {
+        // return 'swsdwd';
         // $request->validate([
         //     'email' => 'required|email|unique:users,email,' . $request->user_id,
         //     'phone_number' => 'required|unique:users,phone_number,' . $request->user_id,
@@ -265,29 +320,31 @@ class UserController extends Controller
         ]);
 
 
-        $allowanceNames = $request->input('allowance_name');
-        $allowanceValues = $request->input('allowance_value');
-        $deductionNames = $request->input('deduction_name');
-        $deductionValues = $request->input('deduction_value');
-    
+        $allowanceNames = $request->input('allowance_name', []);
+        $allowanceValues = $request->input('allowance_value', []);
+        $deductionNames = $request->input('deduction_name', []);
+        $deductionValues = $request->input('deduction_value', []);
+        
         $allowances = [];
         for ($i = 0; $i < count($allowanceNames); $i++) {
-            $allowances[$allowanceNames[$i]] = $allowanceValues[$i];
+            $allowances[$allowanceNames[$i]] = $allowanceValues[$i] ?? 0;
         }
-    
+        
         $deductions = [];
         for ($i = 0; $i < count($deductionNames); $i++) {
-            $deductions[$deductionNames[$i]] = $deductionValues[$i];
+            $deductions[$deductionNames[$i]] = $deductionValues[$i] ?? 0;
         }
-    
+        
         $user->compensationInfo()->updateOrCreate(
-            ['user_id' => $user->id],[
-            'basic_salary'=> $request->basic_salary,
-            'allowances'=> $allowances,
-            'deductions'=> $deductions,
-            'bank_account' => $request->bank_account,
-            'total_salary' => $request->total_salary
-        ]);
+            ['user_id' => $user->id],
+            [
+                'basic_salary' => $request->basic_salary,
+                'allowances' => $allowances,
+                'deductions' => $deductions,
+                'bank_account' => $request->bank_account,
+                'total_salary' => $request->total_salary
+            ]
+        );
     
         $user->additionalInfo()->updateOrCreate(
             ['user_id' => $user->id],[

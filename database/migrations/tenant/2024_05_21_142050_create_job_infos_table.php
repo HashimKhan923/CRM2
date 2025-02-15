@@ -17,9 +17,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('department_id')->unsigned()->nullable();
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('position')->nullable();
-            $table->bigInteger('manager_id')->unsigned()->nullable();
-            $table->foreign('manager_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('designation')->nullable();
+
             $table->date('date_of_hire')->nullable();
             $table->enum('employment_type', ['Full-time', 'Part-time', 'Contract', 'Intern']);
             $table->string('work_location')->nullable();

@@ -13,10 +13,13 @@ class AdminMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
+
     public function handle(Request $request, Closure $next): Response
     {
+    //    dd($request->user());
+
         if ($request->user() && $request->user()->role_id == 1) {
-            return $next($request);
+            return $next($request); 
         }
         return redirect()->route('login.form');
     }

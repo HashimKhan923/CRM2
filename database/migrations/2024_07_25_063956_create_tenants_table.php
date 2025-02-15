@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('tenant_id')->nullable();
             $table->string('name')->nullable();
-            $table->string('email')->nullable();
+            $table->string('email')->unique();
             $table->string('database_name')->nullable();
             $table->string('database_username')->nullable();
             $table->string('database_password')->nullable();

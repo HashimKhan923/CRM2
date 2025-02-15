@@ -17,5 +17,11 @@ class Time extends Model
         return $this->hasOne(PersonalInfo::class,'user_id','user_id');
     }
 
+    public function breaks()
+    {
+        return $this->hasMany(Breaks::class, 'time_id');
+    }
+
+
     use HasFactory;
 }

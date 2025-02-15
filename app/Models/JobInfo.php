@@ -10,8 +10,7 @@ class JobInfo extends Model
     protected $fillable = [
         'user_id',
         'department_id',
-        'position',
-        'manager_id',
+        'designation',
         'date_of_hire',
         'employment_type',
         'work_location',

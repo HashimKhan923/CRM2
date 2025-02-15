@@ -77,6 +77,14 @@ Route::middleware(['admin'])->group(function () {
                 Route::get('status/{id}','changeStatus');
                 });
                 });
+
+                /// Designation \\\
+
+                Route::group(['prefix' => '/admin/designation/'], function() {
+                    Route::controller(App\Http\Controllers\Admin\DesignationController::class)->group(function () {
+                    Route::post('create','create')->name('admin.designation.create');
+                    });
+                    });
                 
                 
                                 /// Project \\\
@@ -113,6 +121,8 @@ Route::middleware(['admin'])->group(function () {
                 Route::group(['prefix' => '/admin/attendence/'], function() {
                 Route::controller(App\Http\Controllers\Admin\AttendenceController::class)->group(function () {
                 Route::get('show','index')->name('admin.attendence.show');
+                Route::post('create','create')->name('admin.attendence.create');
+                Route::post('update','update')->name('admin.attendence.update');
                 Route::post('search','search')->name('admin.attendence.search');
                 });
                 }); 
@@ -121,7 +131,9 @@ Route::middleware(['admin'])->group(function () {
 
                 Route::group(['prefix' => '/admin/break/'], function() {
                 Route::controller(App\Http\Controllers\Admin\BreakController::class)->group(function () {
-                Route::get('show','index')->name('admin.break.show');
+                Route::get('show/{time_id}','index')->name('admin.break.show');
+                Route::post('create','create')->name('admin.break.create');
+                Route::post('update','update')->name('admin.break.update');
                 Route::post('search','search')->name('admin.break.search');
                 });
                 });   
@@ -135,6 +147,7 @@ Route::middleware(['admin'])->group(function () {
                 Route::get('create_form','create_form')->name('admin.users.create.form');
                 Route::post('create','create')->name('admin.users.create');
                 Route::get('update_form/{id}','update_form')->name('admin.users.update.form');
+                Route::get('view/{id}','view')->name('admin.users.view');
                 Route::post('update','update')->name('admin.users.update');
                 Route::get('status/{id}','changeStatus');
                 Route::get('delete/{id}','delete')->name('admin.users.delete');

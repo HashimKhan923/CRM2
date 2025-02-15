@@ -39,6 +39,11 @@ class RunMigrationsForAllTenants extends Command
                 '--path' => 'database/migrations/tenant',
             ]);
 
+            Artisan::call('db:seed', [
+                '--class' => 'DesignationsTableSeeder',
+                '--database' => 'tenant',
+            ]);
+
             $this->info("Migrations completed for tenant: {$tenant->name}");
         }
 
