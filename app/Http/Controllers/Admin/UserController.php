@@ -75,14 +75,14 @@ class UserController extends Controller
             // 'basic_salary' => 'required'
         ]);
 
-        if (!$request->hasFile('image')) {
-            return 'No file uploaded';
-        }
+        // if (!$request->hasFile('image')) {
+        //     return 'No file uploaded';
+        // }
         
-        $file = $request->file('image');
-        if (!$file->isValid()) {
-            return 'Invalid file';
-        }
+        // $file = $request->file('image');
+        // if (!$file->isValid()) {
+        //     return 'Invalid file';
+        // }
         
     //    $path =Storage::disk('r2')->put('uploads', $file,'public');        
     //     if (!$path) {
@@ -119,7 +119,7 @@ class UserController extends Controller
             'last_name'=> $request->last_name,
             'date_of_birth'=> $request->date_of_birth,
             'gender'=> $request->gender,
-            'photo' => $url,
+            'photo' => $imagePath,
         ]);
 
         $contact_info = ContactInfo::create([

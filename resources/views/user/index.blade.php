@@ -1,22 +1,22 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="container-fluid px-4">
-    <h1 class="mt-4">Dashboard</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Dashboard</li>
-    </ol>
-    @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
+<div class="container-fluid relative animatedParent animateOnce my-3">
+@if (session('success'))
+    <div class="toast"
+        data-title="Hi, there!"
+        data-message="{{session('success')}}"
+        data-type="error">
     </div>
     @endif
     @if ($message != null)
-    <div class="alert alert-success">
-        {{$message}}
+    <div class="toast"
+        data-title="Hi, there!"
+        data-message="{{$message}}"
+        data-type="danger">
     </div>
-    @endif
-    <div class="row text-white bg-dark py-3 rounded align-items-center text-center">
+    @endif  
+<div class="row text-white bg-primary py-3 rounded align-items-center text-center">
 
 <div class="col-md-4">
     @if($currentTotalTime != null)
@@ -42,7 +42,7 @@
             <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Break
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu text-dark" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{{ route('user.break_in', ['user_id' => auth()->user()->id, 'time_id' => $Time->id, 'break_type' => 'Prayer']) }}">Prayer</a>
                 <a class="dropdown-item" href="{{route('user.break_in',['user_id' => auth()->user()->id, 'time_id' => $Time->id, 'break_type' => 'Lunch'])}}">Lunch</a>
                 <a class="dropdown-item" href="{{route('user.break_in',['user_id' => auth()->user()->id, 'time_id' => $Time->id, 'break_type' => 'Tea'])}}">Tea</a>
@@ -61,40 +61,336 @@
     @endif
 </div>
 
-<div class="col-md-2">
-    <h5>Shift: @if(isset($ShiftN)) {{$ShiftN->name}} @endif</h5>
-    <hr class="bg-white">
-    <p>{{$ShiftN->time_from}} - {{$ShiftN->time_to}}</p>
-    <hr class="bg-white">
-    <h5>Total Time: @if(isset($totalShiftHours)){{$totalShiftHours}} Hrs @endif</h5>
-</div>
-</div>
-
-    <hr>
-    <div class="row">
-        <div class="col-xl-6">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-chart-area me-1"></i>
-                    Area Chart Example
-                </div>
-                <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-            </div>
-        </div>
-        <div class="col-xl-6">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-chart-bar me-1"></i>
-                    Bar Chart Example
-                </div>
-                <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-            </div>
-        </div>
+    <div class="col-md-2">
+        <h5>Shift: @if(isset($ShiftN)) {{$ShiftN->name}} @endif</h5>
+        <hr class="bg-white">
+        <p>{{$ShiftN->time_from}} - {{$ShiftN->time_to}}</p>
+        <hr class="bg-white">
+        <h5>Total Time: @if(isset($totalShiftHours)){{$totalShiftHours}} Hrs @endif</h5>
     </div>
 </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <div class="row row-eq-height my-3 mt-3">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="card no-b mb-3 bg-danger text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div><i class="icon-package s-18"></i></div>
+                                    <div><span class="text-success">40+35</span></div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="s-48 my-3 font-weight-lighter"><i class="icon-chrome"></i></div>
+                                    Chrome
+                                </div>
 
-<script>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="card no-b mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div><i class="icon-timer s-18"></i></div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="s-48 my-3 font-weight-lighter">5</div>
+                                    Today's Attendence
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="card no-b mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div><i class="icon-users s-18"></i></div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="s-48 my-3 font-weight-lighter">19</div>
+                                    All Users
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="card no-b mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div><i class="icon-user-times s-18"></i></div>
+                                    <div><span class="text-danger">50</span></div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="s-48 my-3 font-weight-lighter">95</div>
+                                    Returning Users
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card no-b p-2">
+                    <div class="card-body">
+                        <div class="card-body">
+                            <div class="height-300">
+                                <canvas
+                                        data-chart="chartJs"
+                                        data-chart-type="doughnut"
+                                        data-dataset="[
+                                                        [75, 25,25],
+
+                                                    ]"
+                                        data-labels="[['Disk'],['Database'],['Disk2'],['Database2']]"
+                                        data-dataset-options="[
+                                                    {
+                                                        label: 'Disk',
+                                                        backgroundColor: [
+                                                            '#03a9f4',
+                                                            '#8f5caf',
+                                                            '#3f51b5'
+                                                        ],
+
+                                                    },
+
+
+                                                    ]"
+                                        data-options="{legend: {display: !0,position: 'bottom',labels: {fontColor: '#7F8FA4',usePointStyle: !0}},
+                                }"
+                                >
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card no-b my-3">
+            <div class="card-body">
+                <div class="my-2 height-300">
+                    <canvas
+                            data-chart="bar"
+                            data-dataset="[
+                                        [21, 90, 55, 0, 59, 77, 12,21, 90, 55, 0, 59, 77, 12,21, 90, 55, 0, 59, 77, 12],
+                                        [12, 40, 16, 17, 89, 0, 12,12, 0, 55, 60, 79, 99, 12,12, 0, 55, 60, 79, 99, 12],
+                                        [12, 40, 16, 17, 89, 0,12, 40, 16, 17, 89, 0, 12,12, 40, 16, 17, 89, 0, 12],
+                                        ]"
+                            data-labels="['Blue','Yellow','Green','Purple','Orange','Red','Indigo','Blue','Yellow','Green','Purple','Orange','Red','Indigo','Blue','Yellow','Green','Purple','Orange','Red','Indigo']"
+                            data-dataset-options="[
+                                    {
+                                        label: 'HTML',
+                                        backgroundColor: '#7986cb',
+                                        borderWidth: 0,
+
+                                    },
+                                    {
+                                         label: 'Wordpress',
+                                         backgroundColor: '#88e2ff',
+                                         borderWidth: 0,
+
+                                     },
+                                    {
+                                          label: 'Laravel',
+                                          backgroundColor: '#e2e8f0',
+                                          borderWidth: 0,
+
+                                      }
+                                    ]"
+                            data-options="{
+                                      legend: { display: true,},
+                                      scales: {
+                                        xAxes: [{
+                                            stacked: true,
+                                             barThickness:5,
+                                             gridLines: {
+                                                zeroLineColor: 'rgba(255,255,255,0.1)',
+                                                 color: 'rgba(255,255,255,0.1)',
+                                                 display: false,},
+                                             }],
+                                        yAxes: [{
+                                                stacked: true,
+                                                     gridLines: {
+                                                        zeroLineColor: 'rgba(255,255,255,0.1)',
+                                                        color: 'rgba(255,255,255,0.1)',
+                                                    }
+                                       }]
+
+                                      }
+                                }"
+                    >
+                    </canvas>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row my-3 no-gutters">
+                    <div class="col-md-3">
+                        <h1>Tasks</h1>
+                        Currently assigned tasks to team.
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mb-3">
+                                        <h6>New Layout</h6>
+                                        <small>75% Completed</small>
+                                    </div>
+                                    <figure class="avatar">
+                                        <img src="{{asset('assets/img/dummy/u12.png')}}" alt=""></figure>
+                                </div>
+                                <div class="progress progress-xs mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75"
+                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mb-3">
+                                        <h6>New Layout</h6>
+                                        <small>75% Completed</small>
+                                    </div>
+                                    <figure class="avatar">
+                                        <img src="{{asset('assets/img/dummy/u2.png')}}" alt=""></figure>
+                                </div>
+                                <div class="progress progress-xs mb-3">
+                                    <div class="progress-bar bg-indigo" role="progressbar" style="width: 75%;"
+                                         aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mb-3">
+                                        <h6>New Layout</h6>
+                                        <small>75% Completed</small>
+                                    </div>
+                                    <div class="avatar-group">
+                                        <figure class="avatar">
+                                            <img src="{{asset('assets/img/dummy/u4.png')}}" alt=""></figure>
+                                        <figure class="avatar">
+                                            <img src="{{asset('assets/img/dummy/u11.png')}}" alt=""></figure>
+                                        <figure class="avatar">
+                                            <img src="{{asset('assets/img/dummy/u1.png')}}" alt=""></figure>
+                                    </div>
+                                </div>
+                                <div class="progress progress-xs mb-3">
+                                    <div class="progress-bar yellow" role="progressbar" style="width: 75%;"
+                                         aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mb-3">
+                                        <h6>New Layout</h6>
+                                        <small>75% Completed</small>
+                                    </div>
+                                    <figure class="avatar">
+                                        <img src="{{asset('assets/img/dummy/u5.png')}}" alt=""></figure>
+                                </div>
+                                <div class="progress progress-xs mb-3">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 75%;"
+                                         aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class=" row my-3">
+            <div class="col-md-6">
+                <div class=" card b-0">
+                    <div class="card-body p-5">
+                        <canvas id="gradientChart" width="600" height="340"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class=" card no-b">
+                    <div class="card-body">
+                        <table class="table table-hover earning-box">
+                            <tbody>
+                            <tr class="no-b">
+                                <td class="w-10">
+                                    <a href="panel-page-profile.html" class="avatar avatar-lg">
+                                        <img src="{{asset('assets/img/dummy/u6.png')}}" alt="">
+                                    </a>
+                                </td>
+                                <td>
+                                    <h6>Sara Kamzoon</h6>
+                                    <small class="text-muted">Marketing Manager</small>
+                                </td>
+                                <td>25</td>
+                                <td>$250</td>
+                            </tr>
+                            <tr>
+                                <td class="w-10">
+                                    <a href="panel-page-profile.html" class="avatar avatar-lg">
+                                        <img src="{{asset('assets/img/dummy/u9.png')}}" alt="">
+                                    </a>
+                                </td>
+                                <td>
+                                    <h6>Sara Kamzoon</h6>
+                                    <small class="text-muted">Marketing Manager</small>
+                                </td>
+                                <td>25</td>
+                                <td>$250</td>
+                            </tr>
+                            <tr>
+                                <td class="w-10">
+                                    <a href="panel-page-profile.html" class="avatar avatar-lg">
+                                        <img src="{{asset('assets/img/dummy/u11.png')}}" alt="">
+                                    </a>
+                                </td>
+                                <td>
+                                    <h6>Sara Kamzoon</h6>
+                                    <small class="text-muted">Marketing Manager</small>
+                                </td>
+                                <td>25</td>
+                                <td>$250</td>
+                            </tr>
+                            <tr>
+                                <td class="w-10">
+                                    <a href="panel-page-profile.html" class="avatar avatar-lg">
+                                        <img src="{{asset('assets/img/dummy/u12.png')}}" alt="">
+                                    </a>
+                                </td>
+                                <td>
+                                    <h6>Sara Kamzoon</h6>
+                                    <small class="text-muted">Marketing Manager</small>
+                                </td>
+                                <td>25</td>
+                                <td>$250</td>
+                            </tr>
+                            <tr>
+                                <td class="w-10">
+                                    <a href="panel-page-profile.html" class="avatar avatar-lg">
+                                        <img src="{{asset('assets/img/dummy/u5.png')}}" alt="">
+                                    </a>
+                                </td>
+                                <td>
+                                    <h6>Sara Kamzoon</h6>
+                                    <small class="text-muted">Marketing Manager</small>
+                                </td>
+                                <td>25</td>
+                                <td>$250</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
     document.addEventListener('DOMContentLoaded', function() {
         function formatTime(unit) {
             return unit < 10 ? '0' + unit : unit;
@@ -225,6 +521,8 @@
         }
 
         function showPosition(position) {
+
+        // alert(position.coords.latitude+','+position.coords.longitude)
             document.getElementById('latitude').value = position.coords.latitude;
             document.getElementById('longitude').value = position.coords.longitude;
             document.getElementById('attendence-form').submit();
@@ -248,4 +546,5 @@
         }
 </script>
 
-@endsection
+
+                    @endsection('content')

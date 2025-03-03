@@ -124,6 +124,8 @@ Route::middleware(['admin'])->group(function () {
                 Route::post('create','create')->name('admin.attendence.create');
                 Route::post('update','update')->name('admin.attendence.update');
                 Route::post('search','search')->name('admin.attendence.search');
+                Route::get('delete/{id}','delete')->name('admin.attendence.delete');
+
                 });
                 }); 
 

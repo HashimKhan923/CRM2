@@ -295,4 +295,13 @@ class AttendenceController extends Controller
         return view('admin.attendences.index', compact('attendences')); 
     }
 
+
+    public function delete($id)
+    {
+        Time::find($id)->delete();
+
+        session()->flash('success', 'Deleted Successfully!');
+        return redirect()->back();
+    }
+
 }

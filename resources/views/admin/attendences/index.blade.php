@@ -48,12 +48,12 @@
                             <table class="table table-striped table-hover r-0">
                                         <thead>
                                         <tr class="no-b">
-                                            <th style="width: 30px">
+                                            <!-- <th style="width: 30px">
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" id="checkedAll" class="custom-control-input"><label
                                                         class="custom-control-label" for="checkedAll"></label>
                                                 </div>
-                                            </th>
+                                            </th> -->
                                             <th>#ID</th>
                                             <th> <div class="d-none d-lg-block">NAME</div></th>
                                             <th> <div class="d-none d-lg-block">EMAIL</div></th>
@@ -69,13 +69,13 @@
                                          @if($attendences)   
                                         @foreach($attendences as $attendance)
                                         <tr>
-                                            <td>
+                                            <!-- <td>
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input checkSingle"
                                                            id="user_id_32" required><label
                                                         class="custom-control-label" for="user_id_1"></label>
                                                 </div>
-                                            </td>
+                                            </td> -->
                                             <td>
                                               <div class="d-flex">
                                                   <!-- <div class="avatar avatar-md mr-3 mb-2 mt-1">
@@ -112,7 +112,7 @@
                                             <td>
                                                 <a href=""><i class="icon-eye mr-3 text->info"></i></a>
                                                 <a onclick="openAttendanceModal('edit',{{ json_encode($attendance) }})" ><i class="icon-pencil text-primary mr-3"></i></a>
-                                                <a href=""><i class="icon-trash text-danger"></i> </a>
+                                                <a href="{{route('admin.attendence.delete',$attendance->id)}}"><i class="icon-trash text-danger"></i> </a>
                                                 <a href="{{route('admin.break.show',$attendance->id)}}"> See Breaks</a>
 
                                             </td>

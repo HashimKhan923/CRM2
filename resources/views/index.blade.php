@@ -462,16 +462,16 @@
                             <div class="flex flex-col shadow-2xl rounded-xl bg-white overflow-hidden">
                                 <div class="text-center pt-10">
                                     <img src="https://zoyothemes.com/tailwind/evea/assets/images/vector/vector-1.png" class="h-28 w-28 mx-auto" alt="email">
-                                    <h5 class="text-2xl font-semibold text-black">Standard</h5>
+                                    <h5 class="text-2xl font-semibold text-black">Free Trail</h5>
                                     <h2 class="text-5xl mt-5 mb-1 items-center align-middle">
                                         <sup class="text-3xl align-middle">$</sup>
                                         <span data-hs-toggle-count='{
                                             "target": "#toggle-count",
                                             "min": 49,
                                             "max": 199
-                                          }' >49</span>
+                                          }' >0</span>
                                     </h2>
-                                    <span class="text-base font-medium text-muted">per month</span>
+                                    <span class="text-base font-medium text-muted">15 Days</span>
                                 </div>
 
                                 <div class="px-5 py-5 mx-auto">
@@ -500,7 +500,7 @@
                                 </div>
 
                                 <div class="flex justify-center px-10 pb-10">
-                                    <button class="py-2 px-6 inline-flex rounded-md text-base items-center justify-center border border-primary text-white bg-primary hover:bg-primaryDark transition-all duration-500 font-medium w-full">Buy Standard</button>
+                                    <a href="/admin/registration" class="py-2 px-6 inline-flex rounded-md text-base items-center justify-center border border-primary text-white bg-primary hover:bg-primaryDark transition-all duration-500 font-medium w-full">Buy</a>
                                 </div>
                             </div>
 

@@ -17,7 +17,7 @@ class BreakController extends Controller
 
     public function index(Request $request, $id)
     {
-        $breaks = Breaks::where('user_id',$id)->whereDate('created_at', Carbon::today('Asia/Karachi'))->get();
+        $breaks = Breaks::where('time_id',$id)->whereDate('created_at', Carbon::today('Asia/Karachi'))->get();
 
         if ($request->wantsJson()) {
             return response()->json(['breaks'=>$breaks]);  

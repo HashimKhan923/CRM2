@@ -17,12 +17,10 @@
             margin-bottom: 20px;
         }
         .btn-register {
-            background-color: #f44336;
+            background-color: #5D87FF;
             border: none;
         }
-        .btn-register:hover {
-            background-color: #d32f2f;
-        }
+
         .header {
             height: 100vh;
             background-image: url('https://via.placeholder.com/1500x800');

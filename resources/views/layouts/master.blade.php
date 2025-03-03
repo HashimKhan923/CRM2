@@ -159,6 +159,9 @@
                                     </div>
                                 </div>
                             </div>
+                            @if(auth()->user()->role_id == 1)
+
+                             <!-- Admin Sidebar Start -->
                             <ul class="sidebar-menu">
                                 <li class="treeview">
                                     <a href="{{route('admin.dashboard')}}">
@@ -201,29 +204,6 @@
 
                                     </ul>
                                 </li>
-
-                                <!-- <li class="treeview"><a href="#"><i class="icon-free_breakfast s-24"></i> Breaks<i
-                                            class=" icon-angle-left  pull-right"></i></a>
-                                    <ul class="treeview-menu">
-                                        <li><a href="" ><i
-                                                    class="icon icon-circle-o"></i>Today's Breaks</a>
-                                        </li>
-                                        <li><a href="{{route('admin.users.show')}}" ><i
-                                                    class="icon icon-circle-o"></i>All Breaks</a>
-                                        </li>
-                                        <li><a href="{{route('admin.users.show')}}" ><i
-                                                    class="icon icon-circle-o"></i>Add Break</a>
-                                        </li>
-                                        <li><a href="{{route('admin.users.show')}}" ><i
-                                                    class="icon icon-circle-o"></i>Types</a>
-                                        </li>
-
-                                        <li><a href="{{route('admin.users.create.form')}}"><i
-                                                    class="icon icon-documents3 s-18"></i> Break Policies</a>
-                                        </li>
-
-                                    </ul>
-                                </li> -->
 
                                 <li class="treeview"><a href="#">
                                         <i class="icon-home2" style="font-size:x-large"></i>
@@ -298,6 +278,81 @@
 
  
                             </ul>
+                            <!-- Admin Sidebar End -->
+                            @else
+                            <!-- User Sidebar Start -->
+                            <ul class="sidebar-menu">
+                                <li class="treeview">
+                                    <a href="{{route('user.dashboard',auth()->user()->id)}}">
+                                        <i class="icon icon-sailing-boat-water s-24"></i> <span>Dashboard</span>
+                                    </a>
+                                </li>
+
+    
+                                <li class="treeview"><a href="#"><i class="icon-clock-o s-24"></i> Attendences<i
+                                            class=" icon-angle-left  pull-right"></i></a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="{{route('user.attendence.show',auth()->user()->id)}}" ><i
+                                                    class="icon icon-circle-o"></i>My Attendences</a>
+                                        </li>
+                                        <!-- <li><a href="{{route('admin.users.show')}}" ><i
+                                                    class="icon icon-circle-o"></i>All Attendences</a>
+                                        </li> -->
+                                        <!-- <li><a href="{{route('admin.users.create.form')}}"><i
+                                                    class="icon icon-add"></i>Add Attendence</a>
+                                        </li> -->
+
+                                    </ul>
+                                </li>
+
+
+
+                                <li class="treeview"><a href="#"><i class="icon-time-is-money-1 s-24"></i> Overtimes<i
+                                            class=" icon-angle-left  pull-right"></i></a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="{{route('admin.users.show')}}" ><i
+                                                    class="icon icon-circle-o"></i>Today's Overtimes</a>
+                                        </li>
+                                        <li><a href="{{route('admin.users.show')}}" ><i
+                                                    class="icon icon-circle-o"></i>All Overtimes</a>
+                                        </li>
+                                        <li><a href="{{route('admin.users.create.form')}}"><i
+                                                    class="icon icon-add"></i>Add Overtime</a>
+                                        </li>
+
+                                        <li><a href="{{route('admin.users.create.form')}}"><i
+                                                    class="icon icon-documents3 s-18"></i> Overtime Policies</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
+
+                                
+                                <li class="treeview"><a href="#"><i class="icon-time-is-money-1 s-24"></i> Leaves<i
+                                            class=" icon-angle-left  pull-right"></i></a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="{{route('admin.users.show')}}" ><i
+                                                    class="icon icon-circle-o"></i>Today's Leaves</a>
+                                        </li>
+                                        <li><a href="{{route('admin.users.show')}}" ><i
+                                                    class="icon icon-circle-o"></i>All Leaves</a>
+                                        </li>
+                                        <li><a href="{{route('admin.users.create.form')}}"><i
+                                                    class="icon icon-add"></i>Add Leave</a>
+                                        </li>
+
+                                        <li><a href="{{route('admin.users.create.form')}}"><i
+                                                    class="icon icon-documents3 s-18"></i> Leave Policies</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
+ 
+                            </ul>
+                            <!-- User Sidebar End -->
+                             @endif
                         </div>
                     </div>
                 </div>
@@ -465,44 +520,7 @@
                                     <i class="icon-more_vert "></i>
                                 </a>
                                 <div class="dropdown-menu p-4 dropdown-menu-right">
-                                    <div class="row box justify-content-between my-4">
-                                        <div class="col">
-                                            <a href="#">
-                                                <i class="icon-apps purple lighten-2 avatar  r-5"></i>
-                                                <div class="pt-1">Apps</div>
-                                            </a>
-                                        </div>
-                                        <div class="col"><a href="#">
-                                                <i class="icon-beach_access pink lighten-1 avatar  r-5"></i>
-                                                <div class="pt-1">Profile</div>
-                                            </a></div>
-                                        <div class="col">
-                                            <a href="#">
-                                                <i class="icon-perm_data_setting indigo lighten-2 avatar  r-5"></i>
-                                                <div class="pt-1">Settings</div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="row box justify-content-between my-4">
-                                        <div class="col">
-                                            <a href="#">
-                                                <i class="icon-star light-green lighten-1 avatar  r-5"></i>
-                                                <div class="pt-1">Favourites</div>
-                                            </a>
-                                        </div>
-                                        <div class="col">
-                                            <a href="#">
-                                                <i class="icon-save2 orange accent-1 avatar  r-5"></i>
-                                                <div class="pt-1">Saved</div>
-                                            </a>
-                                        </div>
-                                        <div class="col">
-                                            <a href="#">
-                                                <i class="icon-perm_data_setting grey darken-3 avatar  r-5"></i>
-                                                <div class="pt-1">Settings</div>
-                                            </a>
-                                        </div>
-                                    </div>
+                                    <a href="{{route('logout')}}" class="btn btn-sm btn-danger">Logout</a>
                                     <hr>
                                     <div class="row box justify-content-between my-4">
                                         <div class="col">
