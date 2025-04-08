@@ -101,10 +101,14 @@ Route::group(['middleware' => ['auth:api']], function(){
             Route::controller(App\Http\Controllers\Admin\UserController::class)->group(function () {
                 Route::get('show','index');
                 Route::get('create','create');
+                Route::post('update','update');
                 Route::get('status/{id}','changeStatus');
                 Route::get('delete/{id}','delete');
             });
         });
+
+
+
 
 
 
