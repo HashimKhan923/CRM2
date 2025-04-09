@@ -35,7 +35,7 @@ Route::get('/logout/{id}', 'App\Http\Controllers\AuthController@logout');
 
 /// admin Register
 Route::post('/admin/register', 'App\Http\Controllers\Admin\AuthController@register');
-Route::post('/admin/registration/process', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin')->name('admin.registration.process');
+Route::post('/admin/registration/process', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin');
 Route::get('/test', function () {
     return response()->json(['message' => 'working']);
 });
