@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/contactus', '\App\Http\Controllers\SuperAdmin\ContactUsController@create');
+Route::post('/contact', '\App\Http\Controllers\SuperAdmin\ContactUsController@create');
 
 Route::group(['middleware' => ['tenant']], function () {
 
