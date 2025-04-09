@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/contact', '\App\Http\Controllers\SuperAdmin\ContactUsController@create');
+Route::post('/admin/registration/process', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin');
 
 Route::group(['middleware' => ['tenant']], function () {
 
@@ -34,12 +35,8 @@ Route::get('/logout/{id}', 'App\Http\Controllers\AuthController@logout');
 // common routes ends
 
 /// admin Register
-Route::post('/hrt', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin');
 Route::post('/admin/register', 'App\Http\Controllers\Admin\AuthController@register');
-Route::post('/admin/registration/process', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin');
-Route::get('/test', function () {
-    return response()->json(['message' => 'working']);
-});
+
 
 Route::group(['middleware' => ['auth:api']], function(){
     
