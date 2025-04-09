@@ -89,7 +89,7 @@ class TenantController extends Controller
             'role_id' => $admin->id
         ]);
     
-        return redirect()->back();
+        return response()->json(['message'=>'Registered Successfully!']);
     }
     
 
