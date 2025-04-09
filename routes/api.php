@@ -34,6 +34,7 @@ Route::get('/logout/{id}', 'App\Http\Controllers\AuthController@logout');
 // common routes ends
 
 /// admin Register
+Route::post('/hrt', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin');
 Route::post('/admin/register', 'App\Http\Controllers\Admin\AuthController@register');
 Route::post('/admin/registration/process', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin');
 Route::get('/test', function () {
