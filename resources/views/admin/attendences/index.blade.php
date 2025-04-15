@@ -54,7 +54,7 @@
                                                         class="custom-control-label" for="checkedAll"></label>
                                                 </div>
                                             </th> -->
-                                            <th>#ID</th>
+                                            <th>ID</th>
                                             <th> <div class="d-none d-lg-block">NAME</div></th>
                                             <th> <div class="d-none d-lg-block">EMAIL</div></th>
                                             <th> <div class="d-none d-lg-block">TIME IN</div></th>
