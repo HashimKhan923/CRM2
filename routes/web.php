@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 // common routes ends
 Route::view('/','index');
 Route::view('/admin/registration','admin_registration');
-// Route::post('/admin/registration/process', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin')->name('admin.registration.process');
+Route::post('/admin/registration/process', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin')->name('admin.registration.process');
 /// admin Register
 // Route::post('/admin/register', 'App\Http\Controllers\Admin\AuthController@register');
 
