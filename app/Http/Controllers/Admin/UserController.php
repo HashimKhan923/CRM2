@@ -92,9 +92,29 @@ class UserController extends Controller
     //  $url =  Storage::disk('r2')->url($path);
 
         $user = User::create([
+            'employee_id' => $request->employee_id,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'phone_number' => $request->phone_number,
             'email' => $request->email,
-            'uu_id' => $request->employee_id,
-            'shift_id' => $request->shift_id,
+            'password' => $request->password,
+            'address' => $request->address,
+            'city' => $request->city,
+            'state' => $request->state,
+            'country' => $request->country,
+            'zip' => $request->zip,
+            'nationality' => $request->nationality,
+            'date_of_birth' => $request->date_of_birth,
+            'marital_status' => $request->marital_status,
+            'department_id' => $request->department_id,
+            'designation_id' => $request->designation_id,
+            'work_location' => $request->work_location,
+            'employment_type' => $request->employment_type,
+            'employment_status' => $request->employment_status,
+            'source_of_hire' => $request->source_of_hire,
+            'joining_date' => $request->joining_date,
+            'current_experience' => $request->current_experience,
+            'status' => $request->status,
             'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
             'status' => 1
@@ -113,81 +133,7 @@ class UserController extends Controller
 
 
 
-        $personal_info = PersonalInfo::create([
-            'user_id' => $user->id,
-            'first_name'=> $request->first_name,
-            'last_name'=> $request->last_name,
-            'date_of_birth'=> $request->date_of_birth,
-            'gender'=> $request->gender,
-            'photo' => $imagePath,
-        ]);
-
-        $contact_info = ContactInfo::create([
-            'user_id' => $user->id,
-            'work_email'=> $request->work_email,
-            'personal_email'=> $request->personal_email,
-            'work_phone'=> $request->work_phone,
-            'personal_phone'=> $request->personal_phone,
-            'address'=> $request->address,
-            'city'=> $request->city,
-            'state'=> $request->state,
-            'zip_code'=> $request->zip_code,
-            'country'=> $request->country,
-        ]);
-
-        $professional_details = ProfessionalDetails::create([
-            'user_id' => $user->id,
-            'skills'=> $request->skills,
-            'qualifications'=> $request->qualifications,
-            'experience'=> $request->experience,
-        ]);
-
-        $job_info = JobInfo::create([
-            'user_id' => $user->id,
-            'department_id'=> $request->department_id,
-            'designation'=> $request->designation,
-            'manager_id'=> $request->manager_id,
-            'date_of_hire'=> $request->date_of_hire,
-            'employment_type'=> $request->employment_type,
-        ]);
-
-        $allowanceNames = $request->input('allowance_name');
-        $allowanceValues = $request->input('allowance_value');
-        $deductionNames = $request->input('deduction_name');
-        $deductionValues = $request->input('deduction_value');
-    
-        if(count($allowanceNames) > 0)
-        {
-            $allowances = [];
-            for ($i = 0; $i < count($allowanceNames); $i++) {
-                $allowances[$allowanceNames[$i]] = $allowanceValues[$i];
-            }
-        }
-
-        if(count($deductionNames) > 0)
-        {
-        $deductions = [];
-        for ($i = 0; $i < count($deductionNames); $i++) {
-            $deductions[$deductionNames[$i]] = $deductionValues[$i];
-        }
-        }
-
-        $compensation_info = CompensationInfo::create([
-            'user_id' => $user->id,
-            'basic_salary'=> $request->basic_salary,
-            'allowances'=> $allowances,
-            'deductions'=> $deductions,
-            'total_salary' => $request->total_salary,
-            'bank_account'=> $request->bank_account,
-
-        ]);
-
-        $additional_info = AdditionalInfo::create([
-            'user_id' => $user->id,
-            'notes'=> $request->notes,
-            'preferences'=> $request->preferences,
-        ]);
-
+       
 
         if ($request->wantsJson()) {
         $response = ['status'=>true,"message" => "Register Successfully"];

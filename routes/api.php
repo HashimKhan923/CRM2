@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/contact', '\App\Http\Controllers\SuperAdmin\ContactUsController@create');
 Route::post('/admin/registration/process', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin');
-
+Route::post('/admin/product_key', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin');
 Route::group(['middleware' => ['tenant']], function () {
 
 //common routes start
@@ -129,16 +129,16 @@ Route::group(['middleware' => ['auth:api']], function(){
 
 
 
-                                         /// Attendence \\\
+                                /// Attendence \\\
 
             Route::group(['prefix' => 'attendence/'], function() {
             Route::controller(App\Http\Controllers\User\AttendenceController::class)->group(function () {
-                Route::get('show/{id}','index');
-                Route::post('search','search');
-                Route::get('time_in/{id}','time_in');
-                Route::get('time_out/{id}','time_out');
+                    Route::get('show/{id}','index');
+                    Route::post('search','search');
+                    Route::get('time_in/{id}','time_in');
+                    Route::get('time_out/{id}','time_out');
+                });
             });
-        });
 
 
 

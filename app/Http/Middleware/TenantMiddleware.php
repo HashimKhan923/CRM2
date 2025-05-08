@@ -19,9 +19,9 @@ class TenantMiddleware
     public function handle($request, Closure $next)
     {
         
-        if ($request->query('tenant_id') != null) {
+        if ($request->product_key != null) {
             // Store tenant_id in session
-            session(['tenant_id' => $request->query('tenant_id')]);
+            session(['tenant_id' => $request->product_key]);
         }
 
             // Retrieve the tenant_id from the session
@@ -48,7 +48,7 @@ class TenantMiddleware
         }
         else
         {
-            abort(404);
+            return response()->json(['message'=>'product key not found',404]);
         }
 
     }
