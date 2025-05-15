@@ -21,6 +21,6 @@ class AdminMiddleware
         if ($request->user() && $request->user()->role_id == 1) {
             return $next($request); 
         }
-        return redirect()->route('login.form');
+        abort(403, 'Unauthorized');
     }
 }

@@ -18,6 +18,6 @@ class UserMiddleware
         if ($request->user()) {
             return $next($request);
         }
-        return redirect()->route('login.form');
+        abort(403, 'Unauthorized');
     }
 }
