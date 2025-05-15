@@ -24,7 +24,7 @@ Route::post('/admin/registration/process', '\App\Http\Controllers\SuperAdmin\Ten
 
 Route::group(['middleware' => ['tenant']], function () {
 
-Route::post('/admin/product_key', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin');    
+Route::post('/admin/product_key', '\App\Http\Controllers\SuperAdmin\TenantController@product_key');    
 
 //common routes start
 

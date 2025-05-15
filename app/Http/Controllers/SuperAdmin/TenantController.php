@@ -131,4 +131,10 @@ class TenantController extends Controller
             '--path' => 'database/migrations/tenant',
         ]);
     }
+
+
+    public function product_key(Request $request)
+    {
+        return response()->json(['message'=>'connected successfully',200]);
+    }
 }
