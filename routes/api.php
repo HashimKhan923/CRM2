@@ -96,6 +96,8 @@ Route::group(['middleware' => ['auth:api']], function(){
             Route::controller(App\Http\Controllers\Admin\AttendenceController::class)->group(function () {
                 Route::get('show','index');
                 Route::post('search','search');
+                Route::post('create','create');
+                Route::post('update','update');
             });
         });   
         
