@@ -12,17 +12,11 @@ class RoleController extends Controller
     {
         $roles = Role::all();
 
-        if ($request->wantsJson()) {
-            return response()->json(['roles'=>$roles]);  
-        }
+        return response()->json(['roles'=>$roles]);  
 
-        return view('admin.roles.index', compact('roles'));   
     }
 
-    public function create_form()
-    {
-        return view('admin.roles.create');
-    }
+
 
     public function create(Request $request)
     {
@@ -30,22 +24,12 @@ class RoleController extends Controller
         $new->name = $request->name;
         $new->save();
 
-        if ($request->wantsJson()) {
             $response = ['status'=>true,"message" => "New Role Created Successfully!"];
             return response($response, 200);
-            }
     
-            session()->flash('success', 'New Role Created Successfully!');
-    
-            return redirect()->route('admin.role.show');
     }
 
-    public function update_form($id)
-    {
-        $data = Role::where('id',$id)->first();
 
-        return view('admin.roles.update',compact('data'));
-    }
 
     public function update(Request $request)
     {
@@ -53,28 +37,18 @@ class RoleController extends Controller
         $update->name = $request->name;
         $update->save();
 
-        if ($request->wantsJson()) {
             $response = ['status'=>true,"message" => "Role Updated Successfully!"];
             return response($response, 200);
-            }
-    
-            session()->flash('success', 'New role Created Successfully!');
-    
-            return redirect()->route('admin.role.show');
+
     }
 
     public function delete(Request $request, $id)
     {
         Role::find($id)->delete();
 
-        if ($request->wantsJson()) {
             $response = ['status'=>true,"message" => "Role Deleted Successfully"];
             return response($response, 200);
-            }
-    
-            session()->flash('success', 'Role Deleted Successfully');
-    
-            return redirect()->route('admin.role.show');
+
 
     }
 

@@ -14,17 +14,13 @@ class ShiftController extends Controller
     {
         $shifts = Shift::all();
 
-        if ($request->wantsJson()) {
-            return response()->json(['shifts'=>$shifts]);  
-        }
+       
+        return response()->json(['shifts'=>$shifts]);  
+        
 
-        return view('admin.shifts.index', compact('shifts')); 
     }
 
-    public function create_form()
-    {
-        return view('admin.shifts.create');
-    }
+
 
     public function create(Request $request)
     {
@@ -41,24 +37,14 @@ class ShiftController extends Controller
         $new->time_to = Carbon::parse($request->time_to)->format('g:i a');
         $new->save();
 
-        if ($request->wantsJson()) {
+      
             $response = ['status'=>true,"message" => "New Shift Created Successfully!"];
             return response($response, 200);
-            }
-    
-            session()->flash('success', 'New Shift Created Successfully!');
-    
-            return redirect()->route('admin.shift.show');
+            
+
     }
 
-    public function update_form($id)
-    {
 
-        
-        $data = Shift::where('id',$id)->first();
-
-        return view('admin.shifts.update',compact('data'));
-    }
 
     public function update(Request $request)
     {
@@ -74,28 +60,21 @@ class ShiftController extends Controller
         $update->time_to = Carbon::parse($request->time_to)->format('g:i a');
         $update->save();
 
-        if ($request->wantsJson()) {
+       
             $response = ['status'=>true,"message" => "Shift Updated Successfully"];
             return response($response, 200);
-            }
+            
     
-            session()->flash('success', 'Shift Updated Successfully');
-    
-            return redirect()->route('admin.shift.show');
+
     }
 
     public function delete(Request $request, $id)
     {
         Shift::find($id)->delete();
 
-        if ($request->wantsJson()) {
             $response = ['status'=>true,"message" => "Shift Deleted Successfully"];
             return response($response, 200);
-            }
     
-            session()->flash('success', 'Shift Deleted Successfully');
-    
-            return redirect()->route('admin.shift.show');
 
     }
 

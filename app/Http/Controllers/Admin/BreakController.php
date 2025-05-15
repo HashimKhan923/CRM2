@@ -14,11 +14,9 @@ class BreakController extends Controller
     {
         
         $breaks = Breaks::where('time_id',$time_id)->get();
-        if ($request->wantsJson()) {
-            return response()->json(['breaks'=>$breaks]);  
-        }
+           
+        return response()->json(['breaks'=>$breaks]);  
 
-        return view('admin.breaks.index', compact('breaks','time_id')); 
     }
 
     public function create(Request $request)

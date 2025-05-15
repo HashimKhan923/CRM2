@@ -19,12 +19,10 @@ class DashboardController extends Controller
         $ShiftCount = Shift::count();
         $TodayAttendenceCount = Time::whereDate('created_at', Carbon::today('Asia/Karachi'))->count();
 
-        if ($request->wantsJson()) {
+        
 
-            return response()->json(['UserCount'=>$UserCount,'DepartmentCount'=>$DepartmentCount,'ShiftCount'=>$ShiftCount,'TodayAttendenceCount'=>$TodayAttendenceCount]);
-        }
+        return response()->json(['UserCount'=>$UserCount,'DepartmentCount'=>$DepartmentCount,'ShiftCount'=>$ShiftCount,'TodayAttendenceCount'=>$TodayAttendenceCount]);
 
-        return view('admin.index',compact('UserCount','DepartmentCount','ShiftCount','TodayAttendenceCount'));
 
     }
 }

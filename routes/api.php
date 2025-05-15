@@ -18,10 +18,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/contact', '\App\Http\Controllers\SuperAdmin\ContactUsController@create');
+Route::post('/contactus', '\App\Http\Controllers\SuperAdmin\ContactUsController@create');
 Route::post('/admin/registration/process', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin');
-Route::post('/admin/product_key', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin');
+
+
 Route::group(['middleware' => ['tenant']], function () {
+
+Route::post('/admin/product_key', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin');    
 
 //common routes start
 
