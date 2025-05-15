@@ -27,6 +27,8 @@ class TenantMiddleware
             // Retrieve the tenant_id from the session
     $tenantId = session('tenant_id');
 
+    return $tenantId;
+
     // Find the tenant in the database
     $Tenant = Tenant::where('tenant_id', $tenantId)->first();
 
