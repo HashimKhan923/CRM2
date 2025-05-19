@@ -42,6 +42,7 @@ class UserController extends Controller
             'shift_id' => $request->shift_id,
             'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
+            'location_id' => $request->location_id,
             'status' => 1
         ]);
 
@@ -167,6 +168,7 @@ class UserController extends Controller
             'uu_id' => $request->uu_id,
             'shift_id' => $request->shift_id,
             'role_id' => $request->role_id,
+            'location_id' => $request->location_id,
             'status' => 1
         ]);
     
@@ -251,7 +253,8 @@ class UserController extends Controller
                 'allowances' => $allowances,
                 'deductions' => $deductions,
                 'bank_account' => $request->bank_account,
-                'total_salary' => $request->total_salary
+                'total_salary' => $request->total_salary,
+                'salary_payment_duration' => $request->salary_payment_duration
             ]
         );
     

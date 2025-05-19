@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('allowances')->nullable();
             $table->text('deductions')->nullable();
             $table->decimal('total_salary', 15, 2)->nullable();
+            $table->enum('salary_payment_duration', ['daily', 'weekly', 'monthly','yearly'])->default('monthly');
             $table->string('bank_account')->nullable();
             $table->timestamps();
         });

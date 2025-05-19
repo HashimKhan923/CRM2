@@ -21,9 +21,6 @@ class DepartmentController extends Controller
     {
         $new = new Department();
         $new->name = $request->name;
-        $new->latitude = $request->latitude;
-        $new->longitude = $request->longitude;
-        $new->radius = $request->radius;
         $new->save();
 
 
@@ -39,9 +36,6 @@ class DepartmentController extends Controller
     {
         $update = Department::where('id',$request->department_id)->first();
         $update->name = $request->name;
-        $update->latitude = $request->latitude;
-        $update->longitude = $request->longitude;
-        $update->radius = $request->radius;
         $update->save();
 
             $response = ['status'=>true,"message" => "Department Updated Successfully"];

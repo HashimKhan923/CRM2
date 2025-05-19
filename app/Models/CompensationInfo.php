@@ -9,7 +9,7 @@ class CompensationInfo extends Model
 {
 
     protected $fillable = [
-        'user_id','basic_salary', 'allowances', 'deductions', 'bank_account','total_salary'
+        'user_id','basic_salary', 'allowances', 'deductions', 'bank_account','salary_payment_duration','total_salary'
     ];
 
     protected $casts = [
