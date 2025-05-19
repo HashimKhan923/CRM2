@@ -44,6 +44,7 @@ Route::post('/admin/register', 'App\Http\Controllers\Admin\AuthController@regist
 Route::group(['middleware' => ['auth:api']], function(){
     
         /////////////////////////////////// Admin Routes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+Route::middleware(['admin'])->group(function () {
 
        Route::get('/admin/profile/view/{id}', 'App\Http\Controllers\Admin\AuthController@profile_view');
        Route::post('/admin/profile', 'App\Http\Controllers\Admin\AuthController@profile_update');
@@ -69,54 +70,54 @@ Route::group(['middleware' => ['auth:api']], function(){
                                                /// Department \\\
 
             Route::group(['prefix' => '/admin/department/'], function() {
-            Route::controller(App\Http\Controllers\Admin\DepartmentController::class)->group(function () {
-                Route::get('show','index');
-                Route::post('create','create');
-                Route::post('update','update');
-                Route::get('delete/{id}','delete');
-                Route::get('status/{id}','changeStatus');
+                Route::controller(App\Http\Controllers\Admin\DepartmentController::class)->group(function () {
+                    Route::get('show','index');
+                    Route::post('create','create');
+                    Route::post('update','update');
+                    Route::get('delete/{id}','delete');
+                    Route::get('status/{id}','changeStatus');
+                });
             });
-        });
 
                                                        /// Roles \\\
 
             Route::group(['prefix' => '/admin/role/'], function() {
-            Route::controller(App\Http\Controllers\Admin\RoleController::class)->group(function () {
-                Route::get('show','index');
-                Route::post('create','create');
-                Route::post('update','update');
-                Route::get('delete/{id}','delete');
-                Route::get('status/{id}','changeStatus');
+                Route::controller(App\Http\Controllers\Admin\RoleController::class)->group(function () {
+                    Route::get('show','index');
+                    Route::post('create','create');
+                    Route::post('update','update');
+                    Route::get('delete/{id}','delete');
+                    Route::get('status/{id}','changeStatus');
+                });
             });
-        });
 
                                         /// Attendence \\\
 
             Route::group(['prefix' => '/admin/attendence/'], function() {
-            Route::controller(App\Http\Controllers\Admin\AttendenceController::class)->group(function () {
-                Route::get('show','index');
-                Route::post('search','search');
-                Route::post('create','create');
-                Route::post('update','update');
-            });
-        });   
+                Route::controller(App\Http\Controllers\Admin\AttendenceController::class)->group(function () {
+                    Route::get('show','index');
+                    Route::post('search','search');
+                    Route::post('create','create');
+                    Route::post('update','update');
+                });
+            });   
         
         
                                          /// Users \\\
 
-        Route::group(['prefix' => '/admin/users/'], function() {
-            Route::controller(App\Http\Controllers\Admin\UserController::class)->group(function () {
-                Route::get('show','index');
-                Route::get('create','create');
-                Route::post('update','update');
-                Route::get('status/{id}','changeStatus');
-                Route::get('delete/{id}','delete');
+            Route::group(['prefix' => '/admin/users/'], function() {
+                Route::controller(App\Http\Controllers\Admin\UserController::class)->group(function () {
+                    Route::get('show','index');
+                    Route::get('create','create');
+                    Route::post('update','update');
+                    Route::get('status/{id}','changeStatus');
+                    Route::get('delete/{id}','delete');
+                });
             });
-        });
 
 
 
-
+});
 
 
 
