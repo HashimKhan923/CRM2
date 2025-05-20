@@ -31,6 +31,15 @@ class DepartmentController extends Controller
     }
 
 
+    public function detail($id)
+    {
+        $data = Department::find($id);
+
+        return response()->json(['data'=>$data]);  
+
+    }
+
+
 
     public function update(Request $request)
     {

@@ -27,6 +27,14 @@ class LocationController extends Controller
         return response()->json(['message'=>'created successfully']);
     }
 
+    public function detail($id)
+    {
+        $data = Location::find($id);
+
+        return response()->json(['data'=>$data]);  
+
+    }
+
     public function update(Request $request)
     {
         Location::where('id',$request->location_id)->update([

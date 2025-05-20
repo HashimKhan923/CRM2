@@ -44,6 +44,14 @@ class ShiftController extends Controller
 
     }
 
+    public function detail($id)
+    {
+        $data = Shift::find($id);
+
+        return response()->json(['data'=>$data]);  
+
+    }
+
 
 
     public function update(Request $request)

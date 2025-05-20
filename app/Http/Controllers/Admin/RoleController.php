@@ -29,6 +29,14 @@ class RoleController extends Controller
     
     }
 
+    public function detail($id)
+    {
+        $data = Role::find($id);
+
+        return response()->json(['data'=>$data]);  
+
+    }
+
 
 
     public function update(Request $request)

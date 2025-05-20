@@ -38,7 +38,7 @@ class UserController extends Controller
 
         $user = User::create([
             'email' => $request->email,
-            'uu_id' => $request->employee_id,
+            // 'uu_id' => $request->employee_id,
             'shift_id' => $request->shift_id,
             'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
@@ -95,32 +95,32 @@ class UserController extends Controller
             'employment_type'=> $request->employment_type,
         ]);
 
-        $allowanceNames = $request->input('allowance_name');
-        $allowanceValues = $request->input('allowance_value');
-        $deductionNames = $request->input('deduction_name');
-        $deductionValues = $request->input('deduction_value');
+        // $allowanceNames = $request->input('allowance_name');
+        // $allowanceValues = $request->input('allowance_value');
+        // $deductionNames = $request->input('deduction_name');
+        // $deductionValues = $request->input('deduction_value');
 
-        if(count($allowanceNames) > 0)
-        {
-            $allowances = [];
-            for ($i = 0; $i < count($allowanceNames); $i++) {
-                $allowances[$allowanceNames[$i]] = $allowanceValues[$i];
-            }
-        }
+        // if(count($allowanceNames) > 0)
+        // {
+        //     $allowances = [];
+        //     for ($i = 0; $i < count($allowanceNames); $i++) {
+        //         $allowances[$allowanceNames[$i]] = $allowanceValues[$i];
+        //     }
+        // }
 
-        if(count($deductionNames) > 0)
-        {
-        $deductions = [];
-        for ($i = 0; $i < count($deductionNames); $i++) {
-            $deductions[$deductionNames[$i]] = $deductionValues[$i];
-        }
-        }
+        // if(count($deductionNames) > 0)
+        // {
+        // $deductions = [];
+        // for ($i = 0; $i < count($deductionNames); $i++) {
+        //     $deductions[$deductionNames[$i]] = $deductionValues[$i];
+        // }
+        // }
 
         $compensation_info = CompensationInfo::create([
             'user_id' => $user->id,
             'basic_salary'=> $request->basic_salary,
-            'allowances'=> $allowances,
-            'deductions'=> $deductions,
+            'allowances'=> $request->allowances,
+            'deductions'=> $request->deductions,
             'total_salary' => $request->total_salary,
             'bank_account'=> $request->bank_account,
 
