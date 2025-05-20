@@ -84,7 +84,7 @@ Route::group(['middleware' => ['auth.token']], function(){
                                                      /// Location \\\
 
                 Route::group(['prefix' => '/admin/location/'], function() {
-                    Route::controller(App\Http\Controllers\Admin\RoleController::class)->group(function () {
+                    Route::controller(App\Http\Controllers\Admin\LocationController::class)->group(function () {
                         Route::get('show','index');
                         Route::post('create','create');
                         Route::get('detail/{id}','detail');
