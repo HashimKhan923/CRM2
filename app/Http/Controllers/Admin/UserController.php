@@ -122,15 +122,16 @@ class UserController extends Controller
             'allowances'=> $request->allowances,
             'deductions'=> $request->deductions,
             'total_salary' => $request->total_salary,
+            'salary_payment_duration' => $request->salary_payment_duration,
             'bank_account'=> $request->bank_account,
 
         ]);
 
-        $additional_info = AdditionalInfo::create([
-            'user_id' => $user->id,
-            'notes'=> $request->notes,
-            'preferences'=> $request->preferences,
-        ]);
+        // $additional_info = AdditionalInfo::create([
+        //     'user_id' => $user->id,
+        //     'notes'=> $request->notes,
+        //     'preferences'=> $request->preferences,
+        // ]);
 
 
       
@@ -232,20 +233,20 @@ class UserController extends Controller
         ]);
 
 
-        $allowanceNames = $request->input('allowance_name', []);
-        $allowanceValues = $request->input('allowance_value', []);
-        $deductionNames = $request->input('deduction_name', []);
-        $deductionValues = $request->input('deduction_value', []);
+        // $allowanceNames = $request->input('allowance_name', []);
+        // $allowanceValues = $request->input('allowance_value', []);
+        // $deductionNames = $request->input('deduction_name', []);
+        // $deductionValues = $request->input('deduction_value', []);
         
-        $allowances = [];
-        for ($i = 0; $i < count($allowanceNames); $i++) {
-            $allowances[$allowanceNames[$i]] = $allowanceValues[$i] ?? 0;
-        }
+        // $allowances = [];
+        // for ($i = 0; $i < count($allowanceNames); $i++) {
+        //     $allowances[$allowanceNames[$i]] = $allowanceValues[$i] ?? 0;
+        // }
         
-        $deductions = [];
-        for ($i = 0; $i < count($deductionNames); $i++) {
-            $deductions[$deductionNames[$i]] = $deductionValues[$i] ?? 0;
-        }
+        // $deductions = [];
+        // for ($i = 0; $i < count($deductionNames); $i++) {
+        //     $deductions[$deductionNames[$i]] = $deductionValues[$i] ?? 0;
+        // }
         
         $user->compensationInfo()->updateOrCreate(
             ['user_id' => $user->id],
@@ -259,11 +260,11 @@ class UserController extends Controller
             ]
         );
     
-        $user->additionalInfo()->updateOrCreate(
-            ['user_id' => $user->id],[
-            'notes' => $request->notes,
-            'preferences' => $request->preferences,
-        ]);
+        // $user->additionalInfo()->updateOrCreate(
+        //     ['user_id' => $user->id],[
+        //     'notes' => $request->notes,
+        //     'preferences' => $request->preferences,
+        // ]);
     
       
             $response = ['status' => true, "message" => "User updated successfully"];
