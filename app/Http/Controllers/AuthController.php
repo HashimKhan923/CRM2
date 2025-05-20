@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Validator;
+use App\Models\UserToken;
 class AuthController extends Controller
 {
     public function login(Request $request) {
@@ -25,8 +27,17 @@ class AuthController extends Controller
             {
             if (Hash::check($request->password, $user->password)) {
 
+                
 
-                    $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+
+                $token = Str::random(900);
+
+                UserToken::create([
+                    'user_id' => $user->id,
+                    'token' => hash('sha256', $token), // hash for security
+                    'expires_at' => now()->addDays(30),
+                ]);
+
                     $response = ['status'=>true,"message" => "Login Successfully",'token' => $token,'user'=>$user];
                     return response($response, 200);
 
@@ -47,12 +58,15 @@ class AuthController extends Controller
         }
     }
 
-    public function logout ($id) {
+    public function logout(Request $request)
+    {
+        $token = $request->bearerToken();
 
-        $token = $request->user()->token();
-        $token->revoke();
-        $response = ['status'=>true,'message' => 'You have been successfully logged out!'];
-        return response($response, 200);
+        if ($token) {
+            UserToken::where('token', hash('sha256', $token))->delete();
+        }
+
+        return response()->json(['message' => 'Logged out']);
     }
 
     public function forgetpassword(Request $req)

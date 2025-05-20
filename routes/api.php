@@ -41,7 +41,7 @@ Route::get('/logout/{id}', 'App\Http\Controllers\AuthController@logout');
 Route::post('/admin/register', 'App\Http\Controllers\Admin\AuthController@register');
 
 
-Route::group(['middleware' => ['auth:api']], function(){
+Route::group(['middleware' => ['auth.token']], function(){
     
         /////////////////////////////////// Admin Routes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     Route::middleware(['admin'])->group(function () {
