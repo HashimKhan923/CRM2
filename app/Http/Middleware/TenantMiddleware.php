@@ -18,39 +18,26 @@ class TenantMiddleware
      */
     public function handle($request, Closure $next)
     {
-        
-        if ($request->product_key != null) {
-            // Store tenant_id in session
-            session(['tenant_id' => $request->product_key]);
-        }
-
-            // Retrieve the tenant_id from the session
-    $tenantId = session('tenant_id');
-
-
-    // Find the tenant in the database
-    $Tenant = Tenant::where('tenant_id', $tenantId)->first();
-
-        if($Tenant)
-        {
-            $databaseName = 'database_' . $tenantId;
-            // $username = 'user_' . $tenantId;
-            // $password = 'password_' . $tenantId;
+        $productKey = $request->header('product_key');
     
-            config(['database.connections.tenant.database' => $databaseName]);
-            // config(['database.connections.tenant.username' => $username]);
-            // config(['database.connections.tenant.password' => $password]);
+        if (!$productKey) {
+            return response()->json(['message' => 'Product key not found'], 400);
+        }
     
-            DB::purge('tenant');
-            DB::reconnect('tenant');
-            DB::setDefaultConnection('tenant');
-            
-            return $next($request);
+        $tenant = Tenant::where('tenant_id', $productKey)->first();
+    
+        if (!$tenant) {
+            return response()->json(['message' => 'Invalid product key'], 404);
         }
-        else
-        {
-            return response()->json(['message'=>'product key not found',404]);
-        }
-
+    
+        $databaseName = 'database_' . $productKey;
+    
+        config(['database.connections.tenant.database' => $databaseName]);
+    
+        DB::purge('tenant');
+        DB::reconnect('tenant');
+        DB::setDefaultConnection('tenant');
+    
+        return $next($request);
     }
 }
