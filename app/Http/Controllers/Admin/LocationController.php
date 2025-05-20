@@ -21,7 +21,8 @@ class LocationController extends Controller
             'name'=>$request->name,
             'latitude'=>$request->latitude,
             'longitude'=>$request->longitude,
-            'radius'=>$request->radius
+            'radius'=>$request->radius,
+            'status'=>1,
         ]);
 
         return response()->json(['message'=>'created successfully']);
