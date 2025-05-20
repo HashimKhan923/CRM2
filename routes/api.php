@@ -81,6 +81,19 @@ Route::group(['middleware' => ['auth.token']], function(){
                     });
                 });
 
+                                                     /// Location \\\
+
+                Route::group(['prefix' => '/admin/location/'], function() {
+                    Route::controller(App\Http\Controllers\Admin\RoleController::class)->group(function () {
+                        Route::get('show','index');
+                        Route::post('create','create');
+                        Route::get('detail/{id}','detail');
+                        Route::post('update','update');
+                        Route::get('delete/{id}','delete');
+                        Route::get('status/{id}','changeStatus');
+                    });
+                });
+
                                                         /// Roles \\\
 
                 Route::group(['prefix' => '/admin/role/'], function() {
