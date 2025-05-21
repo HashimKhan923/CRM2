@@ -79,7 +79,27 @@ class TenantController extends Controller
         ]);
     
         $user = Role::create([
-            'name' => 'user'
+            'name' => 'employee'
+        ]);
+
+        $user = Role::create([
+            'name' => 'hr manager'
+        ]);
+
+        $user = Role::create([
+            'name' => 'accountant'
+        ]);
+
+        $user = Role::create([
+            'name' => 'receptionist'
+        ]);
+
+        $user = Role::create([
+            'name' => 'project manager'
+        ]);
+
+        $user = Role::create([
+            'name' => 'team lead'
         ]);
     
         User::create([
