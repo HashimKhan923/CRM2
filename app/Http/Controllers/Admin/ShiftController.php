@@ -35,6 +35,7 @@ class ShiftController extends Controller
         $new->name = $request->name;
         $new->time_from = Carbon::parse($request->time_from)->format('g:i a');
         $new->time_to = Carbon::parse($request->time_to)->format('g:i a');
+        $new->days = $request->days;
         $new->save();
 
       
@@ -66,6 +67,7 @@ class ShiftController extends Controller
         $update->name = $request->name;
         $update->time_from = Carbon::parse($request->time_from)->format('g:i a');
         $update->time_to = Carbon::parse($request->time_to)->format('g:i a');
+        $update->days = $request->days;
         $update->save();
 
        
