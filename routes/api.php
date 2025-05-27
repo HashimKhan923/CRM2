@@ -126,6 +126,7 @@ Route::group(['middleware' => ['auth.token']], function(){
                         Route::get('show','index');
                         Route::post('create','create');
                         Route::post('update','update');
+                        Route::get('view/{id}','view');
                         Route::get('status/{id}','changeStatus');
                         Route::get('delete/{id}','delete');
                     });
