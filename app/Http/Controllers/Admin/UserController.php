@@ -23,7 +23,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $all_users = User::with(['shift', 'department', 'role', 'personalInfo', 'contactInfo', 'professionalDetails', 'jobInfo', 'compensationInfo', 'additionalInfo'])->where('role_id','!=',1)->get();
+        $all_users = User::with(['shift', 'department', 'role', 'personalInfo', 'contactInfo', 'professionalDetails', 'jobInfo.department', 'compensationInfo', 'additionalInfo'])->where('role_id','!=',1)->get();
 
        
         return response()->json(['all_users'=>$all_users]);  
