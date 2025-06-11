@@ -51,11 +51,18 @@ class UserController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             if ($file->isValid()) {
+                $folder = public_path('profile');
+
+                if (!file_exists($folder)) {
+                    mkdir($folder, 0755, true); // Create the folder with proper permissions
+                }
+
                 $fileName = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('profile'), $fileName);
+                $file->move($folder, $fileName);
                 $imagePath = 'profile/' . $fileName;
             }
         }
+
 
         $personal_info = PersonalInfo::create([
             'user_id' => $user->id,
