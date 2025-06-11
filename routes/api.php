@@ -158,8 +158,8 @@ Route::group(['middleware' => ['auth.token']], function(){
             Route::controller(App\Http\Controllers\User\AttendenceController::class)->group(function () {
                     Route::get('show/{id}','index');
                     Route::post('search','search');
-                    Route::get('time_in/{id}','time_in');
-                    Route::get('time_out/{id}','time_out');
+                    Route::get('time_in/{user_id}','time_in');
+                    Route::get('time_out/{user_id}','time_out');
                 });
             });
 

@@ -39,23 +39,23 @@ class BreakController extends Controller
         return view('user.breaks.index', compact('breaks')); 
     }
 
-    public function break_in(Request $request,$user_id,$time_id,$break_type)
+    public function break_in(Request $request)
     {
         $break = new Breaks();
-        $break->user_id = $user_id;
-        $break->time_id = $time_id;
-        $break->type = $break_type;
+        $break->user_id = $request->user_id;
+        $break->time_id = $request->time_id;
+        $break->type = $request->break_type;
         $break->time_in = Carbon::now('Asia/Karachi');
         $break->save();
 
-        if ($request->wantsJson()) {
+        // if ($request->wantsJson()) {
             $response = ['status'=>true,"message" => "Break in Successfully!"];
             return response($response, 200);
-            }
+            // }
     
-            session()->flash('success', 'Break in Successfully!');
+            // session()->flash('success', 'Break in Successfully!');
     
-            return redirect()->route('user.break.view',$break->id);
+            // return redirect()->route('user.break.view',$break->id);
     }
 
     public function break_view($break_id)
@@ -113,13 +113,13 @@ class BreakController extends Controller
             $CurrentTime->save();
         }
     
-        if ($request->wantsJson()) {
+        // if ($request->wantsJson()) {
             $response = ['status' => true, "message" => "Break out Successfully!"];
             return response()->json($response, 200);
-        }
+        // }
     
-        session()->flash('success', 'Break out Successfully!');
-        return redirect()->route('user.dashboard', auth()->user()->id);
+        // session()->flash('success', 'Break out Successfully!');
+        // return redirect()->route('user.dashboard', auth()->user()->id);
     }
     
 }
