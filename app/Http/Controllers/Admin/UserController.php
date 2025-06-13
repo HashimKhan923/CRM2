@@ -35,6 +35,8 @@ class UserController extends Controller
     public function create(Request $request)
     {
 
+        return $request;
+
 
         $user = User::create([
             'email' => $request->email,
