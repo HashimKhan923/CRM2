@@ -30,7 +30,7 @@ class ContactUsController extends Controller
                 'message1' => $request->message,
             ],
             function ($message) use ($request) { 
-                $message->from($request->email,'LockMyTime');
+                $message->from('support@lockmytimes.com','LockMyTime');
                 $message->to('support@lockmytimes.com');
                 $message->replyTo($request->email);
                 $message->subject('Contact');
