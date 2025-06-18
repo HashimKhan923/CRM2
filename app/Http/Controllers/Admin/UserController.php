@@ -269,8 +269,8 @@ class UserController extends Controller
             ['user_id' => $user->id],
             [
                 'basic_salary' => $request->basic_salary,
-                'allowances' => $allowances,
-                'deductions' => $deductions,
+                'allowances'=> $request->allowances,
+                'deductions'=> $request->deductions,
                 'bank_account' => $request->bank_account,
                 'total_salary' => $request->total_salary,
                 'salary_payment_duration' => $request->salary_payment_duration
