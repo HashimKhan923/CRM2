@@ -166,7 +166,7 @@ class UserController extends Controller
 
     public function view($id)
     {
-        $data = User::with(['shift', 'department', 'role', 'personalInfo', 'contactInfo', 'professionalDetails', 'jobInfo', 'compensationInfo', 'additionalInfo'])
+        $data = User::with(['shift', 'department', 'role', 'personalInfo', 'contactInfo', 'professionalDetails', 'jobInfo', 'compensationInfo', 'additionalInfo','accountInfo'])
                     ->where('id', $id)
                     ->firstOrFail();
     
