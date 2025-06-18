@@ -10,6 +10,7 @@ use App\Models\PersonalInfo;
 use App\Models\ProfessionalDetails;
 use App\Models\JobInfo;
 use App\Models\CompensationInfo;
+use App\Models\AccountInformation;
 use App\Models\AdditionalInfo;
 use App\Models\Department;
 use App\Models\Shift;
@@ -137,6 +138,14 @@ class UserController extends Controller
             'salary_payment_duration' => $request->salary_payment_duration,
             'bank_account'=> $request->bank_account,
 
+        ]);
+
+        $account_info = AccountInformation::create([
+            'user_id' => $user->id,
+            'bank_name'=> $request->bank_name,
+            'routing_number'=> $request->routing_number,
+            'account_title'=> $request->account_title,
+            'iban_number' => $request->iban_number,
         ]);
 
         // $additional_info = AdditionalInfo::create([
@@ -276,6 +285,18 @@ class UserController extends Controller
                 'salary_payment_duration' => $request->salary_payment_duration
             ]
         );
+
+                $user->accountInfo()->updateOrCreate(
+            ['user_id' => $user->id],
+            [
+            'bank_name'=> $request->bank_name,
+            'routing_number'=> $request->routing_number,
+            'account_title'=> $request->account_title,
+            'iban_number' => $request->iban_number,
+            ]
+        );
+
+
     
         // $user->additionalInfo()->updateOrCreate(
         //     ['user_id' => $user->id],[

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Department;
+use App\Models\DepartmentManager;
 class DepartmentController extends Controller
 {
     public function index(Request $request)
@@ -22,6 +23,16 @@ class DepartmentController extends Controller
         $new = new Department();
         $new->name = $request->name;
         $new->save();
+
+        foreach($request->manager_ids as $id)
+        {
+            DepartmentManager::create([
+                'department_id' => $new->id,
+                'manager_id' => $id
+            ]);
+        }
+
+
 
 
             $response = ['status'=>true,"message" => "New Department Created Successfully!"];

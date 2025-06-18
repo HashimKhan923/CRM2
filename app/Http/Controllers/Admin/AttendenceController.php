@@ -288,11 +288,10 @@ class AttendenceController extends Controller
 
 
 
-        if ($request->wantsJson()) {
+    
             return response()->json(['attendences'=>$attendences]);  
-        }
+        
 
-        return view('admin.attendences.index', compact('attendences')); 
     }
 
 

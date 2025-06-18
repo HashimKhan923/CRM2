@@ -94,6 +94,11 @@ class User extends Authenticatable
         return $this->hasOne(CompensationInfo::class);
     }
 
+    public function accountInfo()
+    {
+        return $this->hasOne(AccountInformation::class);
+    }
+
     public function emergencyContactInfo()
     {
         return $this->hasOne(EmergencyContactInfo::class);
