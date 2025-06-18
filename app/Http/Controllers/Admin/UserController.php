@@ -188,7 +188,7 @@ class UserController extends Controller
     
         $user->update([
             'email' => $request->email,
-            'uu_id' => $request->uu_id,
+            'uu_id' => $request->employee_id,
             'shift_id' => $request->shift_id,
             'role_id' => $request->role_id,
             'location_id' => $request->location_id,
