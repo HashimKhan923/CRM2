@@ -71,10 +71,24 @@ class LocationController extends Controller
 
     public function delete($id)
     {
-        Location::find($id)->delete();
+        $location = Location::find($id);
 
-        return response()->json(['message'=>'deleted successfully']);
+        if (!$location) {
+            return response()->json(['message' => 'Location not found'], 404);
+        }
+
+        if ($location->qr_code) {
+            $filePath = public_path($location->qr_code);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+
+        $location->delete();
+
+        return response()->json(['message' => 'Location deleted successfully']);
     }
+
 
     public function changeStatus($id)
     {
