@@ -16,6 +16,7 @@ use App\Models\Department;
 use App\Models\Shift;
 use App\Models\Role;
 use Hash;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 

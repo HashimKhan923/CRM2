@@ -32,7 +32,8 @@ class LocationController extends Controller
         $qrImage = QrCode::format('png')->size(300)->generate($qrUrl);
         // 4. Save QR image to public folder
         $folder = public_path("location_qr_codes");
-        $fileName = "location_{$locationId}.png";
+        $randomString = Str::random(8);
+        $fileName = "location_{$randomString}.png";
         $filePath = "{$folder}/{$fileName}";
 
         if (!file_exists($folder)) {
