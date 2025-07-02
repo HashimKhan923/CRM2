@@ -30,13 +30,20 @@ class LocationController extends Controller
 
         $qrUrl = "https://api.lockmytimes.com/public/api/attendence/time_in/{user_id}/{$locationId}";
         $qrImage = QrCode::format('png')->size(300)->generate($qrUrl);
-        $publicPath = public_path("location_qr_codes/location_{$locationId}.png");
+        // 4. Save QR image to public folder
+        $folder = public_path("location_qr_codes");
+        $fileName = "location_{$locationId}.png";
+        $filePath = "{$folder}/{$fileName}";
 
-        if (!file_exists(dirname($publicPath))) {
-            mkdir(dirname($publicPath), 0755, true);
+        if (!file_exists($folder)) {
+            mkdir($folder, 0755, true);
         }
 
-        file_put_contents($publicPath, $qrImage);
+        file_put_contents($filePath, $qrImage);
+
+        // 5. Save file name/path in DB
+        $location->qr_code = "location_qr_codes/{$fileName}"; // relative path from public/
+        $location->save();
 
         return response()->json(['message'=>'created successfully']);
     }
