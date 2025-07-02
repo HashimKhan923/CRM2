@@ -10,6 +10,7 @@ use App\Models\Shift;
 use App\Models\JobInfo;
 use App\Models\Department;
 use Carbon\Carbon;
+use App\Models\Location;
 use App\Services\GeolocationService;
 
 
@@ -74,7 +75,7 @@ class AttendenceController extends Controller
         // return view('user.attendences.index', compact('attendences')); 
     }
 
-    public function time_in($user_id)
+    public function time_in($user_id, $location_id)
     {
 
         $check_user = User::where('id', $user_id)->first();
@@ -94,103 +95,67 @@ class AttendenceController extends Controller
         $CurrentTime = $CurrentTime->toTimeString();
         $CurrentTime = Carbon::parse($CurrentTime);
 
-        // $userLat = $request->latitude;
-        // $userLng = $request->longitude;
-        // $departmentId = $department->department_id;
-
-        // if ($this->isWithinOfficeLocation($request->latitude, $request->longitude, $department)) {
-
-        //     return $this->isWithinOfficeLocation();
-        //     // session()->flash('success', 'You are not in Department location!');
-        //     // return redirect()->back();
-        // }
-
-        // if ($this->geolocationService->isWithinRadius($userLat, $userLng, $department->latitude, $department->longitude, $department->radius)) {
 
             if ($ShiftTimeOut->lt($ShiftTimeIn)) {
                 $ShiftTimeOut->addDay();
             }
-        
-            if ($CurrentTime->gt($ShiftTimeIn) && $CurrentTime->lt($ShiftTimeOut)) {
+
+            if($check_user->location_id == $location_id)
+            {
+
+                if ($CurrentTime->gt($ShiftTimeIn) && $CurrentTime->lt($ShiftTimeOut)) {
                 $check = Time::where('user_id', $user_id)->whereDate('created_at', Carbon::today('Asia/Karachi'))->first();
         
                 if (!$check) {
-                    $new = new Time();
-                    $new->user_id = $user_id;
-                    $new->time_in = Carbon::now('Asia/Karachi');
+
+                        $new = new Time();
+                        $new->user_id = $user_id;
+                        $new->time_in = Carbon::now('Asia/Karachi');
+            
+                        // Check if the user is late
+                        if ($CurrentTime->greaterThan($ShiftTimeIn->copy()->addMinutes(15))) {
+                            $new->late_status = 1;
+                        }
+            
+                        $new->save();
         
-                    // Check if the user is late
-                    if ($CurrentTime->greaterThan($ShiftTimeIn->copy()->addMinutes(15))) {
-                        $new->late_status = 1;
-                    }
-        
-                    $new->save();
-        
-                    if ($request->wantsJson()) {
+                 
                         $response = ['status' => true, "message" => "Attendance Marked Successfully!"];
                         return response($response, 200);
-                    }
-        
-                    session()->flash('success', 'Attendance Marked Successfully!');
-                    return redirect()->back();
+
         
                 } else {
-                    if ($request->wantsJson()) {
+               
                         $response = ['status' => true, "message" => "Your Attendance is Already Marked!"];
                         return response($response, 200);
-                    }
+                    
         
-                    session()->flash('success', 'Your Attendance is Already Marked!');
-                    return redirect()->back();
                 }
         
-            } else {
-                if ($request->wantsJson()) {
-                    $response = ['status' => true, "message" => "Your shift has not started yet!"];
-                    return response($response, 200);
+                } else {
+                  
+                        $response = ['status' => true, "message" => "Your shift has not started yet!"];
+                        return response($response, 200);
+                    
+
                 }
-        
-                session()->flash('success', 'Your shift has not started yet!');
-                return redirect()->back();
+
             }
+            else
+            {
+                    $response = ['status' => true, "message" => "You are not in location!"];
+                    return response($response, 200);
+            }
+        
 
-        // }
-        // else
-        // {
-        //     session()->flash('success', 'You are not in Department location!');
-        //     return redirect()->back();
-        // }
 
-        // if (!$this->isWithinDepartmentLocation($userLat, $userLng, $departmentId)) {
-        //     session()->flash('success', 'You are not in Department location!');
-        //     return redirect()->back();       
-        //  }
+
 
 
     
      
     }
 
-
-    // private function isWithinOfficeLocation($latitude, $longitude, $department)
-    // {
-    //     $distance = $this->calculateDistance($latitude, $longitude, $department->latitude, $department->longitude);
-
-    //     return $distance;
-    // }
-
-
-
-
-    // private function calculateDistance($lat1, $lon1, $lat2, $lon2)
-    // {
-    //     $earthRadius = 6371000; // meters
-    //     $dLat = deg2rad($lat2 - $lat1);
-    //     $dLon = deg2rad($lon2 - $lon1);
-    //     $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2) * sin($dLon / 2);
-    //     $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-    //     return $earthRadius * $c;
-    // }
     
 
     public function time_out($user_id)

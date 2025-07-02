@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Location;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class LocationController extends Controller
 {
@@ -17,13 +18,25 @@ class LocationController extends Controller
 
     public function create(Request $request)
     {
-        Location::create([
+      $location = Location::create([
             'name'=>$request->name,
             'latitude'=>$request->latitude,
             'longitude'=>$request->longitude,
             'radius'=>$request->radius,
             'status'=>1,
         ]);
+
+        $locationId = $location->id;
+
+        $qrUrl = "https://api.lockmytimes.com/public/api/attendence/time_in/{user_id}/{$locationId}";
+        $qrImage = QrCode::format('png')->size(300)->generate($qrUrl);
+        $publicPath = public_path("location_qr_codes/location_{$locationId}.png");
+
+        if (!file_exists(dirname($publicPath))) {
+            mkdir(dirname($publicPath), 0755, true);
+        }
+
+        file_put_contents($publicPath, $qrImage);
 
         return response()->json(['message'=>'created successfully']);
     }

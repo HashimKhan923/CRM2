@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('segments', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('locations', function (Blueprint $table) {
+            $table->string('qr_code')->nullable();
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('segments');
+        Schema::table('locations', function (Blueprint $table) {
+            //
+        });
     }
 };
