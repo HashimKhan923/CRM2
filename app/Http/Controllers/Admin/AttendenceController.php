@@ -252,12 +252,12 @@ class AttendenceController extends Controller
         
         if ($request->from_date) {
             $from_date = Carbon::parse($request->from_date)->startOfDay();
-            $attendences->where('created_at', '>=', $from_date);
+            $attendences->where('time_in', '>=', $from_date);
         }
         
         if ($request->to_date) {
             $to_date = Carbon::parse($request->to_date)->endOfDay();
-            $attendences->where('created_at', '<=', $to_date);
+            $attendences->where('time_in', '<=', $to_date);
         }
         
         // Execute query
