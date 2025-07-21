@@ -108,4 +108,23 @@ class LocationController extends Controller
         return response($response, 200);
 
     }
+
+    public function downloadQrCode($id)
+    {
+        $location = Location::find($id);
+
+        if (!$location || !$location->qr_code) {
+            return response()->json(['message' => 'QR code not found'], 404);
+        }
+
+        $filePath = public_path($location->qr_code);
+
+        if (!file_exists($filePath)) {
+            return response()->json(['message' => 'QR code file does not exist'], 404);
+        }
+
+        $fileName = basename($filePath);
+
+        return response()->download($filePath, $fileName);
+    }
 }

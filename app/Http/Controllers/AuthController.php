@@ -85,14 +85,14 @@ class AuthController extends Controller
             $query->remember_token = $token;
             $query->save();
             Mail::send(
-                'email.password-reset',
+                'mails.password-reset',
                 [
                     'token'=>$token,
                     'name'=>$query->name,
                 ], 
             
             function ($message) use ($query) {
-                $message->from(env('MAIL_USERNAME'));
+                $message->from('support@lockmytimes.com','LockMyTime');
                 $message->to($query->email);
                 $message->subject('Forget Password');
             });
