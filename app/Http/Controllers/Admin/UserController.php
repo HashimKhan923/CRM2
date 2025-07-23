@@ -15,6 +15,7 @@ use App\Models\AdditionalInfo;
 use App\Models\Department;
 use App\Models\Shift;
 use App\Models\Role;
+use App\Models\OverTime;
 use Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -147,6 +148,12 @@ class UserController extends Controller
             'routing_number'=> $request->routing_number,
             'account_title'=> $request->account_title,
             'iban_number' => $request->iban_number,
+        ]);
+
+        $over_time = OverTime::create([
+            'emp_id' => $user->id,
+            'time_limit'=> $request->time_limit,
+            'rate'=> $request->rate,
         ]);
 
         // $additional_info = AdditionalInfo::create([
@@ -295,7 +302,16 @@ class UserController extends Controller
             'account_title'=> $request->account_title,
             'iban_number' => $request->iban_number,
             ]
-        );
+
+            );
+
+                $user->overTime()->updateOrCreate(
+            ['emp_id' => $user->id],
+            [
+            'time_limit'=> $request->time_limit,
+            'rate'=> $request->rate,
+            ]
+            );
 
 
     

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('emp_id')->unsigned()->nullable();
             $table->foreign('emp_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('time_limit')->nullable();
-            $table->
+            $table->decimal('rate')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
         });
