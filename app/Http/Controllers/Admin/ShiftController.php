@@ -36,6 +36,7 @@ class ShiftController extends Controller
         $new->time_from = Carbon::parse($request->time_from)->format('g:i a');
         $new->time_to = Carbon::parse($request->time_to)->format('g:i a');
         $new->days = $request->days;
+        $new->grace_period = $request->grace_period;
         $new->save();
 
       
@@ -68,6 +69,7 @@ class ShiftController extends Controller
         $update->time_from = Carbon::parse($request->time_from)->format('g:i a');
         $update->time_to = Carbon::parse($request->time_to)->format('g:i a');
         $update->days = $request->days;
+        $update->grace_period = $request->grace_period;
         $update->save();
 
        
