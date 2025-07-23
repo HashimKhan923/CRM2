@@ -100,6 +100,13 @@ class AttendenceController extends Controller
                 $ShiftTimeOut->addDay();
             }
 
+            $currentDay = Carbon::now('Asia/Karachi')->format('l');
+            $shiftDays = json_decode($check_shift->days, true);
+
+            if (!in_array($currentDay, $shiftDays)) {
+                return response(['status' => false, 'message' => 'Today is your off day'], 200);
+            }
+
             if($check_user->location_id == $location_id)
             {
 
