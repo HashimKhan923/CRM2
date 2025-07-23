@@ -94,7 +94,7 @@ class AttendenceController extends Controller
                 $new->save();
 
 
-                if($request->filled('time_out'))
+                if($request->time_out)
                 {
 
                     $shiftStart = Carbon::parse($check_shift->time_from);
