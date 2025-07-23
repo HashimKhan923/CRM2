@@ -99,6 +99,11 @@ class User extends Authenticatable
         return $this->hasOne(AccountInformation::class);
     }
 
+    public function overTime()
+    {
+        return $this->hasOne(OverTime::class);
+    }
+
     public function emergencyContactInfo()
     {
         return $this->hasOne(EmergencyContactInfo::class);
