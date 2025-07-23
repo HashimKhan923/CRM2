@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('over_times', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('department_id')->unsigned()->nullable();
-            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('emp_id')->unsigned()->nullable();
+            $table->foreign('emp_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('time_limit')->nullable();
+            $table->
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }
