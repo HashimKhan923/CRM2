@@ -112,7 +112,7 @@ class HomeController extends Controller
 
     
 
-        $response = ['status'=>true,"TotalTime" => $currentTotalTime ? sprintf('%02d:%02d:%02d', $currentTotalTime->h, $currentTotalTime->i, $currentTotalTime->s) : null,"RemainingTime"=>$remainingTime,'ShiftName'=>$ShiftN,"message" => $message];
+        $response = ['status'=>true,"TotalTime" => $currentTotalTime ? sprintf('%02d:%02d:%02d', $currentTotalTime->h, $currentTotalTime->i, $currentTotalTime->s) : null,"RemainingTime"=>$remainingTime,'ShiftName'=>$ShiftN,"attendence"=>$Time,"message" => $message];
         return response($response, 200);   
 
 
