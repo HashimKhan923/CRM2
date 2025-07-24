@@ -211,12 +211,12 @@ class AttendenceController extends Controller
         
         $timeRecord->save();
     
-        if ($request->wantsJson()) {
+        // if ($request->wantsJson()) {
             return response()->json(['status' => true, 'message' => 'Time out Successfully!'], 200);
-        }
+        // }
     
-        session()->flash('success', 'Time out Successfully!');
-        return redirect()->back();
+        // session()->flash('success', 'Time out Successfully!');
+        // return redirect()->back();
     }
     
     
