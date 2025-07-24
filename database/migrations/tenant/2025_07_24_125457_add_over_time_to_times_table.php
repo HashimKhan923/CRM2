@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('times', function (Blueprint $table) {
-            $table->string('over_time')->nullable();
+            $table->string('over_time')->default('00:00:00');
         });
     }
 

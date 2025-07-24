@@ -14,7 +14,7 @@ class AttendenceController extends Controller
     public function index(Request $request)
     {
 
-        $attendences = Time::with(['user.personalInfo', 'breaks']) // Load related breaks
+        $attendences = Time::with(['user.personalInfo']) // Load related breaks
             ->whereDate('created_at', Carbon::today())
             ->get()
             ->map(function ($attendance) {
