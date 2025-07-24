@@ -117,6 +117,17 @@ Route::group(['middleware' => ['auth.token']], function(){
                         Route::post('update','update');
                     });
                 });   
+
+                                /// Break
+
+
+            Route::group(['prefix' => 'admin/break/'], function() {
+            Route::controller(App\Http\Controllers\Admin\BreakController::class)->group(function () {
+                Route::get('show/{id}','index');
+                Route::post('break_in','break_in');
+                Route::get('break_out/{id}','break_out');
+            });
+        }); 
             
             
                                             /// Users \\\
