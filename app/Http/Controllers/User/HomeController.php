@@ -22,7 +22,7 @@ class HomeController extends Controller
 
     // Fetch current month attendance data for the user
     $attendances = Time::where('user_id', $id)
-        ->whereBetween('date', [$startOfMonth, $endOfMonth])
+        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
         ->get();
 
     // Count summaries
