@@ -112,12 +112,9 @@ class HomeController extends Controller
 
     
 
-    //    if ($request->wantsJson()) {
-        $response = ['status'=>true,"TotalTime"=>$currentTotalTime->toTimeString(),"RemainingTime"=>$remainingTime,'ShiftName'=>$ShiftN,"message" => $message];
+        $response = ['status'=>true,"TotalTime" => $currentTotalTime ? sprintf('%02d:%02d:%02d', $currentTotalTime->h, $currentTotalTime->i, $currentTotalTime->s) : null,"RemainingTime"=>$remainingTime,'ShiftName'=>$ShiftN,"message" => $message];
         return response($response, 200);   
-    //  }
 
-    // return view('user.index', compact('currentTotalTime','remainingTime','ShiftN','totalShiftHours','message','Time')); 
 
 
 
