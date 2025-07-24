@@ -24,7 +24,7 @@ class AttendenceController extends Controller
         $this->geolocationService = $geolocationService;
     }
 
-    public function index(Request $request, user_)
+    public function index(Request $request, $id)
     {
         $attendences = Time::with(['user', 'breaks']) // Load related breaks
         ->whereDate('created_at', Carbon::today())
@@ -179,7 +179,7 @@ class AttendenceController extends Controller
     
         $totalShiftMinutes = $shiftEnd->diffInMinutes($shiftStart);
     
-        $timeRecord = Time::where('user_id', $user_id)
+        $timeRecord = Time::where('user_id', $id)
                           ->whereDate('created_at', Carbon::today('Asia/Karachi'))
                           ->first();
     
