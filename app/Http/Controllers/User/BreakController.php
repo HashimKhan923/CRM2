@@ -49,7 +49,7 @@ class BreakController extends Controller
         $break->save();
 
         // if ($request->wantsJson()) {
-            $response = ['status'=>true,"message" => "Break in Successfully!"];
+            $response = ['break_id'=>$break->id,'status'=>true,"message" => "Break in Successfully!"];
             return response($response, 200);
             // }
     
