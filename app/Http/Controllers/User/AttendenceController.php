@@ -133,7 +133,7 @@ class AttendenceController extends Controller
         
                 } else {
                
-                        $response = ['status' => true, "message" => "Your Attendance is Already Marked!"];
+                        $response = ['status' => false, "message" => "Your Attendance is Already Marked!"];
                         return response($response, 200);
                     
         
@@ -141,7 +141,7 @@ class AttendenceController extends Controller
         
                 } else {
                   
-                        $response = ['status' => true, "message" => "Your shift has not started yet!"];
+                        $response = ['status' => false, "message" => "Your shift has not started yet!"];
                         return response($response, 200);
                     
 
