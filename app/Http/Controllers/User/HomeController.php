@@ -14,6 +14,30 @@ class HomeController extends Controller
 {
     public function index(Request $request, $id)
     {
+
+
+            // Get current month start and end
+    $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+    $endOfMonth = Carbon::now()->endOfMonth()->toDateString();
+
+    // Fetch current month attendance data for the user
+    $attendances = Time::where('user_id', $id)
+        ->whereBetween('date', [$startOfMonth, $endOfMonth])
+        ->get();
+
+    // Count summaries
+    $totalDays = $attendances->count();
+    $totalCompleted = $attendances->where('status', 'Completed')->count();
+    $totalHalf = $attendances->where('status', 'Half')->count();
+    $totalShort = $attendances->where('status', 'Short')->count();
+    $totalAbsent = $attendances->where('status', 'Absent')->count();
+    $totalLate = $attendances->where('late_status', 1)->count();
+    $totalPresent = $totalDays - $totalAbsent;
+
+
+
+
+
         $currentTotalTime='';
         $remainingTime = '';
         $currentBreakTime = '';
@@ -112,7 +136,21 @@ class HomeController extends Controller
 
     
 
-        $response = ['status'=>true,"TotalTime" => $currentTotalTime ? sprintf('%02d:%02d:%02d', $currentTotalTime->h, $currentTotalTime->i, $currentTotalTime->s) : null,"RemainingTime"=>$remainingTime,'ShiftName'=>$ShiftN,"attendence"=>$Time,"message" => $message];
+        $response = [
+            'status'=>true,
+            "TotalTime" => $currentTotalTime ? sprintf('%02d:%02d:%02d', $currentTotalTime->h, $currentTotalTime->i, $currentTotalTime->s) : null,
+            "RemainingTime"=>$remainingTime,
+            'ShiftName'=>$ShiftN,
+            "attendence"=>$Time,
+            "message" => $message,
+            'total_working_days' => $totalDays,
+            'total_present' => $totalPresent,
+            'total_absent' => $totalAbsent,
+            'total_lates' => $totalLate,
+            'total_half_days' => $totalHalf,
+            'total_short_days' => $totalShort,
+            'total_completed' => $totalCompleted,
+        ];
         return response($response, 200);   
 
 
