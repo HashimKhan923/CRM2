@@ -150,11 +150,11 @@ class UserController extends Controller
             'iban_number' => $request->iban_number,
         ]);
 
-        $over_time = OverTime::create([
-            'emp_id' => $user->id,
-            'time_limit'=> $request->time_limit,
-            'rate'=> $request->rate,
-        ]);
+        // $over_time = OverTime::create([
+        //     'emp_id' => $user->id,
+        //     'time_limit'=> $request->time_limit,
+        //     'rate'=> $request->rate,
+        // ]);
 
         // $additional_info = AdditionalInfo::create([
         //     'user_id' => $user->id,
@@ -305,13 +305,13 @@ class UserController extends Controller
 
             );
 
-                $user->overTime()->updateOrCreate(
-            ['emp_id' => $user->id],
-            [
-            'time_limit'=> $request->time_limit,
-            'rate'=> $request->rate,
-            ]
-            );
+            //     $user->overTime()->updateOrCreate(
+            // ['emp_id' => $user->id],
+            // [
+            // 'time_limit'=> $request->time_limit,
+            // 'rate'=> $request->rate,
+            // ]
+            // );
 
 
     

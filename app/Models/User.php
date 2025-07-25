@@ -53,6 +53,10 @@ class User extends Authenticatable
         return $this->hasOne(Shift::class,'id','shift_id');
     }
 
+    public function location()
+    {
+        return $this->hasOne(Location::class,'id','location_id');
+    }
 
     public function department()
     {

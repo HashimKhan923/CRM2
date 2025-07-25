@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Location;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Str;
 
 class LocationController extends Controller
 {
@@ -28,7 +29,7 @@ class LocationController extends Controller
 
         $locationId = $location->id;
 
-        $qrUrl = "https://api.lockmytimes.com/public/api/attendence/time_in/{user_id}/{$locationId}";
+        $qrUrl = "https://api.lockmytimes.com/public/api/attendence/time_in/{$locationId}";
         $qrImage = QrCode::format('png')->size(300)->generate($qrUrl);
         // 4. Save QR image to public folder
         $folder = public_path("location_qr_codes");

@@ -75,7 +75,7 @@ class AttendenceController extends Controller
         // return view('user.attendences.index', compact('attendences')); 
     }
 
-    public function time_in($user_id, $location_id)
+    public function time_in($location_id,$user_id)
     {
 
         $check_user = User::where('id', $user_id)->first();
@@ -107,8 +107,8 @@ class AttendenceController extends Controller
                 return response(['status' => false, 'message' => 'Today is your off day'], 200);
             }
 
-            if($check_user->location_id == $location_id)
-            {
+            // if($check_user->location_id == $location_id)
+            // {
 
                 if ($CurrentTime->gt($ShiftTimeIn) && $CurrentTime->lt($ShiftTimeOut)) {
                 $check = Time::where('user_id', $user_id)->whereDate('created_at', Carbon::today('Asia/Karachi'))->first();
@@ -147,12 +147,12 @@ class AttendenceController extends Controller
 
                 }
 
-            }
-            else
-            {
-                    $response = ['status' => true, "message" => "You are not in location!"];
-                    return response($response, 200);
-            }
+            // }
+            // else
+            // {
+            //         $response = ['status' => true, "message" => "You are not in location!"];
+            //         return response($response, 200);
+            // }
         
 
 
