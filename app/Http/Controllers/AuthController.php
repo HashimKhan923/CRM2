@@ -19,7 +19,7 @@ class AuthController extends Controller
             return response(['errors'=>$validator->errors()->all()], 422);
         }
         
-        $user = User::with('personalInfo','location')->where('email', $request->email)->first();
+        $user = User::with('personalInfo','location','shift')->where('email', $request->email)->first();
         if ($user) {
 
             if($user->status == 1)
