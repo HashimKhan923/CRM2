@@ -101,7 +101,8 @@ class AttendenceController extends Controller
             }
 
             $currentDay = Carbon::now('Asia/Karachi')->format('l');
-            $shiftDays = $check_shift->days; 
+            $shiftDays = json_decode($check_shift->days, true);
+
 
             if (!in_array($currentDay, $shiftDays)) {
                 return response(['status' => false, 'message' => 'Today is your off day'], 200);
