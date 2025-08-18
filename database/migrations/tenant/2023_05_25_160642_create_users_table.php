@@ -20,12 +20,12 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->bigInteger('shift_id')->unsigned()->nullable();
-            $table->foreign('shift_id')->references('id')->on('shifts')->onDelete('cascade')->onUpdate('cascade'); 
+            $table->foreign('shift_id')->references('id')->on('shifts'); 
             $table->integer('status')->default(1);
             $table->bigInteger('role_id')->unsigned()->nullable();
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('role_id')->references('id')->on('roles');
             $table->bigInteger('location_id')->unsigned()->nullable();
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('location_id')->references('id')->on('locations');
             $table->timestamps();
         });
     }
