@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ use App\Models\Subscription as SubModel;
 
 class StripeWebhookController extends Controller
 {
-    public function handle(Request $request)
+        public function handle(Request $request)
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
