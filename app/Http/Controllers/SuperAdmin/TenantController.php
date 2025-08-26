@@ -60,8 +60,8 @@ class TenantController extends Controller
                     ['price' => $request->priceId, 'quantity' => 1],
                 ],
                 'customer_email' => $user->email,
-                'success_url' => 'lockmytimes.com/welcome/billing/success?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => 'lockmytimes.com/welcome/billing/cancel',
+                'success_url' => 'https://lockmytimes.com/welcome/billing/success?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => 'https://lockmytimes.com/welcome/billing/cancel',
                 'metadata' => [
                     'user_id' => $user->id,
                 ],
