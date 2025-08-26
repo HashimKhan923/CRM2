@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\SuperAdmin;
 
 use Illuminate\Http\Request;
 use Stripe\Stripe;
