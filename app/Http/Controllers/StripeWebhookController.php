@@ -74,7 +74,7 @@ class StripeWebhookController extends Controller
 
         $user = null;
         if ($stripeCustomerId) {
-            $user = \App\Models\User::where('stripe_customer_id', $stripeCustomerId)->first();
+            $user = \App\Models\Tenant::where('stripe_customer_id', $stripeCustomerId)->first();
         }
 
         if ($user) {
