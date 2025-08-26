@@ -10,59 +10,74 @@ use Illuminate\Support\Str;
 use App\Models\Tenant;
 use App\Models\Role;
 use App\Models\User;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
 
 class TenantController extends Controller
 {
 
-
-
     public function registerAdmin(Request $request)
     {
-
         $request->validate([
             'email' => 'required|email:rfc,dns|unique:tenants,email',
         ]);
         
         $tenantId = explode('@', $request->email)[0];
-    
         $database_name = 'database_' . $tenantId;
-        // $database_username = 'user_' . $tenantId;
-        // $database_password = 'password_' . $tenantId;
-    
+
+        $imagePath = '';
+        if ($request->hasFile('company_logo')) {
+            $file = $request->file('company_logo');
+            if ($file->isValid()) {
+                $folder = public_path('CompanyLogo');
+                if (!file_exists($folder)) {
+                    mkdir($folder, 0755, true);
+                }
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->move($folder, $fileName);
+                $imagePath = 'CompanyLogo/' . $fileName;
+            }
+        }
+
+        try {
+            Stripe::setApiKey(config('services.stripe.secret'));
+            $user = $request->user();
+
+            $session = Session::create([
+                'mode' => 'subscription',
+                'line_items' => [
+                    ['price' => $request->priceId, 'quantity' => 1],
+                ],
+                'customer_email' => $user->email,
+                'success_url' => config('app.url') . '/billing/success?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => config('app.url') . '/billing/cancel',
+                'metadata' => [
+                    'user_id' => $user->id,
+                ],
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Stripe session creation failed: ' . $e->getMessage()], 500);
+        }
+
+        // Only runs if Stripe session was created successfully
         Tenant::create([
-            'name' => $request->name,
+            'name' => $request->first_name.' '.$request->last_name,
             'email' => $request->email,
             'database_name' => $database_name,
-            // 'database_username' => $database_username,
-            // 'database_password' => $database_password,
+            'phone_number' => $request->phone_number,
+            'company_name' => $request->company_name,
+            'company_logo' => $imagePath,
+            'website_url' => $request->website_url,
             'tenant_id' => $tenantId
         ]);
-    
-        // try {
-            // Create database
-            DB::statement("CREATE DATABASE `$database_name`");    
-            // Create user and grant privileges
-            // DB::statement("CREATE USER '$database_username'@'%' IDENTIFIED BY '$database_password'");
-            // DB::statement("GRANT ALL PRIVILEGES ON $database_name.* TO '$database_username'@'%'");
 
-        // } catch (\Exception $e) {
-        //     // Log the error
-        //     \Log::error('Error creating database or user: ' . $e->getMessage());
-        //     return response()->json(['error' => $e->getMessage()], 500);
-        // }
-    
-        // Update the tenant connection configuration
+        DB::statement("CREATE DATABASE `$database_name`");    
+
         config(['database.connections.tenant.database' => $database_name]);
-        // config(['database.connections.tenant.username' => $database_username]);
-        // config(['database.connections.tenant.password' => $database_password]);
-        
-        // DB::statement("GRANT ALL PRIVILEGES ON `$database_name`.* TO 'srv6_crm2user'@'localhost' WITH GRANT OPTION");
-        // DB::statement("FLUSH PRIVILEGES");
-    
         DB::purge('tenant');
         DB::reconnect('tenant');
         DB::setDefaultConnection('tenant');
-    
+
         // Run migrations for the tenant
         Artisan::call('migrate', [
             '--database' => 'tenant',
@@ -73,48 +88,26 @@ class TenantController extends Controller
             '--class' => 'DesignationsTableSeeder',
             '--database' => 'tenant',
         ]);
-    
+
         $admin = Role::create([
             'name' => 'admin'
         ]);
-    
-        $user = Role::create([
-            'name' => 'employee'
-        ]);
+        Role::create(['name' => 'employee']);
+        Role::create(['name' => 'hr manager']);
+        Role::create(['name' => 'accountant']);
+        Role::create(['name' => 'receptionist']);
+        Role::create(['name' => 'project manager']);
+        Role::create(['name' => 'team lead']);
 
-        $user = Role::create([
-            'name' => 'hr manager'
-        ]);
-
-        $user = Role::create([
-            'name' => 'accountant'
-        ]);
-
-        $user = Role::create([
-            'name' => 'receptionist'
-        ]);
-
-        $user = Role::create([
-            'name' => 'project manager'
-        ]);
-
-        $user = Role::create([
-            'name' => 'team lead'
-        ]);
-    
         User::create([
             'email' => $request->email,
             'password' => bcrypt('admin123'),
             'tenant_id' => $tenantId,
             'role_id' => $admin->id
         ]);
-    
+
         return response()->json(['message'=>'Registered Successfully!']);
     }
-    
-
-
-
 
     public function createTenantDatabase($tenantId)
     {
@@ -151,7 +144,6 @@ class TenantController extends Controller
             '--path' => 'database/migrations/tenant',
         ]);
     }
-
 
     public function product_key(Request $request)
     {

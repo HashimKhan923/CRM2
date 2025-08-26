@@ -57,7 +57,7 @@ class UserController extends Controller
                 $folder = public_path('profile');
 
                 if (!file_exists($folder)) {
-                    mkdir($folder, 0755, true); // Create the folder with proper permissions
+                    mkdir($folder, 0755, true);
                 }
 
                 $fileName = time() . '_' . $file->getClientOriginalName();
