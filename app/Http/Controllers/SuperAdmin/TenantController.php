@@ -39,9 +39,20 @@ class TenantController extends Controller
             }
         }
 
+       $user = Tenant::create([
+            'name' => $request->first_name.' '.$request->last_name,
+            'email' => $request->email,
+            'database_name' => $database_name,
+            'phone_number' => $request->phone_number,
+            'company_name' => $request->company_name,
+            'company_logo' => $imagePath,
+            'website_url' => $request->website_url,
+            'tenant_id' => $tenantId
+        ]);
+
         try {
             Stripe::setApiKey(config('services.stripe.secret'));
-            $user = $request->user();
+            
 
             $session = Session::create([
                 'mode' => 'subscription',
@@ -60,16 +71,7 @@ class TenantController extends Controller
         }
 
         // Only runs if Stripe session was created successfully
-        Tenant::create([
-            'name' => $request->first_name.' '.$request->last_name,
-            'email' => $request->email,
-            'database_name' => $database_name,
-            'phone_number' => $request->phone_number,
-            'company_name' => $request->company_name,
-            'company_logo' => $imagePath,
-            'website_url' => $request->website_url,
-            'tenant_id' => $tenantId
-        ]);
+
 
         DB::statement("CREATE DATABASE `$database_name`");    
 
