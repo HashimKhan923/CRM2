@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\SuperAdmin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Webhook;
 use Stripe\Subscription as StripeSubscription;
 use App\Models\Tenant;
 use App\Models\Subscription as SubModel;
+use Illuminate\Support\Facades\Log;
 
 class StripeWebhookController extends Controller
 {
-        public function handle(Request $request)
+    public function handle(Request $request)
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -27,38 +29,47 @@ class StripeWebhookController extends Controller
             return response()->json(['error' => 'Invalid signature'], 400);
         }
 
+        Log::info('Stripe Webhook Event: ' . $event->type);
+
         switch ($event->type) {
             case 'checkout.session.completed':
                 $session = $event->data->object;
-                $userId = $session->metadata->user_id ?? null;
-                if ($userId) {
-                    $user = Tenant::find($userId);
-                    if ($user) {
-                        $user->stripe_customer_id = $session->customer;
-                        $user->save();
-                        if (!empty($session->subscription)) {
-                            $this->storeOrUpdateSubscriptionData(StripeSubscription::retrieve($session->subscription));
-                        }
+
+                // Save stripe_customer_id in Tenant
+                $tenantId = $session->metadata->user_id ?? null;
+                if ($tenantId) {
+                    $tenant = Tenant::find($tenantId);
+                    if ($tenant) {
+                        $tenant->stripe_customer_id = $session->customer;
+                        $tenant->save();
                     }
+                }
+
+                // If it's a subscription checkout, store subscription
+                if (!empty($session->subscription)) {
+                    $subscription = StripeSubscription::retrieve($session->subscription);
+                    $this->storeOrUpdateSubscriptionData($subscription);
                 }
                 break;
 
             case 'invoice.payment_succeeded':
                 $invoice = $event->data->object;
                 if (!empty($invoice->subscription)) {
-                    $this->storeOrUpdateSubscriptionData(StripeSubscription::retrieve($invoice->subscription));
+                    $subscription = StripeSubscription::retrieve($invoice->subscription);
+                    $this->storeOrUpdateSubscriptionData($subscription);
                 }
                 break;
 
             case 'customer.subscription.created':
             case 'customer.subscription.updated':
             case 'customer.subscription.deleted':
-                $subObj = $event->data->object;
-                $this->storeOrUpdateSubscriptionData($subObj);
+                $subscription = $event->data->object; // already a Subscription object
+                $this->storeOrUpdateSubscriptionData($subscription);
                 break;
 
             default:
-                // ignore other events or log them for later
+                // Optional: log other events for later
+                Log::info("Unhandled event type: " . $event->type);
         }
 
         return response()->json(['received' => true]);
@@ -66,29 +77,37 @@ class StripeWebhookController extends Controller
 
     protected function storeOrUpdateSubscriptionData($stripeSub)
     {
-        $stripeCustomerId = $stripeSub->customer;
-        $stripeSubId = $stripeSub->id;
-        $status = $stripeSub->status;
-        $current_period_end = isset($stripeSub->current_period_end) ? date('Y-m-d H:i:s', $stripeSub->current_period_end) : null;
+        Log::info('Processing subscription: ' . $stripeSub->id);
+
+        $stripeCustomerId = $stripeSub->customer ?? null;
+        $stripeSubId = $stripeSub->id ?? null;
+        $status = $stripeSub->status ?? null;
+        $current_period_end = !empty($stripeSub->current_period_end)
+            ? date('Y-m-d H:i:s', $stripeSub->current_period_end)
+            : null;
         $priceId = $stripeSub->items->data[0]->price->id ?? null;
 
-        $user = null;
-        if ($stripeCustomerId) {
-            $user = \App\Models\Tenant::where('stripe_customer_id', $stripeCustomerId)->first();
+        if (!$stripeCustomerId) {
+            Log::warning("Subscription {$stripeSubId} has no customer ID");
+            return;
         }
 
-        if ($user) {
-            \App\Models\Subscription::updateOrCreate(
+        // Find the Tenant using stripe_customer_id
+        $tenant = Tenant::where('stripe_customer_id', $stripeCustomerId)->first();
+
+        if ($tenant) {
+            SubModel::updateOrCreate(
                 ['stripe_id' => $stripeSubId],
                 [
-                    'tenant_id' => $user->id,
+                    'tenant_id' => $tenant->id,
                     'stripe_price_id' => $priceId,
                     'status' => $status,
                     'current_period_end' => $current_period_end,
                 ]
             );
+            Log::info("Subscription saved/updated for tenant {$tenant->id}");
         } else {
-            // Optionally log unmatched subscription for inspection
+            Log::warning("No Tenant found with stripe_customer_id: {$stripeCustomerId}");
         }
     }
 }
