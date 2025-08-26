@@ -66,6 +66,9 @@ class TenantController extends Controller
                     'user_id' => $user->id,
                 ],
             ]);
+
+        $user->stripe_customer_id = $session->customer;
+        $user->save();
         } catch (\Exception $e) {
             return response()->json(['error' => 'Stripe session creation failed: ' . $e->getMessage()], 500);
         }
