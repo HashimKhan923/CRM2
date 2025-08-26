@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Webhook;
 use Stripe\Subscription as StripeSubscription;
-use App\Models\User;
+use App\Models\Tenant;
 use App\Models\Subscription as SubModel;
 
 class StripeWebhookController extends Controller
@@ -32,7 +32,7 @@ class StripeWebhookController extends Controller
                 $session = $event->data->object;
                 $userId = $session->metadata->user_id ?? null;
                 if ($userId) {
-                    $user = User::find($userId);
+                    $user = Tenant::find($userId);
                     if ($user) {
                         $user->stripe_customer_id = $session->customer;
                         $user->save();
