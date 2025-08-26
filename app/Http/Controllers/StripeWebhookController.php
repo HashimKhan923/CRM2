@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\SuperAdmin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Webhook;
 use Stripe\Subscription as StripeSubscription;
 use App\Models\Tenant;
 use App\Models\Subscription as SubModel;
-use Illuminate\Support\Facades\Log;
 
 class StripeWebhookController extends Controller
 {
-    public function handle(Request $request)
+public function handle(Request $request)
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
