@@ -13,7 +13,12 @@ class Tenant extends Model
         'email',
         'database_name',
         'database_username',
-        'database_password'
+        'database_password',
+        'phone_number',
+        'company_name',
+        'company_logo',
+        'website_url',
+        'stripe_customer_id'
     ];
 
     use HasFactory;
