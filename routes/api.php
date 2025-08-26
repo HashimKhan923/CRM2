@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/stripe/webhook', [\App\Http\Controllers\SuperAdmin\StripeWebhookController::class, 'handle']);
+Route::post('/stripe/webhook', [\App\Http\Controllers\StripeWebhookController::class, 'handle']);
 
 Route::post('/stripe/create-checkout-session', [\App\Http\Controllers\SuperAdmin\StripeCheckoutController::class, 'create']);
 Route::post('/subscription/cancel', [\App\Http\Controllers\SuperAdmin\SubscriptionController::class, 'cancel']);
