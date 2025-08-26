@@ -106,7 +106,7 @@ class TenantController extends Controller
             'role_id' => $admin->id
         ]);
 
-        return response()->json(['message'=>'Registered Successfully!']);
+        return response()->json(['message'=>'Registered Successfully!','url' => $session->url],200);
     }
 
     public function createTenantDatabase($tenantId)
