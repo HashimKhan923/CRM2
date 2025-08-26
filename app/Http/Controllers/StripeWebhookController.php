@@ -81,7 +81,7 @@ class StripeWebhookController extends Controller
             \App\Models\Subscription::updateOrCreate(
                 ['stripe_id' => $stripeSubId],
                 [
-                    'user_id' => $user->id,
+                    'tenant_id' => $user->id,
                     'stripe_price_id' => $priceId,
                     'status' => $status,
                     'current_period_end' => $current_period_end,
