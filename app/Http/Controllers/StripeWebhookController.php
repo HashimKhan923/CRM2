@@ -8,6 +8,7 @@ use Stripe\Webhook;
 use Stripe\Subscription as StripeSubscription;
 use App\Models\Tenant;
 use App\Models\Subscription as SubModel;
+use Illuminate\Support\Facades\Log;
 
 class StripeWebhookController extends Controller
 {
