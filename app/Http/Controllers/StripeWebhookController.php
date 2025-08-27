@@ -85,7 +85,7 @@ class StripeWebhookController extends Controller
                     'tenant' => $user->tenant_id,
                     'stripe_price_id' => $priceId,
                     'status' => $status,
-                    'current_period_end' => $current_period_end,
+                    'current_period_end' => 1234567890,
                 ]
             );
         } else {
