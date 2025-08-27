@@ -11,24 +11,29 @@ class SubscriptionController extends Controller
 {
     public function cancel(Request $request)
     {
-        
         $sub = SubModel::where('tenant', $request->tenant_id)
-                       ->whereIn('status', ['active','trialing'])
-                       ->latest()->first();
+                    ->whereIn('status', ['active', 'trialing'])
+                    ->latest()
+                    ->first();
 
-        if (!$sub) return response()->json(['error' => 'No active subscription'], 404);
+        if (!$sub) {
+            return response()->json(['error' => 'No active subscription'], 404);
+        }
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
-    // Immediately cancel the subscription on Stripe
-    $deleted = StripeSubscription::cancel($sub->stripe_id, []);
+        // Retrieve the subscription instance
+        $subscription = Subscription::retrieve($sub->stripe_id);
 
-    // Update your local record to reflect cancellation
-    $sub->status = $deleted->status; // will be "canceled"
-    $sub->current_period_end = date('Y-m-d H:i:s', $deleted->current_period_end);
-    $sub->save();
+        // Cancel immediately
+        $deleted = $subscription->cancel();
 
-        return response()->json(['status' => 'cancellation_scheduled']);
+        // Update local record
+        $sub->status = $deleted->status; // should be "canceled"
+        $sub->current_period_end = date('Y-m-d H:i:s', $deleted->current_period_end);
+        $sub->save();
+
+        return response()->json(['status' => 'canceled_immediately']);
     }
 
     public function swap(Request $request)
