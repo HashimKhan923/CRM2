@@ -12,7 +12,7 @@ class SubscriptionController extends Controller
     public function cancel(Request $request)
     {
         
-        $sub = SubModel::where('tenant_id', $request->tenant_id)
+        $sub = SubModel::where('tenant', $request->tenant_id)
                        ->whereIn('status', ['active','trialing'])
                        ->latest()->first();
 
