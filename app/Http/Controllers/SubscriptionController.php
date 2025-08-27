@@ -20,12 +20,13 @@ class SubscriptionController extends Controller
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $updated = StripeSubscription::update($sub->stripe_id, [
-            'cancel_at_period_end' => true,
-        ]);
+    // Immediately cancel the subscription on Stripe
+    $deleted = StripeSubscription::cancel($sub->stripe_id, []);
 
-        $sub->status = $updated->status;
-        $sub->save();
+    // Update your local record to reflect cancellation
+    $sub->status = $deleted->status; // will be "canceled"
+    $sub->current_period_end = date('Y-m-d H:i:s', $deleted->current_period_end);
+    $sub->save();
 
         return response()->json(['status' => 'cancellation_scheduled']);
     }

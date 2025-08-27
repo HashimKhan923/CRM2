@@ -66,27 +66,16 @@ class StripeWebhookController extends Controller
 
     protected function storeOrUpdateSubscriptionData($stripeSub)
     {
-        // Always retrieve full subscription from Stripe
-        if (!($stripeSub instanceof \Stripe\Subscription)) {
-            $stripeSub = \Stripe\Subscription::retrieve($stripeSub->id);
-        } else {
-            $stripeSub = \Stripe\Subscription::retrieve($stripeSub->id);
-        }
-
-        \Log::info('Stripe subscription data', (array)$stripeSub);
-
         $stripeCustomerId = $stripeSub->customer;
         $stripeSubId = $stripeSub->id;
         $status = $stripeSub->status;
-
-        // Store as UNIX timestamp if column is integer, otherwise format to datetime
-        $current_period_end = $stripeSub->current_period_end 
-            ? date('Y-m-d H:i:s', $stripeSub->current_period_end)
-            : null;
-
+        $current_period_end = $stripeSub->current_period_end ? date('Y-m-d H:i:s', $stripeSub->current_period_end) : null;
         $priceId = $stripeSub->items->data[0]->price->id ?? null;
 
-        $user = \App\Models\Tenant::where('stripe_customer_id', $stripeCustomerId)->first();
+        $user = null;
+        if ($stripeCustomerId) {
+            $user = \App\Models\Tenant::where('stripe_customer_id', $stripeCustomerId)->first();
+        }
 
         if ($user) {
             \App\Models\Subscription::updateOrCreate(
@@ -100,7 +89,7 @@ class StripeWebhookController extends Controller
                 ]
             );
         } else {
-            \Log::warning('Unmatched Stripe subscription: '.$stripeSubId);
+            // Optionally log unmatched subscription for inspection
         }
     }
 }
