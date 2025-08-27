@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Tenant;
+use App\Models\User;
 
 class TenantMiddleware
 {
@@ -37,6 +38,9 @@ class TenantMiddleware
         DB::purge('tenant');
         DB::reconnect('tenant');
         DB::setDefaultConnection('tenant');
+        
+
+
     
         return $next($request);
     }
