@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Breaks;
 use App\Models\Time;
 use App\Models\Shift;
+use App\Models\Department;
+use App\Models\Location;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -49,6 +51,8 @@ class HomeController extends Controller
 
         $user = User::where('id',$id)->first();
         $shiftk = Shift::where('id',$user->shift_id)->first();
+        $department = Department::where('id',$user->jobInfo->department_id)->first();
+        $location = Location::where('id',$user->location_id)->first();
 
         $shift = Carbon::parse($shiftk->time_to)->diff(Carbon::parse($shiftk->time_from));
         $shift = Carbon::parse($shift->h.':'.$shift->i.':'.$shift->s);
@@ -141,6 +145,8 @@ class HomeController extends Controller
             "TotalTime" => $currentTotalTime ? sprintf('%02d:%02d:%02d', $currentTotalTime->h, $currentTotalTime->i, $currentTotalTime->s) : null,
             "RemainingTime"=>$remainingTime,
             'ShiftName'=>$ShiftN,
+            'department'=>$department,
+            'location'=>$location,
             "attendence"=>$Time,
             "message" => $message,
             'total_working_days' => $totalDays,
