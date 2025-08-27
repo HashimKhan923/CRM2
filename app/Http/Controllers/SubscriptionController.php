@@ -23,7 +23,7 @@ class SubscriptionController extends Controller
         Stripe::setApiKey(config('services.stripe.secret'));
 
         // Retrieve the subscription instance
-        $subscription = Subscription::retrieve($sub->stripe_id);
+        $subscription = StripeSubscription::retrieve($sub->stripe_id);
 
         // Cancel immediately
         $deleted = $subscription->cancel();
