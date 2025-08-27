@@ -79,7 +79,7 @@ class HomeController extends Controller
             
         
 
-        $Time = Time::where('user_id',$id)->whereDate('created_at', Carbon::today('Asia/Karachi'))->where('time_out',null)->first();
+        $Time = Time::with('breaks')->where('user_id',$id)->whereDate('created_at', Carbon::today('Asia/Karachi'))->where('time_out',null)->first();
         if($Time)
         {
 
