@@ -30,7 +30,7 @@ class SubscriptionController extends Controller
 
         // Update local record
         $sub->status = $deleted->status; // should be "canceled"
-        $sub->current_period_end = 0000000000; // set to current time
+        $sub->current_period_end = date('Y-m-d H:i:s', $deleted->current_period_end);
         $sub->save();
 
         return response()->json(['status' => 'canceled_immediately']);
