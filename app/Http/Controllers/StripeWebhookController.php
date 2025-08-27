@@ -69,7 +69,7 @@ class StripeWebhookController extends Controller
         $stripeCustomerId = $stripeSub->customer;
         $stripeSubId = $stripeSub->id;
         $status = $stripeSub->status;
-        $current_period_end = $stripeSub->current_period_end;
+        $current_period_end = $stripeSub->current_period_end ? date('Y-m-d H:i:s', $stripeSub->current_period_end) : null;
         $priceId = $stripeSub->items->data[0]->price->id ?? null;
 
         $user = null;

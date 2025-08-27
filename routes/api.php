@@ -18,10 +18,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/stripe/webhook', [\App\Http\Controllers\StripeWebhookController::class, 'handle']);
+Route::post('/subscription/cancel', [\App\Http\Controllers\SubscriptionController::class, 'cancel']);
+Route::post('/subscription/swap', [\App\Http\Controllers\SubscriptionController::class, 'swap']);
 
 Route::post('/stripe/create-checkout-session', [\App\Http\Controllers\SuperAdmin\StripeCheckoutController::class, 'create']);
-Route::post('/subscription/cancel', [\App\Http\Controllers\SuperAdmin\SubscriptionController::class, 'cancel']);
-Route::post('/subscription/swap', [\App\Http\Controllers\SuperAdmin\SubscriptionController::class, 'swap']);
+
 
 Route::post('/contactus', '\App\Http\Controllers\SuperAdmin\ContactUsController@create');
 Route::post('/admin/registration/process', '\App\Http\Controllers\SuperAdmin\TenantController@registerAdmin');
