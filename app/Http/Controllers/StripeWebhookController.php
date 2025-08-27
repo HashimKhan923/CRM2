@@ -97,10 +97,6 @@ class StripeWebhookController extends Controller
                     'stripe_price_id' => $priceId,
                     'status' => $status,
                     'current_period_end' => $current_period_end,
-                    'cancel_at_period_end' => $stripeSub->cancel_at_period_end,
-                    'canceled_at' => $stripeSub->canceled_at 
-                        ? date('Y-m-d H:i:s', $stripeSub->canceled_at)
-                        : null,
                 ]
             );
         } else {
