@@ -10,10 +10,9 @@ class Subscription extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tenant_id', 'stripe_id', 'stripe_price_id', 'status', 'current_period_end'
+        'tenant_id','tenant','stripe_id', 'stripe_price_id', 'status', 'current_period_end'
     ];
 
-    protected $dates = ['current_period_end'];
 
     public function tenant(): BelongsTo
     {
