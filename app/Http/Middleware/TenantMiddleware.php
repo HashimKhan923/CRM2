@@ -38,6 +38,8 @@ class TenantMiddleware
         DB::purge('tenant');
         DB::reconnect('tenant');
         DB::setDefaultConnection('tenant');
+
+        
         
 
 
