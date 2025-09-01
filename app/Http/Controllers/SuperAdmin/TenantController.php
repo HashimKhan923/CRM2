@@ -68,7 +68,7 @@ class TenantController extends Controller
                 ],
             ]);
 
-                $user->stripe_customer_id = $session->customer_creation;
+                $user->stripe_customer_id = $session->customer;
                 $user->save();
 
 
