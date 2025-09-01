@@ -68,8 +68,8 @@ class TenantController extends Controller
                 ],
             ]);
 
-        $user->stripe_customer_id = $session->customer;
-        $user->save();
+                $user->stripe_customer_id = 'hsdhfksjdfhksjdfh'; // Temporary placeholder
+                $user->save();
 
 
 
@@ -127,7 +127,7 @@ class TenantController extends Controller
                 'product_key' => $tenantId,
             ],
             function ($message) use ($request) { 
-                $message->from('support@lockmytimes.com','LockMyTime');
+                $message->from('support@lockmytimes.com','Lockmytimes');
                 $message->to($request->email);
                 $message->subject('New Subscription Created');
             }
