@@ -123,7 +123,7 @@ class TenantController extends Controller
             [
                 'name' => $request->first_name,
                 'email' => $request->email,
-                'password' => $request->password,
+                'password' => 'admin123',
                 'product_key' => $tenantId,
             ],
             function ($message) use ($request) { 
