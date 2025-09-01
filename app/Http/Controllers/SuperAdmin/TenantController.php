@@ -68,7 +68,7 @@ class TenantController extends Controller
                 ],
             ]);
 
-                $user->stripe_customer_id = 'hsdhfksjdfhksjdfh'; // Temporary placeholder
+                $user->stripe_customer_id = $session->customer;
                 $user->save();
 
 
