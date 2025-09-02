@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('admin_subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tenant_id')->constrained()->cascadeOnDelete();
-            $table->string('tenant')->nullable();
+            $table->string('tenant_id')->nullable();
             $table->string('stripe_id')->unique();           // sub_...
             $table->string('stripe_price_id')->nullable();   // price_...
             $table->string('status')->nullable();            // active, canceled, trialing...
             $table->timestamp('current_period_end')->nullable();
             $table->timestamps();
+            
         });
     }
 
