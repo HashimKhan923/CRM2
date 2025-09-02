@@ -24,6 +24,7 @@ class TenantController extends Controller
         ]);
         
         $tenantId = explode('@', $request->email)[0];
+        $tenantId = $tenantId . Str::random(5);
         $database_name = 'database_' . $tenantId;
 
         $imagePath = '';
