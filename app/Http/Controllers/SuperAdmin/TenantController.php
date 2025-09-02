@@ -82,40 +82,40 @@ class TenantController extends Controller
         // Only runs if Stripe session was created successfully
 
 
-    //     DB::statement("CREATE DATABASE `$database_name`");    
+        DB::statement("CREATE DATABASE `$database_name`");    
 
-    //     config(['database.connections.tenant.database' => $database_name]);
-    //     DB::purge('tenant');
-    //     DB::reconnect('tenant');
-    //     DB::setDefaultConnection('tenant');
+        config(['database.connections.tenant.database' => $database_name]);
+        DB::purge('tenant');
+        DB::reconnect('tenant');
+        DB::setDefaultConnection('tenant');
 
-    //     // Run migrations for the tenant
-    //     Artisan::call('migrate', [
-    //         '--database' => 'tenant',
-    //         '--path' => 'database/migrations/tenant',
-    //     ]);
+        // Run migrations for the tenant
+        Artisan::call('migrate', [
+            '--database' => 'tenant',
+            '--path' => 'database/migrations/tenant',
+        ]);
 
-    //     Artisan::call('db:seed', [
-    //         '--class' => 'DesignationsTableSeeder',
-    //         '--database' => 'tenant',
-    //     ]);
+        Artisan::call('db:seed', [
+            '--class' => 'DesignationsTableSeeder',
+            '--database' => 'tenant',
+        ]);
 
-    //     $admin = Role::create([
-    //         'name' => 'admin'
-    //     ]);
-    //     Role::create(['name' => 'employee']);
-    //     Role::create(['name' => 'hr manager']);
-    //     Role::create(['name' => 'accountant']);
-    //     Role::create(['name' => 'receptionist']);
-    //     Role::create(['name' => 'project manager']);
-    //     Role::create(['name' => 'team lead']);
+        $admin = Role::create([
+            'name' => 'admin'
+        ]);
+        Role::create(['name' => 'employee']);
+        Role::create(['name' => 'hr manager']);
+        Role::create(['name' => 'accountant']);
+        Role::create(['name' => 'receptionist']);
+        Role::create(['name' => 'project manager']);
+        Role::create(['name' => 'team lead']);
 
-    //   $admin_u =  User::create([
-    //         'email' => $request->email,
-    //         'password' => bcrypt('admin123'),
-    //         'tenant_id' => $tenantId,
-    //         'role_id' => $admin->id
-    //     ]);
+      $admin_u =  User::create([
+            'email' => $request->email,
+            'password' => bcrypt('admin123'),
+            'tenant_id' => $tenantId,
+            'role_id' => $admin->id
+        ]);
 
 
         Mail::send(

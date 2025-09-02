@@ -87,6 +87,25 @@ class StripeWebhookController extends Controller
                     'status' => $status,
                     'current_period_end' => $current_period_end,
                 ]
+                
+            );
+
+            config(['database.connections.tenant.database' => $user->database_name]);
+        
+            DB::purge('tenant');
+            DB::reconnect('tenant');
+            DB::setDefaultConnection('tenant');
+
+            \App\Models\AdminSubscription::updateOrCreate(
+                ['stripe_id' => $stripeSubId],
+                [
+                    'tenant_id' => $user->id,
+                    'tenant' => $user->tenant_id,
+                    'stripe_price_id' => $priceId,
+                    'status' => $status,
+                    'current_period_end' => $current_period_end,
+                ]
+                
             );
         } else {
             // Optionally log unmatched subscription for inspection
