@@ -48,6 +48,8 @@ Route::post('/admin/register', 'App\Http\Controllers\Admin\AuthController@regist
 
 
 Route::group(['middleware' => ['auth.token']], function(){
+
+    Route::post('/password/change', 'App\Http\Controllers\AuthController@passwordChange');
     
         /////////////////////////////////// Admin Routes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     Route::middleware(['admin'])->group(function () {

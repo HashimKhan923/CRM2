@@ -53,12 +53,11 @@
 <!-- Content -->
 <tr>
     <td style="padding:20px; color:#333333; font-size:16px; line-height:1.6;">
-        <h1 style="font-size:24px; color:#333333; margin-bottom:20px;">Hi, {{$name}}!</h1>
+        <h1 style="font-size:24px; color:#333333; margin-bottom:20px;">Hello, {{$name}}!</h1>
         <p>Thank you for subscribing to Lockmytimes! Your Admin account is now active, giving you full access to manage your team, monitor activity, and control settings from your dashboard.</p>
         
         <p><strong>Your Admin dashboard login details:</strong></p>
         <ul style="margin:20px 0; padding-left:20px; color:#666666;">
-            <li><strong>Dashboard URL:</strong> <a href="https://dashboard.lockmytimes.com/auth/login">https://dashboard.lockmytimes.com/auth/login</a></li>
             <li><strong>Email:</strong> {{$email}}</li>
             <li><strong>Password:</strong> {{$password}}</li>
             <li><strong>Product Key:</strong> {{$product_key}}</li>
