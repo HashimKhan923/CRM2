@@ -53,7 +53,7 @@
 <!-- Content -->
 <tr>
     <td style="padding:20px; color:#333333; font-size:16px; line-height:1.6;">
-        <h1 style="font-size:24px; color:#333333; margin-bottom:20px;">Hello, {{$name}}!</h1>
+        <h1 style="font-size:24px; color:#333333; margin-bottom:20px;">Hello {{$name}},</h1>
         <p>Thank you for subscribing to Lockmytimes! Your Admin account is now active, giving you full access to manage your team, monitor activity, and control settings from your dashboard.</p>
         
         <p><strong>Your Admin dashboard login details:</strong></p>
