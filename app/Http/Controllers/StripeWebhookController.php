@@ -8,6 +8,8 @@ use Stripe\Webhook;
 use Stripe\Subscription as StripeSubscription;
 use App\Models\Tenant;
 use App\Models\Subscription as SubModel;
+use App\Models\AdminSubscription;
+use Illuminate\Support\Facades\DB;
 
 class StripeWebhookController extends Controller
 {
@@ -96,7 +98,7 @@ class StripeWebhookController extends Controller
             DB::reconnect('tenant');
             DB::setDefaultConnection('tenant');
 
-            \App\Models\AdminSubscription::updateOrCreate(
+            AdminSubscription::updateOrCreate(
                 ['stripe_id' => $stripeSubId],
                 [
                     'tenant_id' => $user->tenant_id,
