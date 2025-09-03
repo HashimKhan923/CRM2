@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 use App\Models\UserToken;
+use Mail;
 class AuthController extends Controller
 {
     public function login(Request $request) {
@@ -22,39 +23,61 @@ class AuthController extends Controller
         $user = User::with('personalInfo','location','shift')->where('email', $request->email)->first();
         if ($user) {
 
-            if($user->status == 1)
-            {
-            if (Hash::check($request->password, $user->password)) {
+                    if($user->status == 1)
+                    {
+                    if (Hash::check($request->password, $user->password)) {
 
-                
+                        if($user->role_id == 1){
+                        {
+                            $token = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+                            $user->remember_token = $token;
+                            $user->save();
+                            Mail::send(
+                                'mails.password-reset',
+                                [
+                                    'token'=>$token,
+                                    'name'=>$query->name,
+                                ], 
+                            
+                            function ($message) use ($query) {
+                                $message->from('support@lockmytimes.com','LockMyTimes');
+                                $message->to($query->email);
+                                $message->subject('Verification');
+                            });
+                            return response(['status' => true, 'message' => 'Token send to your email']);
+
+                        }
+
+                        
 
 
-                $token = Str::random(900);
+                        $token = Str::random(900);
 
-                UserToken::create([
-                    'user_id' => $user->id,
-                    'token' => hash('sha256', $token), // hash for security
-                    'expires_at' => now()->addDays(30),
-                ]);
+                        UserToken::create([
+                            'user_id' => $user->id,
+                            'token' => hash('sha256', $token), // hash for security
+                            'expires_at' => now()->addDays(30),
+                        ]);
 
-                    $response = ['status'=>true,"message" => "Login Successfully",'token' => $token,'user'=>$user];
-                    return response($response, 200);
+                            $response = ['status'=>true,"message" => "Login Successfully",'token' => $token,'user'=>$user];
+                            return response($response, 200);
 
-            } else {
-                $response = ['status'=>false,"message" => "Password mismatch"];
-                return response($response, 422);
-            }
+                    } else {
+                        $response = ['status'=>false,"message" => "Password mismatch"];
+                        return response($response, 422);
+                    }
 
-        }
-        else
-        {
-            $response = ['status'=>false,"message" =>'Your Account has been Blocked by Admin!'];
-            return response($response, 422);
-        }
-        } else {
-            $response = ['status'=>false,"message" =>'User does not exist'];
-            return response($response, 422);
-        }
+                }
+                else
+                {
+                    $response = ['status'=>false,"message" =>'Your Account has been Blocked by Admin!'];
+                    return response($response, 422);
+                }
+                } else {
+                    $response = ['status'=>false,"message" =>'User does not exist'];
+                    return response($response, 422);
+                }
+            }  
     }
 
     public function logout(Request $request)
@@ -91,7 +114,7 @@ class AuthController extends Controller
                 ], 
             
             function ($message) use ($query) {
-                $message->from('support@lockmytimes.com','LockMyTime');
+                $message->from('support@lockmytimes.com','LockMyTimes');
                 $message->to($query->email);
                 $message->subject('Forget Password');
             });
@@ -135,7 +158,18 @@ class AuthController extends Controller
             $save = $user->save();
             if($save)
             {
-                return response(['status' => true, 'message' => 'Success']);
+
+                $token = Str::random(900);
+
+                UserToken::create([
+                    'user_id' => $user->id,
+                    'token' => hash('sha256', $token), // hash for security
+                    'expires_at' => now()->addDays(30),
+                ]);
+
+
+
+                return response(['status' => true, 'message' => 'Success','token' => $token,'user'=>$user]);
             }
             else
             {
