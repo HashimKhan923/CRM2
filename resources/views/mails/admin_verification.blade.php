@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verification - Lockmytimes</title>
+    <title>Password Reset - Lockmytimes</title>
     <style>
         body {
     font-family: Arial, sans-serif;
@@ -103,23 +103,22 @@
         </tr>
 
         <!-- Password Reset Content -->
-<tr>
-    <td class="content">
-        <h1>Admin Verification Code</h1>
-        <p>Hello {{ $name }},</p>
-        <p>Your admin verification code is:</p>
-        <p style="text-align: center; margin: 30px 0;">
-            <span style="display: inline-block; background-color: #f0f0f0; color: #000; font-size: 28px; padding: 15px 30px; border-radius: 8px; font-weight: bold; letter-spacing: 5px;">
-                {{ $token }}
-            </span>
-        </p>
-        <p>Please enter this code to verify your admin login.</p>
-        <p>Do not share this code with anyone. It will expire shortly.</p>
-        <p>If you did not attempt to log in, please contact support immediately.</p>
-        <p>Regards,<br>LockMyTimes Team</p>
-    </td>
-</tr>
-
+        <tr>
+            <td class="content">
+                <h1>Reset Your Password</h1>
+                <p>Hello {{name}},</p>
+                <p>As requested, here’s your OTP code to reset your password:</p>
+                <p style="text-align: center; margin: 30px 0;">
+                <span style="display: inline-block; background-color: #f0f0f0; color: #000; font-size: 28px; padding: 15px 30px; border-radius: 8px; font-weight: bold; letter-spacing: 5px;">
+                  {{ $token }}
+                </span>
+                </p>
+                <p>Do not share it with anyone.</p>
+                <p>If you didn't ask us to reset your password, reset it now to keep your account secure.</p>
+                <p>Need help? Contact support or reply to this email.</p>
+                <p>Regards,<br>Lockmytimes Team</p>
+            </td>
+        </tr>
 
         <!-- Footer -->
         <tr>
