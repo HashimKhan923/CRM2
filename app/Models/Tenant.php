@@ -18,7 +18,9 @@ class Tenant extends Model
         'company_name',
         'company_logo',
         'website_url',
-        'stripe_customer_id'
+        'stripe_customer_id',
+        'organization_type',
+        'number_of_employees'
     ];
 
     use HasFactory;

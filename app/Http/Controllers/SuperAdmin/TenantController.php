@@ -47,6 +47,8 @@ class TenantController extends Controller
             'database_name' => $database_name,
             'phone_number' => $request->phone_number,
             'company_name' => $request->company_name,
+            'organization_type' => $request->organization_type,
+            'number_of_employees' => $request->number_of_employees,
             'company_logo' => $imagePath,
             'website_url' => $request->website_url,
             'tenant_id' => $tenantId
