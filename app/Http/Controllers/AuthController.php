@@ -141,7 +141,7 @@ class AuthController extends Controller
         $req->validate([
             'token' => 'required'
         ]);
-        $user = User::where('remember_token',$req->token)->first();
+        $user = User::with('personalInfo', 'location', 'shift')->where('remember_token',$req->token)->first();
         if($user == null)
         {
             
