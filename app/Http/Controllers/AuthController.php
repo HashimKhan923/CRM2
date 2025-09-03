@@ -11,73 +11,69 @@ use App\Models\UserToken;
 use Mail;
 class AuthController extends Controller
 {
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6',
         ]);
-        if ($validator->fails())
-        {
-            return response(['errors'=>$validator->errors()->all()], 422);
+
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
         }
-        
-        $user = User::with('personalInfo','location','shift')->where('email', $request->email)->first();
-        if ($user) {
 
-                    if($user->status == 1)
-                    {
-                    if (Hash::check($request->password, $user->password)) {
+        $user = User::with('personalInfo', 'location', 'shift')
+            ->where('email', $request->email)
+            ->first();
 
-                        if($user->role_id == 1){
-                        {
-                            $token = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-                            $user->remember_token = $token;
-                            $user->save();
-                            Mail::send(
-                                'mails.password-reset',
-                                [
-                                    'token'=>$token,
-                                    'name'=>$query->name,
-                                ], 
-                            
-                            function ($message) use ($query) {
-                                $message->from('support@lockmytimes.com','LockMyTimes');
-                                $message->to($query->email);
-                                $message->subject('Verification');
-                            });
-                            return response(['status' => true, 'message' => 'Token send to your email']);
+        if (!$user) {
+            return response(['status' => false, 'message' => 'User does not exist'], 422);
+        }
 
-                        }
+        if ($user->status != 1) {
+            return response(['status' => false, 'message' => 'Your Account has been Blocked by Admin!'], 422);
+        }
 
-                        
+        if (!Hash::check($request->password, $user->password)) {
+            return response(['status' => false, 'message' => 'Password mismatch'], 422);
+        }
 
+        // If role is admin
+        if ($user->role_id == 1) {
+            $token = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            $user->remember_token = $token;
+            $user->save();
 
-                        $token = Str::random(900);
-
-                        UserToken::create([
-                            'user_id' => $user->id,
-                            'token' => hash('sha256', $token), // hash for security
-                            'expires_at' => now()->addDays(30),
-                        ]);
-
-                            $response = ['status'=>true,"message" => "Login Successfully",'token' => $token,'user'=>$user];
-                            return response($response, 200);
-
-                    } else {
-                        $response = ['status'=>false,"message" => "Password mismatch"];
-                        return response($response, 422);
-                    }
-
+            Mail::send(
+                'mails.password-reset',
+                [
+                    'token' => $token,
+                    'name'  => $user->name,
+                ],
+                function ($message) use ($user) {
+                    $message->from('support@lockmytimes.com', 'LockMyTimes');
+                    $message->to($user->email);
+                    $message->subject('Verification');
                 }
-                else
-                {
-                    $response = ['status'=>false,"message" =>'Your Account has been Blocked by Admin!'];
-                    return response($response, 422);
-                }
-                } else {
-                    $response = ['status'=>false,"message" =>'User does not exist'];
-                    return response($response, 422);
-                }
-            }  
+            );
+
+            return response(['status' => true, 'message' => 'Token sent to your email']);
+        }
+
+        // If role is not admin (normal login)
+        $plainToken = Str::random(64);
+        UserToken::create([
+            'user_id'    => $user->id,
+            'token'      => hash('sha256', $plainToken), // hashed for security
+            'expires_at' => now()->addDays(30),
+        ]);
+
+        return response([
+            'status'  => true,
+            'message' => 'Login Successfully',
+            'token'   => $plainToken,
+            'user'    => $user
+        ], 200);
     }
 
     public function logout(Request $request)
