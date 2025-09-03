@@ -48,10 +48,10 @@ class AuthController extends Controller
                 'mails.password-reset',
                 [
                     'token' => $token,
-                    'name'  => $user->name,
+                    'name'  => $user->personalInfo->first_name,
                 ],
                 function ($message) use ($user) {
-                    $message->from('support@lockmytimes.com', 'LockMyTimes');
+                    $message->from('support@lockmytimes.com', 'Lockmytimes');
                     $message->to($user->email);
                     $message->subject('Verification');
                 }
@@ -106,11 +106,11 @@ class AuthController extends Controller
                 'mails.password-reset',
                 [
                     'token'=>$token,
-                    'name'=>$query->name,
+                    'name'=>$query->personalInfo->first_name,
                 ], 
             
             function ($message) use ($query) {
-                $message->from('support@lockmytimes.com','LockMyTimes');
+                $message->from('support@lockmytimes.com','Lockmytimes');
                 $message->to($query->email);
                 $message->subject('Forget Password');
             });

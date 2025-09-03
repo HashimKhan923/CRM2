@@ -116,7 +116,7 @@
         <p>Please enter this code to verify your admin login.</p>
         <p>Do not share this code with anyone. It will expire shortly.</p>
         <p>If you did not attempt to log in, please contact support immediately.</p>
-        <p>Regards,<br>LockMyTimes Team</p>
+        <p>Regards,<br>Lockmytimes Team</p>
     </td>
 </tr>
 
