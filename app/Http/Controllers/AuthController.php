@@ -135,6 +135,37 @@ class AuthController extends Controller
         }
 
     }
+
+    public function admin_token_check(Request $req)
+    {
+        $req->validate([
+            'token' => 'required'
+        ]);
+        $user = User::where('remember_token',$req->token)->first();
+        if($user == null)
+        {
+            
+            return response(['status' => false, 'message' => 'Token not match']);
+        }
+        else{
+
+            $user->remember_token = null;
+            $user->save();
+
+
+                $token = Str::random(900);
+
+                UserToken::create([
+                    'user_id' => $user->id,
+                    'token' => hash('sha256', $token), // hash for security
+                    'expires_at' => now()->addDays(30),
+                ]);
+
+            return response(['status' => true, 'message' => 'Token match','token' => $token,'user'=>$user]);
+        }
+
+    }
+
     public function reset_password(Request $req)
     {
         $req->validate([
