@@ -21,31 +21,36 @@ class AuthController extends Controller
     }
 
     public function profile_update(Request $request){
-        $id=$request->id;
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => "required|email|max:255|unique:users,email,$id,id",
+        $user=User::find($request->id);
 
-        ]);
-        if ($validator->fails())
-        {
-            return response(['errors'=>$validator->errors()->all()], 422);
+        $imagePath = '';
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            if ($file->isValid()) {
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('profile'), $fileName);
+                $imagePath = 'profile/' . $fileName;
+            }
         }
-        $admin=User::find($id);
-        $admin->name=$request->name;
-        $admin->email=$request->email;
-        if($request->file('image')){
-            $file= $request->file('image');
-            $filename= date('YmdHi').$file->getClientOriginalName();
-            $file->move(public_path('Profile'), $filename);
-            $new->image = $filename;
-        }
-        if($admin->save()){
+    
+        $user->personalInfo()->updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'first_name' => $request->first_name,
+                'middle_name'=> $request->middle_name,
+                'last_name'=> $request->last_name,
+                'national_id'=> $request->national_id,
+                'nationality'=> $request->nationality,
+                'blood_group'=> $request->blood_group,
+                'martial_status'=> $request->martial_status,
+                'date_of_birth' => $request->date_of_birth,
+                'gender' => $request->gender,
+                'photo' => $imagePath,
+            ]
+        );
           $response = ['status'=>true,"message" => "Profile Update Successfully","user"=>$admin];
           return response($response, 200);
-        }
-        $response = ['status'=>false,"message" => "Profile Not Update Successfully"];
-         return response($response, 422);  
+
     }
 
     public function passwordChange(Request $request){

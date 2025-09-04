@@ -160,6 +160,9 @@ Route::group(['middleware' => ['auth.token']], function(){
 
             /////////////////////////////////// User Routes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+                    Route::post('/profile/update', 'App\Http\Controllers\User\AuthController@profile_update');
+
+
 
                                 /// Home \\\
 
