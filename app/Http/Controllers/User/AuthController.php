@@ -21,7 +21,7 @@ class AuthController extends Controller
     }
 
     public function profile_update(Request $request){
-        $user=User::find($request->id);
+        $user=User::find($request->user_id);
 
         $imagePath = '';
         if ($request->hasFile('image')) {
