@@ -163,6 +163,22 @@ class UserController extends Controller
         // ]);
 
 
+        Mail::send(
+            'mails.new_subscription',
+            [
+                'name' => $request->first_name,
+                'email' => $request->email,
+                'password' => $request->password,
+                'product_key' => $request->tenant_id,
+            ],
+            function ($message) use ($request) { 
+                $message->from('support@lockmytimes.com','Lockmytimes');
+                $message->to($request->email);
+                $message->subject('Employee Account Created');
+            }
+        );
+
+
       
         $response = ['status'=>true,"message" => "Register Successfully"];
         return response($response, 200);
