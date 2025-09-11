@@ -9,7 +9,7 @@ class AuthController extends Controller
 {
     public function profile_view($id)
     {
-      $profile = User::where('id',$id)->first();
+      $profile = User::with('personalInfo')->where('id',$id)->first();
 
       return response()->json(['profile'=>$profile],200);
     }
