@@ -45,10 +45,9 @@ class AuthController extends Controller
             $user->save();
 
             Mail::send(
-                'mails.password-reset',
+                'mails.admin_verification',
                 [
                     'token' => $token,
-                    'name'  => $user->personalInfo->first_name,
                 ],
                 function ($message) use ($user) {
                     $message->from('support@lockmytimes.com', 'Lockmytimes');

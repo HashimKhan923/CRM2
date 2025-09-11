@@ -106,7 +106,7 @@
         <tr>
             <td class="content">
                 <h1>Reset Your Password</h1>
-                <p>Hello {{name}},</p>
+                <p>Hello Admin,</p>
                 <p>As requested, here’s your OTP code to reset your password:</p>
                 <p style="text-align: center; margin: 30px 0;">
                 <span style="display: inline-block; background-color: #f0f0f0; color: #000; font-size: 28px; padding: 15px 30px; border-radius: 8px; font-weight: bold; letter-spacing: 5px;">
