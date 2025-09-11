@@ -4,6 +4,12 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Validator;
+use App\Models\UserToken;
+use Mail;
 
 class AuthController extends Controller
 {
