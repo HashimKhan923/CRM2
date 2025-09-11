@@ -15,7 +15,7 @@ class AuthController extends Controller
 {
     public function profile_view($id)
     {
-      $profile = User::with('personalInfo','shift', 'department', 'role')->where('id',$id)->first();
+      $profile = User::with('personalInfo','shift','role')->where('id',$id)->first();
 
       return response()->json(['profile'=>$profile],200);
     }
