@@ -144,4 +144,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class);
     }
+
+    public function leaves()
+    {
+        return $this->hasMany(\App\Models\Leave::class);
+    }
+
+    public function leaveBalances()
+    {
+        return $this->hasMany(\App\Models\LeaveBalance::class);
+    }
 }

@@ -137,6 +137,38 @@ Route::group(['middleware' => ['auth.token']], function(){
                 Route::get('break_out/{id}','break_out');
             });
         }); 
+
+        /// Leave \\\
+
+
+        Route::group(['prefix' => '/admin/leaves/'], function() {
+            Route::controller(App\Http\Controllers\LeaveController::class)->group(function () {
+                Route::get('list', 'index');             
+                Route::get('view/{id}', 'view');          
+                Route::post('update/{id}', 'update');     
+                Route::get('delete/{id}', 'delete');      
+            });
+        });
+
+
+        Route::group(['prefix' => '/admin/leave-balances/'], function () {
+            Route::controller(App\Http\Controllers\LeaveBalanceController::class)->group(function () {
+                Route::get('view/{userId}', 'show');        // admin: view balances of specific user
+                Route::post('update/{id}', 'update');       // admin: update balance
+                Route::post('reset/{userId}', 'reset');     // admin: reset/set balance
+            });
+        });
+
+
+        Route::group(['prefix' => '/admin/leave-types/'], function () {
+            Route::controller(App\Http\Controllers\LeaveTypeController::class)->group(function () {
+                Route::get('list', 'index');               // admin: list types
+                Route::post('create', 'store');            // admin: create
+                Route::post('update/{id}', 'update');      // admin: update
+                Route::get('delete/{id}', 'destroy');      // admin: delete
+            });
+        });
+
             
             
                                             /// Users \\\
@@ -197,6 +229,30 @@ Route::group(['middleware' => ['auth.token']], function(){
                 Route::get('break_out/{id}','break_out');
             });
         }); 
+
+        /// Leave
+
+
+        Route::group(['prefix' => 'leaves/'], function() {
+            Route::controller(App\Http\Controllers\LeaveController::class)->group(function () {
+                Route::get('list', 'index');      
+                Route::post('apply', 'store');    
+            });
+        });
+
+
+        Route::group(['prefix' => 'leave-balances/'], function () {
+            Route::controller(App\Http\Controllers\LeaveBalanceController::class)->group(function () {
+                Route::get('list', 'index'); 
+            });
+        });
+
+
+        Route::group(['prefix' => 'leave-types/'], function () {
+            Route::controller(App\Http\Controllers\LeaveTypeController::class)->group(function () {
+                Route::get('list', 'index');   // employee: view all leave types
+            });
+        });
 
 
 });
