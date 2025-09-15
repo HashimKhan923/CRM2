@@ -54,7 +54,7 @@ class AuthController extends Controller
                 'photo' => $imagePath,
             ]
         );
-          $response = ['status'=>true,"message" => "Profile Update Successfully","user"=>$admin];
+          $response = ['status'=>true,"message" => "Profile Update Successfully","user"=>$user];
           return response($response, 200);
 
     }
