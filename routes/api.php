@@ -162,9 +162,10 @@ Route::group(['middleware' => ['auth.token']], function(){
 
         Route::group(['prefix' => '/admin/leave-types/'], function () {
             Route::controller(App\Http\Controllers\LeaveTypeController::class)->group(function () {
-                Route::get('list', 'index');               // admin: list types
+                Route::get('list', 'index');  
+                Route::get('view/{id}', 'show');            
                 Route::post('create', 'store');            // admin: create
-                Route::post('update/{id}', 'update');      // admin: update
+                Route::post('update', 'update');      // admin: update
                 Route::get('delete/{id}', 'destroy');      // admin: delete
             });
         });

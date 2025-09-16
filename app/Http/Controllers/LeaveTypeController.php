@@ -25,6 +25,8 @@ class LeaveTypeController extends Controller
         return response()->json(['data' => $types]);
     }
 
+
+
     /**
      * Admin: Create a new leave type
      * POST /api/admin/leave-types/create
@@ -52,14 +54,14 @@ class LeaveTypeController extends Controller
      * Admin: Update an existing leave type
      * POST /api/admin/leave-types/update/{id}
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|unique:leave_types,name,' . $id,
+            'name' => 'required|string|unique:leave_types,name,' . $request->id,
             'days' => 'required|integer|min:0',
         ]);
 
-        $type = LeaveType::findOrFail($id);
+        $type = LeaveType::findOrFail($request->id);
 
         $type->update([
             'name' => $request->name,
