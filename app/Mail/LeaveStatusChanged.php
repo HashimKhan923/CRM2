@@ -21,7 +21,7 @@ class LeaveStatusChanged extends Mailable
     public function build()
     {
         return $this->subject("Leave #{$this->leave->id} - {$this->leave->status}")
-                    ->view('emails.leave_status_changed')
+                    ->view('mails.leave_status_changed')
                     ->with(['leave' => $this->leave]);
     }
 }
