@@ -50,7 +50,7 @@ class AuthController extends Controller
                     'token' => $token,
                 ],
                 function ($message) use ($user) {
-                    $message->from('info@lockmytimes.com', 'Lockmytimes');
+                    $message->from('support@lockmytimes.com', 'Lockmytimes');
                     $message->to($user->email);
                     $message->subject('Verification');
                 }
