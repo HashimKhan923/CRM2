@@ -10,6 +10,7 @@ use App\Models\Shift;
 use App\Models\Time;
 use App\Models\Role;
 use App\Models\Location;
+use App\Models\LeaveType;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -21,11 +22,13 @@ class DashboardController extends Controller
         $Shifts = Shift::all();
         $Roles = Role::all();
         $Locations = Location::all();
+        $LeaveTypes = LeaveType::all();
+
         // $TodayAttendenceCount = Time::whereDate('created_at', Carbon::today('Asia/Karachi'))->count();
 
         
 
-        return response()->json(['Departments'=>$Departments,'Shifts'=>$Shifts,'Roles'=>$Roles,'Locations'=>$Locations]);
+        return response()->json(['Departments'=>$Departments,'Shifts'=>$Shifts,'Roles'=>$Roles,'Locations'=>$Locations,'LeaveTypes'=>$LeaveTypes]);
 
 
     }

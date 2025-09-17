@@ -16,6 +16,7 @@ use App\Models\Department;
 use App\Models\Shift;
 use App\Models\Role;
 use App\Models\OverTime;
+use App\Models\LeaveBalance;
 use Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -111,6 +112,15 @@ class UserController extends Controller
             'employment_type'=> $request->employment_type,
         ]);
 
+        $leave_balance = LeaveBalance::create([
+            'user_id' => $user->id,
+            'leave_type_id'=> $request->leave_type_id,
+            'year'=> date('Y'),
+            'total_days'=> $request->total_days,
+            'used_days'=> 0,
+            'remaining_days'=> 0,
+        ]);
+
         // $allowanceNames = $request->input('allowance_name');
         // $allowanceValues = $request->input('allowance_value');
         // $deductionNames = $request->input('deduction_name');
@@ -150,6 +160,8 @@ class UserController extends Controller
             'account_title'=> $request->account_title,
             'iban_number' => $request->iban_number,
         ]);
+
+        
 
         // $over_time = OverTime::create([
         //     'emp_id' => $user->id,
@@ -191,7 +203,7 @@ class UserController extends Controller
 
     public function view($id)
     {
-        $data = User::with(['shift', 'department', 'role', 'personalInfo', 'contactInfo', 'professionalDetails', 'jobInfo', 'compensationInfo', 'additionalInfo','accountInfo'])
+        $data = User::with(['shift', 'department', 'role', 'personalInfo', 'contactInfo', 'professionalDetails', 'jobInfo','compensationInfo', 'additionalInfo','accountInfo','leaveBalance'])
                     ->where('id', $id)
                     ->firstOrFail();
     
@@ -282,6 +294,16 @@ class UserController extends Controller
             'date_of_hire' => $request->date_of_hire,
             'employment_type' => $request->employment_type,
         ]);
+
+        $user->leaveBalance()->updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'leave_type_id'=> $request->leave_type_id,
+                'year'=> date('Y'),
+                'total_days'=> $request->total_days,
+
+            ]
+        );
 
 
         // $allowanceNames = $request->input('allowance_name', []);

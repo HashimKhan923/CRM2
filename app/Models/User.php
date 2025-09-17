@@ -88,6 +88,11 @@ class User extends Authenticatable
         return $this->hasOne(JobInfo::class);
     }
 
+    public function leaveBalance()
+    {
+        return $this->hasOne(LeaveBalance::class);
+    }
+
     public function professionalDetails()
     {
         return $this->hasOne(ProfessionalDetails::class);
