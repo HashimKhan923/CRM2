@@ -50,6 +50,12 @@ class LeaveTypeController extends Controller
         ], 201);
     }
 
+    public function show($id)
+    {
+        $type = LeaveType::findOrFail($id);
+        return response()->json(['data' => $type]);
+    }
+
     /**
      * Admin: Update an existing leave type
      * POST /api/admin/leave-types/update/{id}
