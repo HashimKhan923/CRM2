@@ -38,26 +38,26 @@ class AuthController extends Controller
             return response(['status' => false, 'message' => 'Password mismatch'], 422);
         }
 
-        // If role is admin
-        // if ($user->role_id == 1) {
-        //     $token = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-        //     $user->remember_token = $token;
-        //     $user->save();
+     //   If role is admin
+        if ($user->role_id == 1) {
+            $token = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            $user->remember_token = $token;
+            $user->save();
 
-        //     Mail::send(
-        //         'mails.admin_verification',
-        //         [
-        //             'token' => $token,
-        //         ],
-        //         function ($message) use ($user) {
-        //             $message->from('support@lockmytimes.com', 'Lockmytimes');
-        //             $message->to($user->email);
-        //             $message->subject('Verification');
-        //         }
-        //     );
+            Mail::send(
+                'mails.admin_verification',
+                [
+                    'token' => $token,
+                ],
+                function ($message) use ($user) {
+                    $message->from('support@lockmytimes.com', 'Lockmytimes');
+                    $message->to($user->email);
+                    $message->subject('Verification');
+                }
+            );
 
-        //     return response(['status' => true, 'message' => 'Token sent to your email']);
-        // }
+            return response(['status' => true, 'message' => 'Token sent to your email']);
+        }
 
         // If role is not admin (normal login)
         $plainToken = Str::random(64);
