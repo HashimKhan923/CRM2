@@ -90,7 +90,7 @@ class User extends Authenticatable
 
     public function leaveBalance()
     {
-        return $this->hasOne(LeaveBalance::class);
+        return $this->hasMany(LeaveBalance::class);
     }
 
     public function professionalDetails()
