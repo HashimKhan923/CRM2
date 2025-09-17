@@ -112,14 +112,17 @@ class UserController extends Controller
             'employment_type'=> $request->employment_type,
         ]);
 
-        $leave_balance = LeaveBalance::create([
-            'user_id' => $user->id,
-            'leave_type_id'=> $request->leave_type_id,
-            'year'=> date('Y'),
-            'total_days'=> $request->total_days,
-            'used_days'=> 0,
-            'remaining_days'=> 0,
-        ]);
+        foreach ($request->leave_types as $leave) {
+            LeaveBalance::create([
+                'user_id'        => $user->id,
+                'leave_type_id'  => $leave['leave_type_id'],
+                'year'           => date('Y'),
+                'total_days'     => $leave['total_days'],
+                'used_days'      => 0,
+                'remaining_days' => $leave['total_days'],
+            ]);
+        }
+
 
         // $allowanceNames = $request->input('allowance_name');
         // $allowanceValues = $request->input('allowance_value');
@@ -295,15 +298,20 @@ class UserController extends Controller
             'employment_type' => $request->employment_type,
         ]);
 
-        $user->leaveBalance()->updateOrCreate(
-            ['user_id' => $user->id],
-            [
-                'leave_type_id'=> $request->leave_type_id,
-                'year'=> date('Y'),
-                'total_days'=> $request->total_days,
+        foreach ($request->leave_types as $leave) {
+            LeaveBalance::updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'leave_type_id' => $leave['leave_type_id'],
+                    'year' => date('Y'),
+                ],
+                [
+                    'total_days' => $leave['total_days'],
 
-            ]
-        );
+                ]
+            );
+        }
+        
 
 
         // $allowanceNames = $request->input('allowance_name', []);
