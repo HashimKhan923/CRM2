@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('leave_type_id')->constrained('leave_types')->onDelete('cascade');
-            $table->integer('balance')->default(0);
             $table->integer('year')->default((int) date('Y'));
+            $table->integer('total_days')->default(0);
+            $table->integer('used_days')->default(0);
+            $table->integer('remaining_days')->default(0);
             $table->timestamps();
 
             $table->unique(['user_id','leave_type_id','year']);

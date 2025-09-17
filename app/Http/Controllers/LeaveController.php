@@ -66,7 +66,7 @@ class LeaveController extends Controller
                     ->where('year', $year)
                     ->first();
 
-        if (!$balance || $balance->balance < $days) {
+        if (!$balance || $balance->remaining_days < $days) {
             return response()->json(['message' => 'Insufficient leave balance'], 422);
         }
 
@@ -133,7 +133,7 @@ class LeaveController extends Controller
                     ->where('year', $year)
                     ->first();
 
-        if (!$balance || $balance->balance < $days) {
+        if (!$balance || $balance->remaining_days < $days) {
             return response()->json(['message' => 'Insufficient leave balance for requested dates'], 422);
         }
 
@@ -185,11 +185,12 @@ class LeaveController extends Controller
                     ->lockForUpdate()
                     ->first();
 
-                if (!$balance || $balance->balance < $leave->days) {
+                if (!$balance || $balance->remaining_days < $leave->days) {
                     throw new \Exception('Insufficient balance to approve');
                 }
 
-                $balance->balance -= $leave->days;
+                $balance->remaining_days -= $leave->days;
+                $balance->used_days += $leave->days;
                 $balance->save();
 
                 $leave->status = 'approved';

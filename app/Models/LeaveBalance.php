@@ -9,7 +9,7 @@ class LeaveBalance extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','leave_type_id','balance','year'];
+    protected $fillable = ['user_id','leave_type_id','year','total_days','used_days','remaining_days'];
 
     public function user()
     {
