@@ -185,7 +185,7 @@ class UserController extends Controller
 
 
         Mail::send(
-            'mails.new_subscription',
+            'mails.new_employee',
             [
                 'name' => $request->first_name,
                 'email' => $request->email,
