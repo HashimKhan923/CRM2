@@ -112,7 +112,9 @@ class UserController extends Controller
             'employment_type'=> $request->employment_type,
         ]);
 
-        foreach ($request->leave_types as $leave) {
+        if($request->leave_types)
+        {
+            foreach ($request->leave_types as $leave) {
             LeaveBalance::create([
                 'user_id'        => $user->id,
                 'leave_type_id'  => $leave['leave_type_id'],
@@ -122,6 +124,9 @@ class UserController extends Controller
                 'remaining_days' => $leave['total_days'],
             ]);
         }
+        }
+
+
 
 
         // $allowanceNames = $request->input('allowance_name');
