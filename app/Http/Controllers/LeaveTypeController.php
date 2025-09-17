@@ -64,7 +64,7 @@ class LeaveTypeController extends Controller
     {
         $request->validate([
             'name' => 'required|string|unique:leave_types,name,' . $request->id,
-            'days' => 'required|integer|min:0',
+            'max_days_per_year' => 'required|integer|min:0',
         ]);
 
         $type = LeaveType::findOrFail($request->id);
