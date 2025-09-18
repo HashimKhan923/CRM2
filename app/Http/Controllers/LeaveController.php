@@ -26,7 +26,7 @@ class LeaveController extends Controller
         $user = auth()->user();
 
         if ($user->role->id == 1) {
-            $leaves = Leave::with('user','leaveType','approver')->latest()->paginate(20);
+            $leaves = Leave::with('user.leaveBalance','leaveType','approver')->latest()->paginate(20);
         } else {
             $leaves = $user->leaves()->with('leaveType')->latest()->paginate(20);
         }
