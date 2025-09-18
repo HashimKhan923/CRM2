@@ -144,9 +144,9 @@ Route::group(['middleware' => ['auth.token']], function(){
         Route::group(['prefix' => '/admin/leaves/'], function() {
             Route::controller(App\Http\Controllers\LeaveController::class)->group(function () {
                 Route::get('list', 'index');             
-                Route::get('view/{id}', 'view');          
-                Route::post('update/{id}', 'update');     
-                Route::get('delete/{id}', 'delete');      
+                Route::get('view/{id}', 'show');          
+                Route::get('approve/{id}', 'approve');       
+                Route::get('reject{id}', 'reject');       
             });
         });
 
@@ -237,7 +237,10 @@ Route::group(['middleware' => ['auth.token']], function(){
         Route::group(['prefix' => 'leaves/'], function() {
             Route::controller(App\Http\Controllers\LeaveController::class)->group(function () {
                 Route::get('list', 'index');      
-                Route::post('apply', 'store');    
+                Route::get('view/{id}', 'show');
+                Route::post('apply', 'store'); 
+                Route::post('update', 'update'); 
+                Route::get('cancelled/{id}', 'destroy');  
             });
         });
 

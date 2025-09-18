@@ -84,21 +84,24 @@ class LeaveController extends Controller
     }
 
     // GET /api/leaves/{leave}
-    public function show(Leave $leave)
+    public function show($id)
     {
         $user = auth()->user();
 
-        if (!$user->is_admin && $leave->user_id !== $user->id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $leave = Leave::findOrFail($id);
+
+        // if (!$user->is_admin && $leave->user_id !== $user->id) {
+        //     return response()->json(['message' => 'Unauthorized'], 403);
+        // }
 
         return response()->json($leave->load('user','leaveType','approver'));
     }
 
     // PUT /api/leaves/{leave}  (user edits pending leave)
-    public function update(UpdateLeaveRequest $request, Leave $leave)
+    public function update(UpdateLeaveRequest $request)
     {
         $user = auth()->user();
+        $leave = Leave::findOrFail($request->id);
 
         if ($leave->user_id !== $user->id || $leave->status !== 'pending') {
             return response()->json(['message' => 'Not allowed to edit this leave'], 403);
@@ -149,9 +152,10 @@ class LeaveController extends Controller
     }
 
     // DELETE /api/leaves/{leave}  (user cancels pending leave)
-    public function destroy(Leave $leave)
+    public function destroy($id)
     {
         $user = auth()->user();
+        $leave = Leave::findOrFail($id);
 
         if ($leave->user_id !== $user->id) {
             return response()->json(['message' => 'Not allowed'], 403);
@@ -168,9 +172,10 @@ class LeaveController extends Controller
     }
 
     // POST /api/leaves/{leave}/approve  (admin)
-    public function approve(Request $request, Leave $leave)
+    public function approve($id, Request $request)
     {
         $user = auth()->user();
+        $leave = Leave::findOrFail($id);
         if (!$user->role->id == 1) return response()->json(['message' => 'Unauthorized'], 403);
         if ($leave->status !== 'pending') return response()->json(['message' => 'Only pending leaves can be approved'], 422);
 
@@ -213,9 +218,10 @@ class LeaveController extends Controller
     }
 
     // POST /api/leaves/{leave}/reject  (admin)
-    public function reject(Request $request, Leave $leave)
+    public function reject($id, Request $request)
     {
         $user = auth()->user();
+        $leave = Leave::findOrFail($id);
         if (!$user->role->id == 1) return response()->json(['message' => 'Unauthorized'], 403);
         if ($leave->status !== 'pending') return response()->json(['message' => 'Only pending leaves can be rejected'], 422);
 
