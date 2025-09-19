@@ -236,7 +236,7 @@ Route::group(['middleware' => ['auth.token']], function(){
 
         Route::group(['prefix' => 'leaves/'], function() {
             Route::controller(App\Http\Controllers\LeaveController::class)->group(function () {
-                Route::get('list', 'index');      
+                Route::get('list/{user_id}', 'index');      
                 Route::get('view/{id}', 'show');
                 Route::post('apply', 'store'); 
                 Route::post('update', 'update'); 

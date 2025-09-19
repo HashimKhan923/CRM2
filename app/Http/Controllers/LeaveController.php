@@ -21,21 +21,13 @@ class LeaveController extends Controller
     // }
 
     // GET /api/leaves
-    public function index(Request $request)
+    public function index($user_id)
     {
-        $user = auth()->user();
+        
 
-        if ($user->role->id == 1) {
-            $leaves = Leave::with('user.leaveBalance','leaveType','approver')->latest()->paginate(20);
-        } else {
-            $leaves = Leave::with([
-                'user.leaveBalances', // make sure relation is plural
-                'leaveType',
-                'approver'
-            ])
-            ->where('user_id', $user->id)
-            ->latest()
-            ->paginate(20);        }
+        
+        $leaves = Leave::with('user.leaveBalance','leaveType','approver')->where('user_id',$user_id)->get();
+
 
         return response()->json($leaves);
     }
