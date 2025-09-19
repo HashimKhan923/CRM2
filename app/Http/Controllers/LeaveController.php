@@ -28,8 +28,14 @@ class LeaveController extends Controller
         if ($user->role->id == 1) {
             $leaves = Leave::with('user.leaveBalance','leaveType','approver')->latest()->paginate(20);
         } else {
-            $leaves = $user->leaves()->with('leaveType')->latest()->paginate(20);
-        }
+            $leaves = Leave::with([
+                'user.leaveBalances', // make sure relation is plural
+                'leaveType',
+                'approver'
+            ])
+            ->where('user_id', $user->id)
+            ->latest()
+            ->paginate(20);        }
 
         return response()->json($leaves);
     }
