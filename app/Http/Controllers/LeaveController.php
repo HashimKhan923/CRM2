@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
+
 class LeaveController extends Controller
 {
     // public function __construct()
@@ -24,12 +25,12 @@ class LeaveController extends Controller
     public function index($user_id)
     {
         
-
+        $leaveBalance = LeaveBalance::where('user_id', $user_id)->get();
         
         $leaves = Leave::with('user.leaveBalance','leaveType','approver')->where('user_id',$user_id)->get();
 
 
-        return response()->json($leaves);
+        return response()->json($leaves, $leaveBalance);
     }
 
     // POST /api/leaves
