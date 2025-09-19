@@ -142,7 +142,7 @@ Route::group(['middleware' => ['auth.token']], function(){
 
 
         Route::group(['prefix' => '/admin/leaves/'], function() {
-            Route::controller(App\Http\Controllers\LeaveController::class)->group(function () {
+            Route::controller(App\Http\Controllers\Admin\LeaveController::class)->group(function () {
                 Route::get('list', 'index');             
                 Route::get('view/{id}', 'show');          
                 Route::get('approve/{id}', 'approve');       
