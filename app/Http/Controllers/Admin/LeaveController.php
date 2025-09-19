@@ -11,7 +11,8 @@ class LeaveController extends Controller
     public function index()
     {
         $leaves = Leave::with([
-            'user.leaveBalances.leaveType.personalInfo',
+            'user.leaveBalances.leaveType',
+            'personalInfo',
             'leaveType',
             'approver'
         ])->get();
