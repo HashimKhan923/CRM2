@@ -24,13 +24,18 @@ class LeaveController extends Controller
     // GET /api/leaves
     public function index($user_id)
     {
-        
-        $leaveBalance = LeaveBalance::where('user_id', $user_id)->get();
-        
-        $leaves = Leave::with('user.leaveBalance','leaveType','approver')->where('user_id',$user_id)->get();
+        $leaveBalance = LeaveBalance::where('user_id', $user_id)->with('leaveType')->get();
 
+        $leaves = Leave::with([
+            'user.leaveBalances.leaveType', // load balances with type
+            'leaveType',
+            'approver'
+        ])->where('user_id', $user_id)->get();
 
-        return response()->json($leaves, $leaveBalance);
+        return response()->json([
+            'leave_balances' => $leaveBalance,
+            'leaves' => $leaves,
+        ], 200);
     }
 
     // POST /api/leaves
