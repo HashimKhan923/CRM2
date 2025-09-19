@@ -15,5 +15,9 @@ class LeaveController extends Controller
             'leaveType',
             'approver'
         ])->get();
+
+        return response()->json([
+            'leaves' => $leaves,
+        ], 200);
     }
 }
