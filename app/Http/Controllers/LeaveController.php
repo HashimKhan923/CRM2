@@ -41,7 +41,7 @@ class LeaveController extends Controller
     // POST /api/leaves
     public function store(StoreLeaveRequest $request)
     {
-        return $request->all();
+      
 
         $user  = auth()->user();
         $start = $request->start_date;
