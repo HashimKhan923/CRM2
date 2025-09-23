@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Leave;
+use App\Models\LeaveBalance;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\LeaveStatusChanged;
+use Carbon\Carbon;
 
 class LeaveController extends Controller
 {
