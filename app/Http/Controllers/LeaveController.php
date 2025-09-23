@@ -74,6 +74,19 @@ class LeaveController extends Controller
             return response()->json(['message' => 'Insufficient leave balance'], 422);
         }
 
+            // Handle attachments
+            $attachments = [];
+            if ($request->hasFile('attachments')) {
+                foreach ($request->file('attachments') as $file) {
+                    if ($file->isValid()) {
+                        $path = $file->store('leave_attachments', 'public');
+                        $attachments[] = $path;
+                    }
+                }
+            }
+
+
+
         $leave = Leave::create([
             'user_id' => $user->id,
             'leave_type_id' => $request->leave_type_id,
@@ -82,6 +95,9 @@ class LeaveController extends Controller
             'days' => $days,
             'reason' => $request->reason,
             'status' => 'pending',
+            'attachments' => $attachments ? json_encode($attachments) : null,
+
+
         ]);
 
         return response()->json(['message' => 'Leave request submitted', 'leave' => $leave], 201);
@@ -144,12 +160,25 @@ class LeaveController extends Controller
             return response()->json(['message' => 'Insufficient leave balance for requested dates'], 422);
         }
 
+
+            $attachments = [];
+            if ($request->hasFile('attachments')) {
+                foreach ($request->file('attachments') as $file) {
+                    if ($file->isValid()) {
+                        $path = $file->store('leave_attachments', 'public');
+                        $attachments[] = $path;
+                    }
+                }
+            }
+
         $leave->update([
             'leave_type_id' => $request->leave_type_id,
             'start_date' => $start,
             'end_date' => $end,
             'days' => $days,
             'reason' => $request->reason,
+            'attachments' => $attachments ? json_encode($attachments) : $leave->attachments,
+
         ]);
 
         return response()->json(['message' => 'Leave updated', 'leave' => $leave]);
