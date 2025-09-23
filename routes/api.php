@@ -186,7 +186,6 @@ Route::group(['middleware' => ['auth.token']], function(){
                 });
 
 
-
     });
 
 
