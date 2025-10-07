@@ -51,7 +51,7 @@ class AuthController extends Controller
                 'martial_status'=> $request->martial_status,
                 'date_of_birth' => $request->date_of_birth,
                 'gender' => $request->gender,
-                'photo' => $imagePath,
+                'photo' => $imagePath ? $imagePath : $user->personalInfo->photo,
             ]
         );
           $response = ['status'=>true,"message" => "Profile Update Successfully","user"=>$user];

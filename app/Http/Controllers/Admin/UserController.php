@@ -247,7 +247,9 @@ class UserController extends Controller
         }
     
         
-        $imagePath = '';
+        $imagePath = null;
+
+        // Handle image upload only if new file is provided
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             if ($file->isValid()) {
@@ -256,20 +258,23 @@ class UserController extends Controller
                 $imagePath = 'profile/' . $fileName;
             }
         }
-    
+
+        // Get existing personal info
+        $personalInfo = $user->personalInfo()->first();
+
         $user->personalInfo()->updateOrCreate(
             ['user_id' => $user->id],
             [
-                'first_name' => $request->first_name,
-                'middle_name'=> $request->middle_name,
-                'last_name'=> $request->last_name,
-                'national_id'=> $request->national_id,
-                'nationality'=> $request->nationality,
-                'blood_group'=> $request->blood_group,
-                'martial_status'=> $request->martial_status,
-                'date_of_birth' => $request->date_of_birth,
-                'gender' => $request->gender,
-                'photo' => $imagePath,
+                'first_name'     => $request->first_name,
+                'middle_name'    => $request->middle_name,
+                'last_name'      => $request->last_name,
+                'national_id'    => $request->national_id,
+                'nationality'    => $request->nationality,
+                'blood_group'    => $request->blood_group,
+                'martial_status' => $request->martial_status,
+                'date_of_birth'  => $request->date_of_birth,
+                'gender'         => $request->gender,
+                'photo'          => $imagePath ?? optional($personalInfo)->photo,
             ]
         );
     
