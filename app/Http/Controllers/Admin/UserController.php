@@ -303,7 +303,9 @@ class UserController extends Controller
             'employment_type' => $request->employment_type,
         ]);
 
-        foreach ($request->leave_types as $leave) {
+        if($request->leave_types)
+        {
+            foreach ($request->leave_types as $leave) {
             LeaveBalance::updateOrCreate(
                 [
                     'user_id' => $user->id,
@@ -316,6 +318,9 @@ class UserController extends Controller
                 ]
             );
         }
+        }
+
+
         
 
 
