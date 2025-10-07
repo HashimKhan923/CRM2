@@ -314,6 +314,7 @@ class UserController extends Controller
                 ],
                 [
                     'total_days' => $leave['total_days'],
+                    'remaining_days' => $leave['total_days'],
 
                 ]
             );
