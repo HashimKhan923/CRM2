@@ -303,9 +303,11 @@ class UserController extends Controller
             'employment_type' => $request->employment_type,
         ]);
 
+        LeaveBalance::where('user_id', $user->id)->delete();
+
         if($request->leave_types)
         {
-            LeaveBalance::where('user_id', $user->id)->delete();
+            
 
             foreach ($request->leave_types as $leave) {
             LeaveBalance::updateOrCreate(
@@ -320,7 +322,7 @@ class UserController extends Controller
 
                 ]
             );
-        }
+            }
         }
 
 
