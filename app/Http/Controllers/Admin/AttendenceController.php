@@ -286,10 +286,11 @@ class AttendenceController extends Controller
             return $attendance;
         });
 
+                $users = User::with('personalInfo')->where('role_id',2)->get();
 
 
     
-            return response()->json(['attendences'=>$attendences]);  
+            return response()->json(['attendences'=>$attendences,'users'=>$users]);  
         
 
     }

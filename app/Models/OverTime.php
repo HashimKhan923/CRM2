@@ -9,5 +9,5 @@ class OverTime extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['emp_id','time_limit','rate','status']; 
+   protected $fillable = ['user_id','maximum_hours_limit','status']; 
 }

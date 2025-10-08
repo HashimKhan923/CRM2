@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('over_times', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('emp_id')->unsigned()->nullable();
-            $table->foreign('emp_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->integer('time_limit')->nullable();
-            $table->decimal('rate')->nullable();
+            $table->bigInteger('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('maximum_hours_limit')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
         });
