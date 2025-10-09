@@ -64,7 +64,8 @@ class AttendenceController extends Controller
     public function detail($id)
     {
         $attendences = Time::with(['user','breaks']) // Load related breaks
-        ->where('id',$id)   
+        ->where('id',$id)
+        ->get()
         ->map(function ($attendance) {
             $clockIn = Carbon::parse($attendance->time_in);
             $clockOut = Carbon::parse($attendance->time_out);

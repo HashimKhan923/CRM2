@@ -220,6 +220,18 @@ Route::group(['middleware' => ['auth.token']], function(){
                 });
             });
 
+                        /// Attendence Request \\\
+
+            Route::group(['prefix' => 'attendence-request/'], function() {
+            Route::controller(App\Http\Controllers\User\AttendenceRequestController::class)->group(function () {
+                Route::get('list/{id}','index');
+                Route::post('create','store');
+                Route::get('view/{id}','show');
+                Route::post('update/{id}','update');
+                Route::get('delete/{id}','destroy');
+            });
+        });
+
 
 
             /// Break \\\

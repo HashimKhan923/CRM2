@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AttendenceRequest;
+use Carbon\Carbon;
+use App\Models\Time;
 
 class AttendenceRequestController extends Controller
 {
@@ -33,9 +35,33 @@ class AttendenceRequestController extends Controller
             return response()->json(['message' => 'Attendance request not found.'], 404);
         }
 
+        Time::create([
+            'user_id' => $attendenceRequest->user_id,
+            'time_in' => $attendenceRequest->time_in,
+            'time_out' => $attendenceRequest->time_out,
+            'status' => 'Completed',
+            'late_status' => 0,
+        ]);
+
+
+
         $attendenceRequest->status = 'approved';
         $attendenceRequest->save();
 
         return response()->json(['message' => 'Attendance request approved successfully.', 'attendenceRequest' => $attendenceRequest]);
+    }
+
+    public function reject($id)
+    {
+        $attendenceRequest = AttendenceRequest::find($id);
+
+        if (!$attendenceRequest) {
+            return response()->json(['message' => 'Attendance request not found.'], 404);
+        }
+
+        $attendenceRequest->status = 'rejected';
+        $attendenceRequest->save();
+
+        return response()->json(['message' => 'Attendance request rejected successfully.', 'attendenceRequest' => $attendenceRequest]);
     }
 }
