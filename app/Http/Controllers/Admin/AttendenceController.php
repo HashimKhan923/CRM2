@@ -53,6 +53,12 @@ class AttendenceController extends Controller
         return view('admin.attendences.index', compact('attendences')); 
     }
 
+    public function detail($id)
+    {
+        $attendence = Time::with(['user','breaks'])->where('id',$id)->first();
+        return response()->json(['attendence'=>$attendence]);
+    }
+
     public function create(Request $request)
     {
         $check_user = User::where('id', $request->user_id)->first();

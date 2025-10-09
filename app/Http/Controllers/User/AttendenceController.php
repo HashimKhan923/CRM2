@@ -61,6 +61,12 @@ class AttendenceController extends Controller
         // return view('user.attendences.index', compact('attendences')); 
     }
 
+    public function detail($id)
+    {
+        $attendence = Time::with(['user','breaks'])->where('id',$id)->first();
+        return response()->json(['attendence'=>$attendence]);
+    }
+
     public function search(Request $request)
     {
         $from_date = Carbon::parse($request->from_date)->startOfDay();

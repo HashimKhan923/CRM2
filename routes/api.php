@@ -121,6 +121,7 @@ Route::group(['middleware' => ['auth.token']], function(){
                 Route::group(['prefix' => '/admin/attendence/'], function() {
                     Route::controller(App\Http\Controllers\Admin\AttendenceController::class)->group(function () {
                         Route::get('show','index');
+                        Route::get('detail/{id}','detail');
                         Route::post('search','search');
                         Route::post('create','create');
                         Route::post('update','update');
@@ -212,6 +213,7 @@ Route::group(['middleware' => ['auth.token']], function(){
             Route::group(['prefix' => 'attendence/'], function() {
             Route::controller(App\Http\Controllers\User\AttendenceController::class)->group(function () {
                     Route::get('show/{id}','index');
+                    Route::get('detail/{id}','detail');
                     Route::post('search','search');
                     Route::get('time_in/{location_id}/{user_id}','time_in');
                     Route::get('time_out/{user_id}','time_out');

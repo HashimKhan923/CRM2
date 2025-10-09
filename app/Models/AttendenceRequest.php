@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class AttendenceRequest extends Model
 {
     use HasFactory;
+
+
+    protected $fillable = ['user_id', 'reason', 'time_in', 'time_out', 'status'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
