@@ -103,7 +103,7 @@ class HomeController extends Controller
                 $ShifTo = $ShifTo->addDay();
             }
             
-            $remainingTime = Carbon::parse($ShifTo)->diff($ShifFrom);
+            $remainingTime = Carbon::parse($ShifTo)->diff($Time_now);
 
 
 
