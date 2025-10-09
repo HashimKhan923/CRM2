@@ -208,7 +208,7 @@ Route::group(['middleware' => ['auth.token']], function(){
 
 
 
-                                /// Attendence \\\
+                                /// Attendence \\\\
 
             Route::group(['prefix' => 'attendence/'], function() {
             Route::controller(App\Http\Controllers\User\AttendenceController::class)->group(function () {
