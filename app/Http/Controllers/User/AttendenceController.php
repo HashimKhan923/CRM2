@@ -63,7 +63,31 @@ class AttendenceController extends Controller
 
     public function detail($id)
     {
-        $attendence = Time::with(['user','breaks'])->where('id',$id)->first();
+        $attendences = Time::with(['user','breaks']) // Load related breaks
+        ->where('id',$id)   
+        ->map(function ($attendance) {
+            $clockIn = Carbon::parse($attendance->time_in);
+            $clockOut = Carbon::parse($attendance->time_out);
+
+            // Calculate total worked minutes
+            $totalWorkedMinutes = $clockOut->diffInMinutes($clockIn);
+
+            // Get total break time in minutes
+            $totalBreakMinutes = $attendance->breaks->sum(function ($break) {
+                if ($break->time_in && $break->time_out) {
+                    return Carbon::parse($break->time_out)->diffInMinutes(Carbon::parse($break->time_in));
+                }
+                return 0;
+            });
+
+            // Calculate net worked minutes
+            $netWorkedMinutes = max($totalWorkedMinutes - $totalBreakMinutes, 0);
+
+            // Convert to hours & minutes format
+            $attendance->net_worked_hours = floor($netWorkedMinutes / 60) . 'h ' . ($netWorkedMinutes % 60) . 'm';
+
+            return $attendance;
+        });
         return response()->json(['attendence'=>$attendence]);
     }
 
