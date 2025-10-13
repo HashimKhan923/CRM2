@@ -12,6 +12,8 @@ use App\Models\Role;
 use App\Models\Location;
 use App\Models\LeaveType;
 use Carbon\Carbon;
+use App\Models\Leave;
+
 
 class DashboardController extends Controller
 {
@@ -23,12 +25,15 @@ class DashboardController extends Controller
         $Roles = Role::all();
         $Locations = Location::all();
         $LeaveTypes = LeaveType::all();
-
+        $CurrentMonthLeaves = Leave::select('id', 'status')
+        ->whereMonth('created_at', Carbon::now()->month)
+        ->whereYear('created_at', Carbon::now()->year)
+        ->get();
         // $TodayAttendenceCount = Time::whereDate('created_at', Carbon::today('Asia/Karachi'))->count();
 
         
 
-        return response()->json(['Departments'=>$Departments,'Shifts'=>$Shifts,'Roles'=>$Roles,'Locations'=>$Locations,'LeaveTypes'=>$LeaveTypes]);
+        return response()->json(['Departments'=>$Departments,'Shifts'=>$Shifts,'Roles'=>$Roles,'Locations'=>$Locations,'LeaveTypes'=>$LeaveTypes,'CurrentMonthLeaves'=>$CurrentMonthLeaves]);
 
 
     }
