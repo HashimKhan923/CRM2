@@ -270,7 +270,7 @@ public function detail($id)
 
     public function search(Request $request)
     {
-        $attendences = Time::query()->with('user.personalInfo'); // Initialize query with relationship
+        $attendences = Time::query()->with('user.personalInfo','attendenceRequest'); // Initialize query with relationship
 
         if ($request->user_id) {
             $attendences->where('user_id', $request->user_id);

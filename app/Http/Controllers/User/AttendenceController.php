@@ -93,7 +93,7 @@ public function detail($id)
         $to_date = Carbon::parse($request->to_date)->endOfDay();
 
 
-        $attendences = Time::with(['user']) // Load related breaks
+        $attendences = Time::with(['user','attendenceRequest']) // Load related breaks
         ->where('created_at','>=',$from_date)->where('created_at','<=',$to_date)->where('user_id',auth()->user()->id)
         ->get()
         ->map(function ($attendance) {
