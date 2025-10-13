@@ -25,6 +25,11 @@ class Time extends Model
         return $this->hasMany(Breaks::class, 'time_id');
     }
 
+    public function attendenceRequest()
+    {
+        return $this->hasOne(AttendenceRequest::class, 'time_id');
+    }
+
 
     use HasFactory;
 }
