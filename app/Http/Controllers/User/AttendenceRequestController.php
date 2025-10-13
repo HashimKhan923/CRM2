@@ -14,6 +14,8 @@ class AttendenceRequestController extends Controller
     public function index(Request $request, $id)
     {
         $AttendenceRequests = AttendenceRequest::where('user_id',$id)->get();
+
+        return response()->json(['AttendenceRequests'=>$AttendenceRequests]);
     }
 
     public function store(Request $request)
