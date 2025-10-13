@@ -94,7 +94,7 @@ public function detail($id)
 
 
         $attendences = Time::with(['user','attendenceRequest']) // Load related breaks
-        ->where('created_at','>=',$from_date)->where('created_at','<=',$to_date)->where('user_id',auth()->user()->id)
+        ->where('time_in','>=',$from_date)->where('time_in','<=',$to_date)->where('user_id',auth()->user()->id)
         ->get()
         ->map(function ($attendance) {
             $clockIn = Carbon::parse($attendance->time_in);
