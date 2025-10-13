@@ -21,6 +21,7 @@ class AttendenceRequestController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'time_id' => 'sometimes|exists:times,id',
             'user_id' => 'required|exists:users,id',
             'reason' => 'required|string',
             'time_in' => 'required|date',
@@ -28,6 +29,7 @@ class AttendenceRequestController extends Controller
         ]);
 
         $attendenceRequest = AttendenceRequest::create([
+            'time_id' => $request->time_id,
             'user_id' => $request->user_id,
             'reason' => $request->reason,
             'time_in' => Carbon::parse($request->time_in),
@@ -68,6 +70,8 @@ class AttendenceRequestController extends Controller
 
         return response()->json(['message' => 'Attendance request updated successfully.', 'attendenceRequest' => $attendenceRequest]);
     }
+
+
 
 
     public function destroy($id)
