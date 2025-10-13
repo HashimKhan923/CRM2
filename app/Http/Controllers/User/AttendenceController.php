@@ -231,7 +231,7 @@ public function detail($id)
     
         $totalShiftMinutes = $shiftEnd->diffInMinutes($shiftStart);
     
-        $timeRecord = Time::where('user_id', $user_id)
+        $timeRecord = Time::where('user_id', $request->user_id)
                           ->whereDate('created_at', Carbon::today('Asia/Karachi'))
                           ->first();
     
