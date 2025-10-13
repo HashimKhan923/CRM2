@@ -49,9 +49,9 @@ class AttendenceRequestController extends Controller
         return response()->json(['attendenceRequest' => $attendenceRequest]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $attendenceRequest = AttendenceRequest::find($id);
+        $attendenceRequest = AttendenceRequest::find($request->id);
 
         if (!$attendenceRequest) {
             return response()->json(['message' => 'Attendance request not found.'], 404);
