@@ -13,13 +13,13 @@ class AttendenceRequestController extends Controller
 {
     public function index(Request $request)
     {
-        $AttendenceRequests = AttendenceRequest::with('user')->get();
+        $AttendenceRequests = AttendenceRequest::with('user.personalInfo')->get();
         return response()->json(['AttendenceRequests'=>$AttendenceRequests]);  
     }
 
     public function show($id)
     {
-        $attendenceRequest = AttendenceRequest::with('user')->find($id);
+        $attendenceRequest = AttendenceRequest::with('user.personalInfo')->find($id);
 
         if (!$attendenceRequest) {
             return response()->json(['message' => 'Attendance request not found.'], 404);
