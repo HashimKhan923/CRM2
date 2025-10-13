@@ -10,7 +10,7 @@ class AttendenceRequest extends Model
     use HasFactory;
 
 
-    protected $fillable = ['user_id', 'reason', 'time_in', 'time_out', 'status'];
+    protected $fillable = ['user_id', 'reason', 'time_in', 'time_out', 'status','time_id'];
 
     public function user()
     {
