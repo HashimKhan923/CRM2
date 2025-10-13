@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AttendenceRequest;
 use Carbon\Carbon;
+use App\Models\Time;
+
 
 class AttendenceRequestController extends Controller
 {
@@ -63,5 +65,19 @@ class AttendenceRequestController extends Controller
         $attendenceRequest->update($request->only(['reason', 'time_in', 'time_out', 'status']));
 
         return response()->json(['message' => 'Attendance request updated successfully.', 'attendenceRequest' => $attendenceRequest]);
+    }
+
+
+    public function destroy($id)
+    {
+        $attendenceRequest = AttendenceRequest::find($id);
+
+        if (!$attendenceRequest) {
+            return response()->json(['message' => 'Attendance request not found.'], 404);
+        }
+
+        $attendenceRequest->delete();
+
+        return response()->json(['message' => 'Attendance request deleted successfully.']);
     }
 }

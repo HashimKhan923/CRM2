@@ -128,6 +128,17 @@ Route::group(['middleware' => ['auth.token']], function(){
                     });
                 });   
 
+                         /// Attendence Request \\\
+
+            Route::group(['prefix' => 'admin/attendence_request/'], function() {
+            Route::controller(App\Http\Controllers\Admin\AttendenceRequestController::class)->group(function () {
+                Route::get('show','index');
+                Route::get('detail/{id}','show');
+                Route::get('approve/{id}','approve');
+                Route::get('reject/{id}','reject');
+            });
+        });
+
                                 /// Break
 
 
@@ -222,11 +233,11 @@ Route::group(['middleware' => ['auth.token']], function(){
 
                         /// Attendence Request \\\
 
-            Route::group(['prefix' => 'attendence-request/'], function() {
+            Route::group(['prefix' => 'attendence_request/'], function() {
             Route::controller(App\Http\Controllers\User\AttendenceRequestController::class)->group(function () {
-                Route::get('list/{id}','index');
+                Route::get('show/{user_id}','index');
                 Route::post('create','store');
-                Route::get('view/{id}','show');
+                Route::get('detail/{id}','show');
                 Route::post('update/{id}','update');
                 Route::get('delete/{id}','destroy');
             });

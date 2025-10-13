@@ -8,6 +8,7 @@ use App\Models\AttendenceRequest;
 use Carbon\Carbon;
 use App\Models\Time;
 
+
 class AttendenceRequestController extends Controller
 {
     public function index(Request $request)
@@ -37,8 +38,8 @@ class AttendenceRequestController extends Controller
 
         Time::create([
             'user_id' => $attendenceRequest->user_id,
-            'time_in' => $attendenceRequest->time_in,
-            'time_out' => $attendenceRequest->time_out,
+            'time_in' => Carbon::parse($attendenceRequest->time_in),
+            'time_out' => Carbon::parse($attendenceRequest->time_out),
             'status' => 'Completed',
             'late_status' => 0,
         ]);
