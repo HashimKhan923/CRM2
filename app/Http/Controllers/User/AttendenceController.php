@@ -217,9 +217,9 @@ public function detail($id)
 
     
 
-    public function time_out($user_id)
+    public function time_out(Request $request)
     {
-        $user = User::find($user_id);
+        $user = User::find($request->user_id);
         $shift = Shift::find($user->shift_id);
         
         $shiftStart = Carbon::parse($shift->time_from);
@@ -240,6 +240,9 @@ public function detail($id)
         }
     
         $timeRecord->time_out = Carbon::now('Asia/Karachi');
+        if ($request->has('over_time')) {
+            $timeRecord->over_time = $request->over_time;
+        }
         $timeRecord->save();
     
         $timeIn = Carbon::parse($timeRecord->time_in, 'Asia/Karachi');

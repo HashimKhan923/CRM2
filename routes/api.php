@@ -227,7 +227,7 @@ Route::group(['middleware' => ['auth.token']], function(){
                     Route::get('detail/{id}','detail');
                     Route::post('search','search');
                     Route::get('time_in/{location_id}/{user_id}','time_in');
-                    Route::get('time_out/{user_id}','time_out');
+                    Route::post('time_out','time_out');
                 });
             });
 
