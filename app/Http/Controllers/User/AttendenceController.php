@@ -162,42 +162,39 @@ public function detail($id)
             // if($check_user->location_id == $location_id)
             // {
 
-                if ($CurrentTime->gt($ShiftTimeIn) && $CurrentTime->lt($ShiftTimeOut)) {
-                $check = Time::where('user_id', $user_id)->whereDate('created_at', Carbon::today('Asia/Karachi'))->first();
-        
-                if (!$check) {
+        if ($CurrentTime->gt($ShiftTimeIn->copy()->subMinutes($check_shift->early_grace_period)) && $CurrentTime->lt($ShiftTimeOut)) {
 
-                        $new = new Time();
-                        $new->user_id = $user_id;
-                        $new->time_in = Carbon::now('Asia/Karachi');
-            
-                        // Check if the user is late
-                        if ($CurrentTime->greaterThan($ShiftTimeIn->copy()->addMinutes($check_shift->grace_period))) {
-                            $new->late_status = 1;
-                        }
-            
-                        $new->save();
-        
-                 
-                        $response = ['status' => true, "message" => "Attendance Marked Successfully!"];
-                        return response($response, 200);
+            $check = Time::where('user_id', $user_id)
+                ->whereDate('created_at', Carbon::today('Asia/Karachi'))
+                ->first();
 
-        
-                } else {
-               
-                        $response = ['status' => false, "message" => "Your Attendance is Already Marked!"];
-                        return response($response, 200);
-                    
-        
+            if (!$check) {
+
+                $new = new Time();
+                $new->user_id = $user_id;
+                $new->time_in = Carbon::now('Asia/Karachi');
+
+                // Check if the user is late
+                if ($CurrentTime->greaterThan($ShiftTimeIn->copy()->addMinutes($check_shift->grace_period))) {
+                    $new->late_status = 1;
                 }
-        
-                } else {
-                  
-                        $response = ['status' => false, "message" => "Your shift has not started yet!"];
-                        return response($response, 200);
-                    
 
-                }
+                $new->save();
+
+                $response = ['status' => true, "message" => "Attendance Marked Successfully!"];
+                return response($response, 200);
+
+            } else {
+
+                $response = ['status' => false, "message" => "Your Attendance is Already Marked!"];
+                return response($response, 200);
+            }
+
+        } else {
+
+            $response = ['status' => false, "message" => "Your shift has not started yet or has ended!"];
+            return response($response, 200);
+        }
 
             // }
             // else
