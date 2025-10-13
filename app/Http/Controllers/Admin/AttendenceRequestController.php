@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\AttendenceRequest;
 use Carbon\Carbon;
 use App\Models\Time;
+use App\Models\User;
+use App\Models\Shift;
+
 
 
 class AttendenceRequestController extends Controller
