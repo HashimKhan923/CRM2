@@ -57,7 +57,7 @@ class AttendenceRequestController extends Controller
         $ShiftTimeOut = Carbon::parse($ShiftTimeOut);
     
 
-        $TimeIn = Carbon::parse($request->time_in);
+        $TimeIn = Carbon::parse($attendenceRequest->time_in);
 
 
 
@@ -82,7 +82,7 @@ class AttendenceRequestController extends Controller
                 $new->save();
 
 
-                if($request->time_out)
+                if($attendenceRequest->time_out)
                 {
 
                     $shiftStart = Carbon::parse($check_shift->time_from);
@@ -96,7 +96,7 @@ class AttendenceRequestController extends Controller
                     $totalShiftMinutes = $shiftEnd->diffInMinutes($shiftStart);
 
 
-                    $TimeOut = Carbon::parse($request->time_out);
+                    $TimeOut = Carbon::parse($attendenceRequest->time_out);
                     $new->time_out = $TimeOut;
                     $new->save();
 
