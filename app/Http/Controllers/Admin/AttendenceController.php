@@ -53,31 +53,31 @@ class AttendenceController extends Controller
         return view('admin.attendences.index', compact('attendences')); 
     }
 
-public function detail($id)
-{
-    $attendance = Time::with(['user', 'breaks'])->find($id);
+    public function detail($id)
+    {
+        $attendance = Time::with(['user', 'breaks'])->find($id);
 
-    if (!$attendance) {
-        return response()->json(['message' => 'Attendance not found'], 404);
-    }
-
-    $clockIn = Carbon::parse($attendance->time_in);
-    $clockOut = Carbon::parse($attendance->time_out);
-
-    $totalWorkedMinutes = $clockOut->diffInMinutes($clockIn);
-
-    $totalBreakMinutes = $attendance->breaks->sum(function ($break) {
-        if ($break->time_in && $break->time_out) {
-            return Carbon::parse($break->time_out)->diffInMinutes(Carbon::parse($break->time_in));
+        if (!$attendance) {
+            return response()->json(['message' => 'Attendance not found'], 404);
         }
-        return 0;
-    });
 
-    $netWorkedMinutes = max($totalWorkedMinutes - $totalBreakMinutes, 0);
-    $attendance->net_worked_hours = floor($netWorkedMinutes / 60) . 'h ' . ($netWorkedMinutes % 60) . 'm';
+        $clockIn = Carbon::parse($attendance->time_in);
+        $clockOut = Carbon::parse($attendance->time_out);
 
-    return response()->json(['attendance' => $attendance]);
-}
+        $totalWorkedMinutes = $clockOut->diffInMinutes($clockIn);
+
+        $totalBreakMinutes = $attendance->breaks->sum(function ($break) {
+            if ($break->time_in && $break->time_out) {
+                return Carbon::parse($break->time_out)->diffInMinutes(Carbon::parse($break->time_in));
+            }
+            return 0;
+        });
+
+        $netWorkedMinutes = max($totalWorkedMinutes - $totalBreakMinutes, 0);
+        $attendance->net_worked_hours = floor($netWorkedMinutes / 60) . 'h ' . ($netWorkedMinutes % 60) . 'm';
+
+        return response()->json(['attendance' => $attendance]);
+    }
 
     public function create(Request $request)
     {
@@ -126,13 +126,11 @@ public function detail($id)
                     $shiftStart = Carbon::parse($check_shift->time_from);
                     $shiftEnd = Carbon::parse($check_shift->time_to);
                     
-
                     if ($shiftEnd->lessThan($shiftStart)) {
                         $shiftEnd->addDay();
                     }
-                
-                    $totalShiftMinutes = $shiftEnd->diffInMinutes($shiftStart);
 
+                    $totalShiftMinutes = $shiftEnd->diffInMinutes($shiftStart);
 
                     $TimeOut = Carbon::parse($request->time_out);
                     $new->time_out = $TimeOut;
@@ -144,11 +142,13 @@ public function detail($id)
                     if ($timeOut->lessThan($timeIn)) {
                         $timeOut->addDay();
                     }
-                
+
                     $totalAttendanceMinutes = $timeOut->diffInMinutes($timeIn);
-                
+
                     if ($totalAttendanceMinutes >= $totalShiftMinutes) {
                         $new->status = 'Completed';
+                    } elseif ($totalAttendanceMinutes >= $totalShiftMinutes * 0.75) {
+                        $new->status = 'Short Half';
                     } elseif ($totalAttendanceMinutes >= $totalShiftMinutes / 2) {
                         $new->status = 'Half';
                     } elseif ($totalAttendanceMinutes >= $totalShiftMinutes / 4) {
@@ -156,7 +156,7 @@ public function detail($id)
                     } else {
                         $new->status = 'Absent';
                     }
-                    
+
                     $new->save();
                 }
 

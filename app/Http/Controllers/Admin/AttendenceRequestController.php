@@ -111,6 +111,8 @@ class AttendenceRequestController extends Controller
                 
                     if ($totalAttendanceMinutes >= $totalShiftMinutes) {
                         $new->status = 'Completed';
+                    } elseif ($totalAttendanceMinutes >= $totalShiftMinutes * 0.75) {
+                        $new->status = 'Short Half';
                     } elseif ($totalAttendanceMinutes >= $totalShiftMinutes / 2) {
                         $new->status = 'Half';
                     } elseif ($totalAttendanceMinutes >= $totalShiftMinutes / 4) {
