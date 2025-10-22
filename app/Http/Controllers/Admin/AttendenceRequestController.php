@@ -69,8 +69,15 @@ class AttendenceRequestController extends Controller
         }
     
       
-
+            if($attendenceRequest->time_id == null)
+            {
                 $new = new Time();
+            }
+            else
+            {
+                $new = Time::where('id', $attendenceRequest->time_id)->first();
+            }
+                
                 $new->user_id = $attendenceRequest->user_id;
                 $new->time_in = $TimeIn;
     
