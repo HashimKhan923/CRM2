@@ -175,9 +175,10 @@ public function detail($id)
                 $new->time_in = Carbon::now('Asia/Karachi');
 
                 // Check if the user is late
-                if ($CurrentTime->greaterThan($ShiftTimeIn->copy()->addMinutes($check_shift->grace_period))) {
+                if ($CurrentTime->greaterThanOrEqualTo($ShiftTimeIn->copy()->addMinutes($check_shift->grace_period + 1))) {
                     $new->late_status = 1;
                 }
+
 
                 $new->save();
 
