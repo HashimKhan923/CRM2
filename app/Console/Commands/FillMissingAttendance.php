@@ -8,14 +8,41 @@ use App\Models\User;
 use App\Models\Shift;
 use App\Models\Time;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use App\Models\Tenant;
+
 
 class FillMissingAttendance extends Command
 {
     protected $signature = 'attendance:fill-missing';
     protected $description = 'Fill missing attendance records with Absent or Off based on shift days';
 
-    public function handle()
+    public function handle($request)
     {
+
+
+        $productKey = $request->header('product_key');
+    
+        if (!$productKey) {
+            return response()->json(['message' => 'Product key not found'], 400);
+        }
+    
+        $tenant = Tenant::where('tenant_id', $productKey)->first();
+    
+        if (!$tenant) {
+            return response()->json(['message' => 'Invalid product key'], 404);
+        }
+    
+        $databaseName = 'database_' . $productKey;
+    
+        config(['database.connections.tenant.database' => $databaseName]);
+    
+        DB::purge('tenant');
+        DB::reconnect('tenant');
+        DB::setDefaultConnection('tenant');
+
+
+
         $timezone = 'Asia/Karachi';
         $users = User::with('shift')->where('role_id',2)->get();
 
