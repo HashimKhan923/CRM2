@@ -8,8 +8,8 @@ use App\Models\User;
 use App\Models\Shift;
 use App\Models\Time;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use App\Models\Tenant;
 
 
 class FillMissingAttendance extends Command
@@ -17,30 +17,20 @@ class FillMissingAttendance extends Command
     protected $signature = 'attendance:fill-missing';
     protected $description = 'Fill missing attendance records with Absent or Off based on shift days';
 
-    public function handle($request)
+    public function handle()
     {
 
+        $tenants = DB::table('tenants')->get();
 
-        $productKey = $request->header('product_key');
-    
-        if (!$productKey) {
-            return response()->json(['message' => 'Product key not found'], 400);
-        }
-    
-        $tenant = Tenant::where('tenant_id', $productKey)->first();
-    
-        if (!$tenant) {
-            return response()->json(['message' => 'Invalid product key'], 404);
-        }
-    
-        $databaseName = 'database_' . $productKey;
-    
-        config(['database.connections.tenant.database' => $databaseName]);
-    
-        DB::purge('tenant');
-        DB::reconnect('tenant');
-        DB::setDefaultConnection('tenant');
+        foreach ($tenants as $tenant) {
 
+                                // Configure tenant database connection
+                    Config::set('database.connections.tenant.database', $tenant->database_name);
+                    Config::set('database.connections.tenant.username', env('DB_USERNAME'));
+                    Config::set('database.connections.tenant.password', env('DB_PASSWORD'));
+        
+                    DB::purge('tenant');
+                    DB::reconnect('tenant');
 
 
         $timezone = 'Asia/Karachi';
@@ -110,4 +100,6 @@ class FillMissingAttendance extends Command
 
         $this->info('✅ Missing attendance records filled with proper date & time!');
     }
+
+}
 }
