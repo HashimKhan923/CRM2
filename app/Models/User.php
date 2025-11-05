@@ -28,6 +28,8 @@ class User extends Authenticatable
         'tenant_id'
     ];
 
+    protected $connection = 'tenant';
+
     /**
      * The attributes that should be hidden for serialization.
      *

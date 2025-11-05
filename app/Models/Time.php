@@ -10,6 +10,8 @@ class Time extends Model
 
     protected $fillable = ['user_id', 'time_in', 'time_out', 'status', 'late_status'];
 
+    protected $connection = 'tenant';
+
     public function user()
     {
         return $this->hasOne(User::class,'id','user_id');
