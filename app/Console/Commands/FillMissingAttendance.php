@@ -33,6 +33,13 @@ class FillMissingAttendance extends Command
                     DB::reconnect('tenant');
 
 
+            // 🔹 Make all models use tenant DB
+            User::setConnection('tenant');
+            Shift::setConnection('tenant');
+            Time::setConnection('tenant');
+
+
+
         $timezone = 'Asia/Karachi';
         $users = User::with('shift')->where('role_id',2)->get();
 
