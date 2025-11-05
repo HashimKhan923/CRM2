@@ -165,7 +165,7 @@ public function detail($id)
         if ($CurrentTime->gt($ShiftTimeIn->copy()->subMinutes($check_shift->early_grace_period)) && $CurrentTime->lt($ShiftTimeOut)) {
 
             $check = Time::where('user_id', $user_id)
-                ->whereDate('created_at', Carbon::today('Asia/Karachi'))
+                ->whereDate('time_in', Carbon::today('Asia/Karachi'))
                 ->first();
 
             if (!$check) {
