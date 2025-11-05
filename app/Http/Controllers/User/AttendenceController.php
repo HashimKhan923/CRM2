@@ -254,15 +254,15 @@ public function detail($id)
     
 
         if ($totalAttendanceMinutes >= $totalShiftMinutes) {
-            $new->status = 'Completed';
+            $timeRecord->status = 'Completed';
         } elseif ($totalAttendanceMinutes >= $totalShiftMinutes * 0.75) {
-            $new->status = 'Short Half';
+            $timeRecord->status = 'Short Half';
         } elseif ($totalAttendanceMinutes >= $totalShiftMinutes / 2) {
-            $new->status = 'Half';
+            $timeRecord->status = 'Half';
         } elseif ($totalAttendanceMinutes >= $totalShiftMinutes / 4) {
-            $new->status = 'Short';
+            $timeRecord->status = 'Short';
         } else {
-            $new->status = 'Absent';
+            $timeRecord->status = 'Absent';
         }
         
         $timeRecord->save();
