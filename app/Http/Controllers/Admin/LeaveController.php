@@ -63,7 +63,7 @@ class LeaveController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Unable to approve: ' . $e->getMessage()], 422);
         }
-
+ 
         // email notification (synchronous). In production queue this.
         try {
             Mail::to($leave->user->email)->send(new LeaveStatusChanged($leave->fresh()));
