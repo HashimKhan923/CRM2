@@ -33,18 +33,13 @@ class FillMissingAttendance extends Command
                     DB::reconnect('tenant');
 
 
-            // 🔹 Make all models use tenant DB
-            User::setConnection('tenant');
-            Shift::setConnection('tenant');
-            Time::setConnection('tenant');
-
 
 
         $timezone = 'Asia/Karachi';
-        $users = User::with('shift')->where('role_id',2)->get();
+        $users = (new User)->setConnection('tenant')->where('role_id', 2)->get();
 
         foreach ($users as $user) {
-            $shift = Shift::find($user->shift_id);
+           $shift = (new Shift)->setConnection('tenant')->find($user->shift_id);
 
             if (!$shift) {
                 $this->warn("⚠️ User {$user->id} has no shift assigned, skipping.");
@@ -57,13 +52,16 @@ class FillMissingAttendance extends Command
 
             $shiftDays = (array) $shiftDays;
 
-            $firstRecord = Time::where('user_id', $user->id)
-                ->orderBy('time_in', 'asc')
-                ->first();
+                $timeModel = new Time;
+                $timeModel->setConnection('tenant');
 
-            $lastRecord = Time::where('user_id', $user->id)
-                ->orderBy('time_in', 'desc')
-                ->first();
+                $firstRecord = $timeModel->where('user_id', $user->id)
+                    ->orderBy('time_in', 'asc')
+                    ->first();
+
+                $lastRecord = $timeModel->where('user_id', $user->id)
+                    ->orderBy('time_in', 'desc')
+                    ->first();
 
             if (!$firstRecord || !$lastRecord) {
                 continue;
