@@ -11,6 +11,8 @@ class JobInfo extends Model
         'user_id',
         'department_id',
         'designation',
+        'position',
+        'manager_id',
         'date_of_hire',
         'employment_type',
         'work_location',
