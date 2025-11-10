@@ -82,7 +82,7 @@ class AttendenceRequestController extends Controller
                 $new->time_in = $TimeIn;
     
                 // Check if the user is late
-                if ($TimeIn->greaterThan($ShiftTimeIn->copy()->addMinutes($check_shift->grace_period))) {
+                if ($TimeIn->greaterThanOrEqualTo($ShiftTimeIn->copy()->addMinutes($check_shift->grace_period + 1))) {
                     $new->late_status = 1;
                 }
     
