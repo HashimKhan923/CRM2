@@ -25,7 +25,7 @@ class AttendenceRequestController extends Controller
             'user_id' => 'required|exists:users,id',
             'reason' => 'required|string',
             'time_in' => 'required|date',
-            'time_out' => 'required|date|after:time_in',
+            // 'time_out' => 'required|date|after:time_in',
         ]);
 
         $attendenceRequest = AttendenceRequest::create([
