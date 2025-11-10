@@ -32,8 +32,8 @@ class AttendenceRequestController extends Controller
             'time_id' => $request->time_id,
             'user_id' => $request->user_id,
             'reason' => $request->reason,
-            'time_in' => Carbon::parse($request->time_in),
-            'time_out' => Carbon::parse($request->time_out),
+            'time_in' => $request->time_in ? Carbon::parse($request->time_in) : null,
+            'time_out' => $request->time_out ? Carbon::parse($request->time_out) : null,
             'status' => 'pending',
         ]);
 
