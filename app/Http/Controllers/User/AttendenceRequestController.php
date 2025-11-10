@@ -20,13 +20,13 @@ class AttendenceRequestController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'time_id' => 'sometimes|exists:times,id',
-            'user_id' => 'required|exists:users,id',
-            'reason' => 'required|string',
-            'time_in' => 'required|date',
-            // 'time_out' => 'required|date|after:time_in',
-        ]);
+        // $request->validate([
+        //     'time_id' => 'sometimes|exists:times,id',
+        //     'user_id' => 'required|exists:users,id',
+        //     'reason' => 'required|string',
+        //     'time_in' => 'required|date',
+        //     // 'time_out' => 'required|date|after:time_in',
+        // ]);
 
         $attendenceRequest = AttendenceRequest::create([
             'time_id' => $request->time_id,
