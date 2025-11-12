@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('attendance:mark-absent-daily')->dailyAt('23:59');
+        $schedule->command('attendance:fill-missing')->everyFiveMinutes();
+
     }
 
     /**
