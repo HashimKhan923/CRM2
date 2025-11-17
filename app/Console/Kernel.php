@@ -13,8 +13,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        // $schedule->command('attendance:mark-absent-daily')->everyFiveMinutes();
-        $schedule->command('attendance:fill-missing')->dailyAt('23:59');
+        $schedule->command('attendance:mark-absent-daily')->everyFiveMinutes();
+        $schedule->command('attendance:mark-off-daily')->dailyAt('00:10');
+        // $schedule->command('attendance:fill-missing')->dailyAt('23:59');
 
     }
 

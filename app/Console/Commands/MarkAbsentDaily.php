@@ -13,60 +13,72 @@ use App\Models\Time;
 class MarkAbsentDaily extends Command
 {
     protected $signature = 'attendance:mark-absent-daily';
-    protected $description = 'Daily batch: mark users Absent if they did not time_in for today and today is their shift day (multi-tenant).';
+    protected $description = 'Mark users Absent after shift ends if they did not time_in today (multi-tenant)';
 
     public function handle()
     {
         $timezone = 'Asia/Karachi';
         $today = Carbon::today($timezone);
-        $todayName = $today->format('l'); // e.g., "Monday"
+        $todayName = $today->format('l'); // Monday, Tuesday, etc.
 
-        // Get tenants list from main DB (assumes tenants table exists on main connection)
         $tenants = DB::table('tenants')->get();
 
         if ($tenants->isEmpty()) {
-            $this->info('No tenants found. Exiting.');
+            $this->info('No tenants found.');
             return 0;
         }
 
         foreach ($tenants as $tenant) {
+
             $this->info("Processing tenant: {$tenant->database_name}");
 
-            // Configure tenant DB connection (update connection credentials if required)
+            // Configure tenant DB
             Config::set('database.connections.tenant.database', $tenant->database_name);
             Config::set('database.connections.tenant.username', env('DB_USERNAME'));
             Config::set('database.connections.tenant.password', env('DB_PASSWORD'));
 
-            // Reconnect to tenant (clear any previous connection)
             DB::purge('tenant');
             DB::reconnect('tenant');
 
-            // Use model instances with tenant connection to avoid global model changes
             $userModel = new User();
             $userModel->setConnection('tenant');
 
-            // chunk users to avoid memory issues, only role_id = 2 (employees)
+            // Process users in chunks
             $userModel->where('role_id', 2)->chunk(200, function ($users) use ($today, $todayName, $timezone, $tenant) {
+
                 foreach ($users as $user) {
-                    // load shift from tenant DB
+
                     $shift = (new Shift)->setConnection('tenant')->find($user->shift_id);
 
-                    // if no shift assigned, skip
                     if (!$shift) {
-                        $this->warn("  [Tenant: {$tenant->database_name}] User {$user->id} has no shift assigned, skipping.");
+                        $this->warn(" No shift for User {$user->id}, skipping.");
                         continue;
                     }
 
-                    // normalize shift days (assumes shift->days stored as JSON array or array)
+                    // Normalize shift days
                     $shiftDays = is_array($shift->days) ? $shift->days : json_decode($shift->days, true);
-                    $shiftDays = (array) $shiftDays;
+                    $shiftDays = (array)$shiftDays;
 
-                    // If today is not a shift day, skip
+                    // If today is not one of the shift days → skip
                     if (!in_array($todayName, $shiftDays)) {
                         continue;
                     }
 
-                    // Check if there's an existing time_in record for today
+                    // Build shift start / end datetime
+                    $shiftStart = Carbon::parse($today->format('Y-m-d') . ' ' . $shift->time_from, $timezone);
+                    $shiftEnd   = Carbon::parse($today->format('Y-m-d') . ' ' . $shift->time_to, $timezone);
+
+                    // Handle overnight shifts (ex: 20:00 → 05:00)
+                    if ($shiftEnd->lessThan($shiftStart)) {
+                        $shiftEnd->addDay();
+                    }
+
+                    // If current time < shift end → don't mark absent yet
+                    if (Carbon::now($timezone)->lt($shiftEnd)) {
+                        continue;
+                    }
+
+                    // Check if user already did time_in today
                     $timeModel = new Time();
                     $timeModel->setConnection('tenant');
 
@@ -76,15 +88,13 @@ class MarkAbsentDaily extends Command
                         ->exists();
 
                     if ($exists) {
-                        // user already timed in today
                         continue;
                     }
 
-                    // Create Absent record with full datetime YYYY-MM-DD 00:00:00
+                    // Create ABSENT record
                     $dateTime = Carbon::parse($today->format('Y-m-d') . ' 00:00:00', $timezone);
 
-                    // Use transaction for safety
-                    DB::connection('tenant')->transaction(function () use ($timeModel, $user, $dateTime, $today, $tenant) {
+                    DB::connection('tenant')->transaction(function () use ($timeModel, $user, $dateTime, $today) {
                         $timeModel->create([
                             'user_id' => $user->id,
                             'time_in' => $dateTime,
@@ -95,14 +105,14 @@ class MarkAbsentDaily extends Command
                         ]);
                     });
 
-                    $this->info("  Marked Absent: Tenant [{$tenant->database_name}] - User ID {$user->id} - Date {$today->toDateString()}");
+                    echo "Marked Absent → Tenant: {$tenant->database_name}, User: {$user->id}, Date: {$today->toDateString()}\n";
                 }
             });
 
-            $this->info("Finished tenant: {$tenant->database_name}");
+            $this->info("✔ Finished tenant: {$tenant->database_name}");
         }
 
-        $this->info('All tenants processed. Daily absent marking complete.');
+        $this->info("🎉 Daily Absent Marking Completed Successfully");
         return 0;
     }
 }
